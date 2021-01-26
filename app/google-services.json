@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "172863763689",
+    "firebase_url": "https://yourpersonalcaddy.firebaseio.com",
+    "project_id": "personal-caddy",
+    "storage_bucket": "personal-caddy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172863763689:android:6810095116d311296f6c78",
+        "android_client_info": {
+          "package_name": "com.cbrady.personalcaddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172863763689-rku9t2h4ic9qrfrv05dfeakhnrn6bigp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaomE6aJ37ocAz43Ug0xzKtrFwtFHaIfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172863763689-rku9t2h4ic9qrfrv05dfeakhnrn6bigp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

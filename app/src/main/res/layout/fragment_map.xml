@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundTint="#FFFFFF"
+    android:textAlignment="center"
+    tools:context=".MainActivity">
+
+    <fragment
+        android:id="@+id/google_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/removeMarker"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="283dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="500dp"
+        android:text="Remove Marker" />
+
+    <Button
+        android:id="@+id/addMarker"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="283dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="558dp"
+        android:text="Add Marker" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="350dp"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="false"
+        android:layout_marginBottom="45dp"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:text="Distance = "
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#e60b13"
+        android:textSize="30sp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/holeNum"
+        android:layout_width="62dp"
+        android:layout_height="57dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="38dp"
+        android:backgroundTint="#DA8181"
+        android:backgroundTintMode="multiply"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="number"
+        android:text="1"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/shotNum"
+        android:layout_width="62dp"
+        android:layout_height="57dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="38dp"
+        android:layout_toEndOf="@+id/holeNum"
+        android:backgroundTint="#DA8181"
+        android:backgroundTintMode="multiply"
+        android:clickable="false"
+        android:ems="10"
+        android:inputType="number"
+        android:text="1"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="29dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Hole:"
+        android:textSize="8sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="29dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Shot:"
+        android:textSize="8sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/nextHoleButton"
+        android:layout_width="37dp"
+        android:layout_height="33dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="330dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageButton
+        android:id="@+id/addShot"
+        android:layout_width="37dp"
+        android:layout_height="33dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="242dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <Button
+        android:id="@+id/holeMinus"
+        android:layout_width="36dp"
+        android:layout_height="37dp"
+        android:layout_below="@+id/holeNum"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="-6dp"
+        android:paddingTop="0dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:iconPadding="0dp" />
+
+    <Button
+        android:id="@+id/shotMinus"
+        android:layout_width="36dp"
+        android:layout_height="37dp"
+        android:layout_below="@+id/holeNum"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="-4dp"
+        android:paddingTop="0dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:iconPadding="0dp" />
+
+    <Button
+        android:id="@+id/confirmShot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="47dp"
+        android:background="@android:color/holo_green_dark"
+        android:textColor="@android:color/black"
+        android:text="Confirm Shot"
+        android:visibility="invisible"/>
+
+</RelativeLayout>
