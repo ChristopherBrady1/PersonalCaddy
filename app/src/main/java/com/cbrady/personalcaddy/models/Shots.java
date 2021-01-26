@@ -1,5 +1,6 @@
 package com.cbrady.personalcaddy.models;
 
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -8,35 +9,32 @@ import java.util.Map;
 
 // [START post_class]
 @IgnoreExtraProperties
-public class Holes {
+public class Shots {
 
-    public String roundid;
+    public String holeid;
     public String distance;
-    public String par;
-    public String score;
-    public String holeNum;
+    public String club;
+    public String shotNum;
 
-    public Holes() {
+    public Shots() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Holes(String roundid, String distance, String par, String score, String holeNum) {
-        this.roundid = roundid;
+    public Shots(String holeid, String distance, String club, String shotNum) {
+        this.holeid = holeid;
         this.distance = distance;
-        this.par = par;
-        this.score = score;
-        this.holeNum = holeNum;
+        this.club = club;
+        this.shotNum = shotNum;
     }
 
     // [START post_to_map]
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("roundid", roundid);
+        result.put("holeid", holeid);
         result.put("distance", distance);
-        result.put("par", par);
-        result.put("score", score);
-        result.put("holeNum", holeNum);
+        result.put("club", club);
+        result.put("shotNum", shotNum);
 
         return result;
     }

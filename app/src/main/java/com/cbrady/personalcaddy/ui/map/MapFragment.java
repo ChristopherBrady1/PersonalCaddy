@@ -39,6 +39,9 @@ import android.widget.Toast;
 
 import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
+import com.cbrady.personalcaddy.models.Holes;
+import com.cbrady.personalcaddy.models.Round;
+import com.cbrady.personalcaddy.models.Shots;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -65,14 +68,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Transaction;
 import com.cbrady.personalcaddy.models.User;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -117,6 +125,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
     int current_hole = 1;
     String present_hole;
+    String present_shot;
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
@@ -128,6 +137,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     //TODO FIX HERE
     //Globals obj = new Globals();
     String currentRoundID;
+    String holeKey;
+    String shotKey;
 
 
     @Override
@@ -257,11 +268,35 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         TextView holeNumText = getView().findViewById(R.id.holeNum);
         TextView shotNumText = getView().findViewById(R.id.shotNum);
 
+        present_shot = shotNumText.getText().toString();
+
         //setting current hole
         present_hole = holeNumText.getText().toString();
         current_hole = Integer.parseInt(present_hole);
 
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
+
+        //TODO *************************************************
+        Button pushHole = getView().findViewById(R.id.submitHole);
+
+        pushHole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                writeNewHole(currentRoundID, "580",  "5", "4", present_hole);
+                present_hole = present_hole + 1;
+            }
+        });
+
+        Button pushShot = getView().findViewById(R.id.submitShot);
+        pushShot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                writeNewShot( holeKey,  "250", "Driver", present_shot);
+                present_shot = present_shot + 1;
+            }
+        });
+
+        //TODO ***************************************************
 
         //updating current hole in DB
         if(current_hole == 1){
@@ -732,5 +767,75 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     static class ListContent {
         TextView text;
     }
+
+    // [START write_fan_out]
+    private void writeNewHole(String roundid, String distance, String par, String score, String holeNum) {
+
+        holeKey = mDatabase.child("holes").push().getKey();
+        Holes hole = new Holes(roundid, distance, par, score, holeNum);
+        Map<String, Object> holeValues = hole.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/holes/" + roundid + "/" + holeKey, holeValues);
+
+        mDatabase.updateChildren(childUpdates);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference ref = database.getReference("holes/" + roundid + "/" + holeKey);
+        ref.orderByChild("holeNum");
+        //System.out.println(ref.);
+
+        // Attach a listener to read the data at our rounds reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Holes hole = dataSnapshot.getValue(Holes.class);
+                System.out.println(hole.holeNum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+    }
+
+    private void writeNewShot(String holeid, String distance, String club, String shotNum) {
+
+        shotKey = mDatabase.child("shots").push().getKey();
+        Shots shot = new Shots(holeid, distance, club, shotNum);
+        Map<String, Object> shotValues = shot.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/shots/" + holeid + "/" + shotKey, shotValues);
+
+        mDatabase.updateChildren(childUpdates);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference ref = database.getReference("shots/" + holeid + "/" + shotKey);
+        ref.orderByChild("shotNum");
+        //System.out.println(ref.);
+
+        // Attach a listener to read the data at our rounds reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Shots shot = dataSnapshot.getValue(Shots.class);
+                System.out.println(shot.shotNum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+    }
+
 }
 

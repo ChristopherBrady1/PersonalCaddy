@@ -187,7 +187,7 @@ public class CreateRoundFragment extends Fragment {
         //System.out.println(ref.);
 
         // Attach a listener to read the data at our rounds reference
-        ref.addValueEventListener(new ValueEventListener() {
+        /*ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Round round = dataSnapshot.getValue(Round.class);
@@ -199,7 +199,7 @@ public class CreateRoundFragment extends Fragment {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
+        */
         Log.d("ID_now", "Value: " + key);
 
         //String currentkey = obj.getCurrentRound();
