@@ -42,6 +42,7 @@ import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
+import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -276,7 +277,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
 
-        //TODO *************************************************
+        /*TODO *************************************************
         Button pushHole = getView().findViewById(R.id.submitHole);
 
         pushHole.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +297,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             }
         });
 
-        //TODO ***************************************************
+        *///TODO ***************************************************
 
         //updating current hole in DB
         if(current_hole == 1){
@@ -396,87 +397,14 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
 
 
-                //TODO make a popup to enter the club used and lie of ball
+                //Calling Shot details fragment
                 //*********************
-                AlertDialog.Builder lie_dialog = new AlertDialog.Builder(mContext);
-                lie_dialog.setTitle("Set the lie of your ball");
+                Fragment shotDetailsFragment = new ShotDetailsFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, shotDetailsFragment, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
 
-                String[] lie_options = {"fairway","rough","sand","green","tee box"};
-                int checkedItem = 1;
-                lie_dialog.setSingleChoiceItems(lie_options, checkedItem, new DialogInterface.OnClickListener() {
-                    @Override
-                    //TODO use onclick to add to db
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                Toast.makeText(mContext, "Set lie to fairway", Toast.LENGTH_LONG).show();
-                                lie_ball = "fairway";
-                                break;
-                            case 1:
-                                Toast.makeText(mContext, "Set lie to rough", Toast.LENGTH_LONG).show();
-                                lie_ball = "rough";
-                                break;
-                            case 2:
-                                Toast.makeText(mContext, "Set lie to sand", Toast.LENGTH_LONG).show();
-                                lie_ball = "sand";
-                                break;
-                            case 3:
-                                Toast.makeText(mContext, "Set lie to green", Toast.LENGTH_LONG).show();
-                                lie_ball = "green";
-                                break;
-                            case 4:
-                                Toast.makeText(mContext, "Set lie to tee box", Toast.LENGTH_LONG).show();
-                                lie_ball = "box";
-                                break;
-                        }
-
-                    }
-                });
-
-
-                //TODO CHANGE TO FRAGMENTS
-                //Setting golf club choice
-                club = getResources().getStringArray(R.array.clubs);
-                adapter = new SpinnerAdapter(mContext);
-
-                Dialog club_dialog = new Dialog(mContext);
-                club_dialog.setTitle("Set Club for Shot");
-                club_dialog.setContentView(R.layout.row_spinner);
-                club_dialog.setCancelable(true);
-
-                // set the custom dialog components - text, image and button
-                final Spinner spinner = (Spinner) club_dialog.findViewById(R.id.spinner1);
-                Button button = (Button) club_dialog.findViewById(R.id.button1);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // TODO Auto-generated method stub
-                        spinner_item = club[position];
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
-
-                button.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        club_dialog.dismiss();
-                        lie_dialog.show();
-                        Toast.makeText(mContext, spinner_item, Toast.LENGTH_LONG).show();
-                    }
-                });
-                club_dialog.show();
-
-
-                // TODO POSSIBLY move dialogs to global so that they can be called multiple times i.e. if you want to change the club for the shot
 
                 //if the first points have been set, then use second points
                 if(start_point != null){
@@ -496,11 +424,19 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             actual_distance);
 
                     //TODO push desired and actual distance to the database
+                    //TODO PUSH DISTANCE, CLUB and LIE to the DB
+                    //EG: writeNewShot(valuesHere)
+
+                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
+                    Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
+                    Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
+                    Toast toast=Toast.makeText(mContext,"lie of ball:" + ((MainActivity)getActivity()).getCurrentLie1(),Toast.LENGTH_LONG);
+                    toast.show();
 
                     //practice to show updating values
                     //TODO remove this
-                    Toast toast=Toast.makeText(mContext,"ACTUAL DISTANCE:" + String.format("%.2f", actual_distance[0]),Toast.LENGTH_LONG);
-                    toast.show();
+                    Toast toast1=Toast.makeText(mContext,"ACTUAL DISTANCE:" + String.format("%.2f", actual_distance[0]),Toast.LENGTH_LONG);
+                    toast1.show();
 
 
                     //resetting points for next shot
@@ -803,10 +739,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
     }
 
-    private void writeNewShot(String holeid, String distance, String club, String shotNum) {
+    private void writeNewShot(String holeid, String desiredDistance, String actualDistance, String club, String shotNum, String lie_ball) {
 
         shotKey = mDatabase.child("shots").push().getKey();
-        Shots shot = new Shots(holeid, distance, club, shotNum);
+        Shots shot = new Shots(holeid, desiredDistance, actualDistance, club, shotNum, lie_ball);
         Map<String, Object> shotValues = shot.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

@@ -16,6 +16,11 @@
     <string name="hint_password">password</string>
     <string name="hint_email">email</string>
     <string name="sign_in">Sign In</string>
+    <string name="fairway">Fairway</string>
+    <string name="rough">Rough</string>
+    <string name="sand">Sand</string>
+    <string name="green">Green</string>
+    <string name="tee_box">Tee Box</string>
     <string-array name="clubs">
         <item>Driver</item>
         <item>3-Wood</item>
