@@ -18,6 +18,7 @@ import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.User;
+import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -130,9 +131,9 @@ public class CreateRoundFragment extends Fragment {
                         }
 
                         // Finish this Activity, back to the stream
-                        Fragment mapFragment = new MapFragment();
+                        Fragment holeDetailsFragment = new HoleDetailsFragment();
                         getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, mapFragment, "findThisFragment")
+                                .replace(R.id.nav_host_fragment, holeDetailsFragment, "findThisFragment")
                                 .addToBackStack(null)
                                 .commit();
                         setEditingEnabled(true);

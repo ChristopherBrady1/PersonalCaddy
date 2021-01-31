@@ -20,6 +20,18 @@ public class MainActivity extends BaseActivity {
     private String currentClub2;
     private String currentLie1;
     private String currentLie2;
+    private String holePar;
+    private String holeDistance;
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,22 @@ public class MainActivity extends BaseActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
 
+    }
+
+    public String getHolePar() {
+        return holePar;
+    }
+
+    public void setHolePar(String holePar) {
+        this.holePar = holePar;
+    }
+
+    public String getHoleDistance() {
+        return holeDistance;
+    }
+
+    public void setHoleDistance(String holeDistance) {
+        this.holeDistance = holeDistance;
     }
 
     public String getCurrentRoundKey() {

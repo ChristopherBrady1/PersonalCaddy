@@ -119,51 +119,13 @@
 
     <ImageButton
         android:id="@+id/nextHoleButton"
-        android:layout_width="37dp"
-        android:layout_height="33dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="330dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="341dp"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <ImageButton
-        android:id="@+id/addShot"
-        android:layout_width="37dp"
-        android:layout_height="33dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="242dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
-    <Button
-        android:id="@+id/holeMinus"
-        android:layout_width="36dp"
-        android:layout_height="37dp"
-        android:layout_below="@+id/holeNum"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="-6dp"
-        android:paddingTop="0dp"
-        android:text="-"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:iconPadding="0dp" />
-
-    <Button
-        android:id="@+id/shotMinus"
-        android:layout_width="36dp"
-        android:layout_height="37dp"
-        android:layout_below="@+id/holeNum"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="-4dp"
-        android:paddingTop="0dp"
-        android:text="-"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        app:iconPadding="0dp" />
 
     <Button
         android:id="@+id/confirmShot"
@@ -179,23 +141,37 @@
         android:visibility="invisible"/>
 
     <Button
-        android:id="@+id/submitHole"
+        android:id="@+id/addShotPutter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="217dp"
-        android:text="pushHole" />
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="154dp"
+        android:text="+ 1 Putt" />
 
     <Button
-        android:id="@+id/submitShot"
+        android:id="@+id/puttMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="157dp"
-        android:layout_marginBottom="153dp"
-        android:text="pushShot" />
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="395dp"
+        android:text="Putt Mode" />
+
+    <Button
+        android:id="@+id/shotMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="336dp"
+        android:text="Shot Mode"
+        android:visibility="invisible"/>
+
+
+    <!-- target="_blank" href="https://icons8.com/icons/set/golf-club">Golf Club icon by target="_blank" href="https://icons8.com">Icons8-->
 
 </RelativeLayout>

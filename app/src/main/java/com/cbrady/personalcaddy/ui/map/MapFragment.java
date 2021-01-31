@@ -43,6 +43,7 @@ import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
 import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
+import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -125,6 +126,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     SpinnerAdapter adapter;
 
     int current_hole = 1;
+    int current_shot = 1;
     String present_hole;
     String present_shot;
     // [START declare_database_ref]
@@ -140,6 +142,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     String currentRoundID;
     String holeKey;
     String shotKey;
+    int shotNum = 1;
 
 
     @Override
@@ -168,6 +171,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -265,9 +269,13 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         TextView distance = getView().findViewById(R.id.distance);
 
         ImageButton nextHoleButton = getView().findViewById(R.id.nextHoleButton);
-        ImageButton addShotButton = getView().findViewById(R.id.addShot);
+        //ImageButton addShotButton = getView().findViewById(R.id.addShot);
         TextView holeNumText = getView().findViewById(R.id.holeNum);
         TextView shotNumText = getView().findViewById(R.id.shotNum);
+
+        Button shotMode = getView().findViewById(R.id.shotMode);
+        Button puttMode = getView().findViewById(R.id.puttMode);
+        Button addShotPutter = getView().findViewById(R.id.addShotPutter);
 
         present_shot = shotNumText.getText().toString();
 
@@ -276,6 +284,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         current_hole = Integer.parseInt(present_hole);
 
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
+
+        pushHole();
 
         /*TODO *************************************************
         Button pushHole = getView().findViewById(R.id.submitHole);
@@ -300,13 +310,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         *///TODO ***************************************************
 
         //updating current hole in DB
-        if(current_hole == 1){
-            Log.d("CHECK", "Value: " + uid);
-            Log.d("CURRENTROUNDID", "Value: " + currentRoundID);
-            Log.d("CHECK", "Value: " + present_hole);
-            //TODO FIX
-            mDatabase.child("rounds").child(uid).child(currentRoundID).child("holes").setValue(present_hole);
-        }
+        //if current shot is 1 and then reset this for every hole
+
+
 
         addMarker.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -387,11 +393,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             @Override
             public void onClick(View v) {
 
-                String present_shot = shotNumText.getText().toString();
-                int present_shot_value_int = Integer.parseInt(present_shot);
-                present_shot_value_int++;
 
-                shotNumText.setText(String.valueOf(present_shot_value_int));
+                current_shot++;
+
+                shotNumText.setText(String.valueOf(current_shot));
 
                 confirmShot.setVisibility(View.INVISIBLE);
 
@@ -425,18 +430,19 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                     //TODO push desired and actual distance to the database
                     //TODO PUSH DISTANCE, CLUB and LIE to the DB
-                    //EG: writeNewShot(valuesHere)
+                    String club = ((MainActivity)getActivity()).getCurrentClub1();
+                    String lie = ((MainActivity)getActivity()).getCurrentLie1();
+                    writeNewShot(holeKey,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+
+
+                    //increment shot num
+                    shotNum++;
 
                     Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
                     Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
-                    Toast toast=Toast.makeText(mContext,"lie of ball:" + ((MainActivity)getActivity()).getCurrentLie1(),Toast.LENGTH_LONG);
-                    toast.show();
 
-                    //practice to show updating values
-                    //TODO remove this
-                    Toast toast1=Toast.makeText(mContext,"ACTUAL DISTANCE:" + String.format("%.2f", actual_distance[0]),Toast.LENGTH_LONG);
-                    toast1.show();
+
 
 
                     //resetting points for next shot
@@ -489,9 +495,18 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         if(current_hole > 1){
                             mDatabase.child("rounds").child(uid).child(currentRoundID).child("holes").setValue(present_hole);
                         }
-
+                        current_hole = 1;
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
+
+                        //setting counter
+                        ((MainActivity)getActivity()).setCounter(2);
+
+                        Fragment holeDetailsFragment = new HoleDetailsFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, holeDetailsFragment, "findThisFragment")
+                                .addToBackStack(null)
+                                .commit();
                         dialog.cancel();
                     }
                 });
@@ -507,7 +522,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         AlertDialog confirmNextHole = builder1.create();
 
 
-        addShotButton.setOnClickListener(new View.OnClickListener(){
+        addShotPutter.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 String present_shot = shotNumText.getText().toString();
@@ -523,6 +538,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             @Override
             public void onClick(View v) {
                 confirmNextHole.show();
+                pushHole();
 
             }
         });
@@ -705,10 +721,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     }
 
     // [START write_fan_out]
-    private void writeNewHole(String roundid, String distance, String par, String score, String holeNum) {
+    private void writeNewHole(String roundid, String distance, String par, String holeNum) {
 
         holeKey = mDatabase.child("holes").push().getKey();
-        Holes hole = new Holes(roundid, distance, par, score, holeNum);
+        Holes hole = new Holes(roundid, distance, par, holeNum);
         Map<String, Object> holeValues = hole.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -771,6 +787,17 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         });
 
 
+    }
+
+    public void pushHole(){
+
+        String hole_dist = ((MainActivity)getActivity()).getHoleDistance();
+        String hole_par = ((MainActivity)getActivity()).getHolePar();
+
+        if(current_shot == 1){
+            writeNewHole(currentRoundID, hole_dist,  hole_par, present_hole);
+
+        }
     }
 
 }

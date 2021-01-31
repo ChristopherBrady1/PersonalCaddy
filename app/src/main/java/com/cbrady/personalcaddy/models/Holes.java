@@ -13,18 +13,16 @@ public class Holes {
     public String roundid;
     public String distance;
     public String par;
-    public String score;
     public String holeNum;
 
     public Holes() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Holes(String roundid, String distance, String par, String score, String holeNum) {
+    public Holes(String roundid, String distance, String par, String holeNum) {
         this.roundid = roundid;
         this.distance = distance;
         this.par = par;
-        this.score = score;
         this.holeNum = holeNum;
     }
 
@@ -35,7 +33,6 @@ public class Holes {
         result.put("roundid", roundid);
         result.put("distance", distance);
         result.put("par", par);
-        result.put("score", score);
         result.put("holeNum", holeNum);
 
         return result;
