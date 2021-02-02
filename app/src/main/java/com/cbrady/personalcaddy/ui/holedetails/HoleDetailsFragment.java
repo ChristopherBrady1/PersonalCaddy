@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
+import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.User;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
@@ -39,6 +40,9 @@ public class HoleDetailsFragment extends Fragment{
     Context mContext;
     FloatingActionButton submitHoleDetails;
     EditText txtparHole, txtdistanceHole;
+    String holeKey;
+    String holeNum;
+    int holeNumint;
     private static final String TAG = "NewHole";
     private static final String REQUIRED = "Required";
 
@@ -84,6 +88,15 @@ public class HoleDetailsFragment extends Fragment{
 
         ((MainActivity)getActivity()).setHolePar(parHole);
         ((MainActivity)getActivity()).setHoleDistance(distanceHole);
+        //set to 1 when returning details
+        ((MainActivity)getActivity()).setHoleDetailsComplete(1);
+        holeNum = String.valueOf(((MainActivity)getActivity()).getHoleNum());
+        holeNumint = ((MainActivity)getActivity()).getHoleNum();
+        writeNewHole(((MainActivity)getActivity()).getCurrentRoundKey(), distanceHole, parHole, holeNum);
+
+        holeNumint++;
+        ((MainActivity)getActivity()).setHoleNum(holeNumint);
+
 
         int counter = ((MainActivity)getActivity()).getCounter();
 
@@ -97,6 +110,50 @@ public class HoleDetailsFragment extends Fragment{
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    private void writeNewHole(String roundid, String distance, String par, String holeNum) {
+
+        //checking vals
+        //Log.d("HOLE_ERROR", "roundid: " + roundid + " , holeNum: " + holeNum);
+
+        //TODO set hole key public
+
+        holeKey = mDatabase.child("holes").push().getKey();
+        Holes hole = new Holes(roundid, distance, par, holeNum);
+        Map<String, Object> holeValues = hole.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/holes/" + roundid + "/" + holeKey, holeValues);
+
+        mDatabase.updateChildren(childUpdates);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final DatabaseReference ref = database.getReference("holes/" + roundid + "/" + holeKey);
+        ref.orderByChild("holeNum");
+        //System.out.println(ref.);
+
+        //set holeKey
+        ((MainActivity)getActivity()).setHoleKey(holeKey);
+
+        // Attach a listener to read the data at our rounds reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Holes hole = dataSnapshot.getValue(Holes.class);
+                System.out.println(hole.holeNum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+
+
     }
 
 

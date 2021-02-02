@@ -18,12 +18,16 @@ public class MainActivity extends BaseActivity {
 
 
     private String currentRoundKey;
+    private String currentHoleNum;
+    private int holeNum = 1;
     private String currentClub1;
     private String currentClub2;
     private String currentLie1;
     private String currentLie2;
     private String holePar;
     private String holeDistance;
+    private String holeKey;
+    private int holeDetailsComplete;
 
     public ArrayList<String> scorecard = new ArrayList<String>();
 
@@ -114,4 +118,31 @@ public class MainActivity extends BaseActivity {
         this.currentLie2 = currentLie2;
     }
 
+    public int getHoleDetailsComplete() { return holeDetailsComplete; }
+
+    public void setHoleDetailsComplete(int holeDetailsComplete) { this.holeDetailsComplete = holeDetailsComplete; }
+
+    public String getCurrentHoleNum() {
+        return currentHoleNum;
+    }
+
+    public void setCurrentHoleNum(String currentHoleNum) {
+        this.currentHoleNum = currentHoleNum;
+    }
+
+    public String getHoleKey() {
+        return holeKey;
+    }
+
+    public void setHoleKey(String holeKey) {
+        this.holeKey = holeKey;
+    }
+
+    public int getHoleNum() {
+        return holeNum;
+    }
+
+    public void setHoleNum(int holeNum) {
+        this.holeNum = holeNum;
+    }
 }
