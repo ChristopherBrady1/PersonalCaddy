@@ -148,7 +148,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="158dp"
         android:layout_marginBottom="154dp"
-        android:text="+ 1 Putt" />
+        android:text="+ 1 Putt"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/puttMode"
@@ -170,6 +171,16 @@
         android:layout_marginBottom="336dp"
         android:text="Shot Mode"
         android:visibility="invisible"/>
+
+    <ImageButton
+        android:id="@+id/scorecardButton"
+        android:layout_width="59dp"
+        android:layout_height="54dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="250dp"
+        app:srcCompat="@drawable/scorecard" />
 
 
     <!-- target="_blank" href="https://icons8.com/icons/set/golf-club">Golf Club icon by target="_blank" href="https://icons8.com">Icons8-->

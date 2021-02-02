@@ -114,7 +114,7 @@ public class ShotDetailsFragment extends Fragment {
     }
 
     private void setDetails(String currentLieBall, String currentClub){
-        //for the first shot
+        /*
         if(((MainActivity)getActivity()).getCurrentClub1() == null && ((MainActivity)getActivity()).getCurrentLie1() == null){
             ((MainActivity)getActivity()).setCurrentClub1(currentClub);
             ((MainActivity)getActivity()).setCurrentLie1(currentLieBall);
@@ -134,7 +134,9 @@ public class ShotDetailsFragment extends Fragment {
 
                 //TODO push these at the point where distance is gotten
             }
-        }
+        }*/
+        ((MainActivity)getActivity()).setCurrentClub1(currentClub);
+        ((MainActivity)getActivity()).setCurrentLie1(currentLieBall);
 
         getActivity().onBackPressed();
 

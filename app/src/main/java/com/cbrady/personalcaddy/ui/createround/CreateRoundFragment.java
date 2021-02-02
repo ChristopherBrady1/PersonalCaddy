@@ -70,6 +70,9 @@ public class CreateRoundFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
+        //Practice
+        //Log.d("PRACTICE", "Value: " + ((MainActivity)getActivity()).practice.get(0));
+
         submitRound = (FloatingActionButton)getView().findViewById(R.id.submitRound);
         submitRound.setOnClickListener(new View.OnClickListener() {
             @Override

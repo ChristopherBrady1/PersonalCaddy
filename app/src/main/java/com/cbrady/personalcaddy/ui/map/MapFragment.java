@@ -44,6 +44,7 @@ import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
 import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
+import com.cbrady.personalcaddy.ui.scorecard.ScorecardFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -143,6 +144,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     String holeKey;
     String shotKey;
     int shotNum = 1;
+    int pushHolecounter = 1;
 
 
     @Override
@@ -276,6 +278,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         Button shotMode = getView().findViewById(R.id.shotMode);
         Button puttMode = getView().findViewById(R.id.puttMode);
         Button addShotPutter = getView().findViewById(R.id.addShotPutter);
+        ImageButton scorecardButton = getView().findViewById(R.id.scorecardButton);
 
         present_shot = shotNumText.getText().toString();
 
@@ -285,7 +288,12 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
 
-        pushHole();
+        //prevent the 1st hole from being pushed more than once
+        if(pushHolecounter == 1){
+            pushHole();
+            pushHolecounter++;
+        }
+
 
         /*TODO *************************************************
         Button pushHole = getView().findViewById(R.id.submitHole);
@@ -443,8 +451,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
 
 
-
-
                     //resetting points for next shot
                     start_point = start_point2;
                     desired_end_point = desired_end_point2;
@@ -495,7 +501,11 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         if(current_hole > 1){
                             mDatabase.child("rounds").child(uid).child(currentRoundID).child("holes").setValue(present_hole);
                         }
-                        current_hole = 1;
+
+                        ((MainActivity)getActivity()).scorecard.add(String.valueOf(current_shot));
+
+                        current_shot = 1;
+                        shotNumText.setText(String.valueOf(current_shot));
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
 
@@ -522,17 +532,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         AlertDialog confirmNextHole = builder1.create();
 
 
-        addShotPutter.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                String present_shot = shotNumText.getText().toString();
-                int present_shot_value_int = Integer.parseInt(present_shot);
-                present_shot_value_int++;
 
-                shotNumText.setText(String.valueOf(present_shot_value_int));
-
-            }
-        });
 
         nextHoleButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -542,6 +542,101 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
             }
         });
+
+        //TODO scorecard button
+        /*scorecardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment scorecardFragment = new ScorecardFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, scorecardFragment, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });*/
+
+        //If the user enters green mode:
+        puttMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //hide other buttons
+                addMarker.setVisibility(View.INVISIBLE);
+                removeMarker.setVisibility(View.INVISIBLE);
+
+
+                //show shot button
+                addShotPutter.setVisibility(View.VISIBLE);
+                shotMode.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+
+        addShotPutter.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String present_shot = shotNumText.getText().toString();
+                int present_shot_value_int = Integer.parseInt(present_shot);
+                present_shot_value_int++;
+
+                shotNumText.setText(String.valueOf(present_shot_value_int));
+
+                //TODO have to push shot from before green
+                //Checking if a previous shot needs to be pushed
+                if (start_point != null) {
+                    start_point2 = marker.getPosition();
+
+                    Location.distanceBetween(start_point.latitude, start_point.longitude,
+                            desired_end_point.latitude, desired_end_point.longitude,
+                            desired_shot_distance);
+
+                    //calculate actual distance
+                    Location.distanceBetween(start_point.latitude, start_point.longitude,
+                            start_point2.latitude, start_point2.longitude,
+                            actual_distance);
+
+                    String club = ((MainActivity)getActivity()).getCurrentClub1();
+                    String lie = ((MainActivity)getActivity()).getCurrentLie1();
+                    writeNewShot(holeKey,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+
+
+                    //increment shot num
+                    shotNum++;
+
+                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
+                    Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
+                    Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
+
+
+                    //resetting points for next shot
+                    start_point = null;
+                    desired_end_point = null;
+                    start_point2 = null;
+                    desired_end_point2 = null;
+
+                }
+
+
+                //call write new shot
+                writeNewShot(holeKey, "0","0","putter", present_shot, "green");
+
+            }
+        });
+
+        shotMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show other buttons
+                addMarker.setVisibility(View.VISIBLE);
+                removeMarker.setVisibility(View.VISIBLE);
+
+
+                //hide shot button
+                addShotPutter.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
 
 
         sensorManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
@@ -723,6 +818,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     // [START write_fan_out]
     private void writeNewHole(String roundid, String distance, String par, String holeNum) {
 
+        //checking vals
+        //Log.d("HOLE_ERROR", "roundid: " + roundid + " , holeNum: " + holeNum);
+
         holeKey = mDatabase.child("holes").push().getKey();
         Holes hole = new Holes(roundid, distance, par, holeNum);
         Map<String, Object> holeValues = hole.toMap();
@@ -752,10 +850,20 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             }
         });
 
+        /*TODO POSSIBLE COUNT OF NUMBER OF SHOTS
+        exports.countPrescriptions = functions.database.ref(`/prescriptions`).onWrite((change, context) => {
+        const data = change.after.val();
+        const count = Object.keys(data).length;
+            return change.after.ref.child('_count').set(count);
+        });*/
+
 
     }
 
     private void writeNewShot(String holeid, String desiredDistance, String actualDistance, String club, String shotNum, String lie_ball) {
+
+        //checking vals
+        Log.d("SHOT_ERROR", "holeid: " + holeid + " , shotNum: " + shotNum + ", club: " + club);
 
         shotKey = mDatabase.child("shots").push().getKey();
         Shots shot = new Shots(holeid, desiredDistance, actualDistance, club, shotNum, lie_ball);
