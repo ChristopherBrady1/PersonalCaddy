@@ -145,6 +145,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     String shotKey;
     int shotNum = 1;
     int pushHolecounter = 1;
+    int scorecardIndex =0;
 
 
     @Override
@@ -504,7 +505,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             mDatabase.child("rounds").child(uid).child(currentRoundID).child("holes").setValue(present_hole);
                         }
 
-                        ((MainActivity)getActivity()).scorecard.add(String.valueOf(current_shot));
+                        //add score to scorecard
+                        ((MainActivity)getActivity()).scorecard.set(scorecardIndex,String.valueOf(current_shot));
+                        scorecardIndex ++;
 
                         current_shot = 1;
                         shotNumText.setText(String.valueOf(current_shot));
@@ -551,16 +554,17 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         });
 
         //TODO scorecard button
-        /*scorecardButton.setOnClickListener(new View.OnClickListener() {
+        scorecardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Fragment scorecardFragment = new ScorecardFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, scorecardFragment, "findThisFragment")
                         .addToBackStack(null)
                         .commit();
             }
-        });*/
+        });
 
         //If the user enters green mode:
         puttMode.setOnClickListener(new View.OnClickListener() {

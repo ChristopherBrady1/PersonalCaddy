@@ -1,6 +1,7 @@
 package com.cbrady.personalcaddy;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -48,6 +49,13 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
+
+        //setting defaults for scorecard array list
+        for (int i=0; i < 18; i++){
+            scorecard.add(String.valueOf(i));
+        }
+
+        Log.d("ARRAYLIST", String.valueOf(scorecard.size()) );
 
 
         // Passing each menu ID as a set of Ids because each
