@@ -23,12 +23,14 @@ public class MainActivity extends BaseActivity {
     private int holeNum = 1;
     private String currentClub1;
     private String currentClub2;
-    private String currentLie1;
+    private String currentLie1 = "";
     private String currentLie2;
     private String holePar;
     private String holeDistance;
     private String holeKey;
     private int holeDetailsComplete;
+
+    private float desired_distance;
 
     public ArrayList<String> scorecard = new ArrayList<String>();
 
@@ -152,5 +154,13 @@ public class MainActivity extends BaseActivity {
 
     public void setHoleNum(int holeNum) {
         this.holeNum = holeNum;
+    }
+
+    public float getDesired_distance() {
+        return desired_distance;
+    }
+
+    public void setDesired_distance(float desired_distance) {
+        this.desired_distance = desired_distance;
     }
 }

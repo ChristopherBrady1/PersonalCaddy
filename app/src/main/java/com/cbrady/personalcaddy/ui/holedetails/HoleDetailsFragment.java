@@ -86,13 +86,16 @@ public class HoleDetailsFragment extends Fragment{
         final String distanceHole = txtdistanceHole.getText().toString();
         final String parHole = txtparHole.getText().toString();
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
         ((MainActivity)getActivity()).setHolePar(parHole);
         ((MainActivity)getActivity()).setHoleDistance(distanceHole);
         //set to 1 when returning details
         ((MainActivity)getActivity()).setHoleDetailsComplete(1);
         holeNum = String.valueOf(((MainActivity)getActivity()).getHoleNum());
         holeNumint = ((MainActivity)getActivity()).getHoleNum();
-        writeNewHole(((MainActivity)getActivity()).getCurrentRoundKey(), distanceHole, parHole, holeNum);
+        writeNewHole(((MainActivity)getActivity()).getCurrentRoundKey(), uid, distanceHole, parHole, holeNum);
 
         holeNumint++;
         ((MainActivity)getActivity()).setHoleNum(holeNumint);
@@ -112,7 +115,7 @@ public class HoleDetailsFragment extends Fragment{
         }
     }
 
-    private void writeNewHole(String roundid, String distance, String par, String holeNum) {
+    private void writeNewHole(String roundid, String userID, String distance, String par, String holeNum) {
 
         //checking vals
         //Log.d("HOLE_ERROR", "roundid: " + roundid + " , holeNum: " + holeNum);
@@ -120,17 +123,17 @@ public class HoleDetailsFragment extends Fragment{
         //TODO set hole key public
 
         holeKey = mDatabase.child("holes").push().getKey();
-        Holes hole = new Holes(roundid, distance, par, holeNum);
+        Holes hole = new Holes(roundid, userID, distance, par, holeNum);
         Map<String, Object> holeValues = hole.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/holes/" + roundid + "/" + holeKey, holeValues);
+        childUpdates.put("/holes/" + holeKey, holeValues);
 
         mDatabase.updateChildren(childUpdates);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        final DatabaseReference ref = database.getReference("holes/" + roundid + "/" + holeKey);
+        final DatabaseReference ref = database.getReference("holes/" + holeKey);
         ref.orderByChild("holeNum");
         //System.out.println(ref.);
 

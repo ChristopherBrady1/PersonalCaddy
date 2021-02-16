@@ -43,6 +43,7 @@ import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
 import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
+import com.cbrady.personalcaddy.ui.clubChoice.clubChoice;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.cbrady.personalcaddy.ui.scorecard.ScorecardFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -410,9 +411,16 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 confirmShot.setVisibility(View.INVISIBLE);
 
 
+                //calling club choice
+                Fragment clubChoice = new clubChoice();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, clubChoice, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+
 
                 //Calling Shot details fragment
-                //*********************
+                //********************* THIS WILL SHOW FIRST AS ITS ON THE TOP OF THE STACK
                 Fragment shotDetailsFragment = new ShotDetailsFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, shotDetailsFragment, "findThisFragment")
@@ -432,6 +440,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             desired_end_point.latitude, desired_end_point.longitude,
                             desired_shot_distance);
 
+                    //setting desired distance globally
+                    ((MainActivity)getActivity()).setDesired_distance(desired_shot_distance[0]);
+
+
                     //calculate actual distance
                     Location.distanceBetween(start_point.latitude, start_point.longitude,
                             start_point2.latitude, start_point2.longitude,
@@ -442,7 +454,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     String club = ((MainActivity)getActivity()).getCurrentClub1();
                     String lie = ((MainActivity)getActivity()).getCurrentLie1();
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
-                    writeNewShot(holeKey,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+                    writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
 
                     //increment shot num
@@ -461,6 +473,15 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 else{
                     start_point = marker.getPosition();
                     desired_end_point = destMarker.getPosition();
+
+                    //for setting global
+                    //calculate desired distance
+                    Location.distanceBetween(start_point.latitude, start_point.longitude,
+                            desired_end_point.latitude, desired_end_point.longitude,
+                            desired_shot_distance);
+
+                    //setting desired distance globally
+                    ((MainActivity)getActivity()).setDesired_distance(desired_shot_distance[0]);
                 }
 
                 //removing marker
@@ -609,7 +630,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     String club = ((MainActivity)getActivity()).getCurrentClub1();
                     String lie = ((MainActivity)getActivity()).getCurrentLie1();
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
-                    writeNewShot(holeKey,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+                    writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
 
                     //increment shot num
@@ -631,7 +652,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                 //call write new shot
                 holeKey = ((MainActivity)getActivity()).getHoleKey();
-                writeNewShot(holeKey, "0","0","putter", present_shot, "green");
+                writeNewShot(holeKey, uid, currentRoundID, "0","0","putter", present_shot, "green");
 
             }
         });
@@ -829,23 +850,23 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     }
 
 
-    private void writeNewShot(String holeid, String desiredDistance, String actualDistance, String club, String shotNum, String lie_ball) {
+    private void writeNewShot(String holeid, String userID, String roundID, String desiredDistance, String actualDistance, String club, String shotNum, String lie_ball) {
 
         //checking vals
         Log.d("SHOT_ERROR", "holeid: " + holeid + " , shotNum: " + shotNum + ", club: " + club);
 
         shotKey = mDatabase.child("shots").push().getKey();
-        Shots shot = new Shots(holeid, desiredDistance, actualDistance, club, shotNum, lie_ball);
+        Shots shot = new Shots(holeid,userID,roundID, desiredDistance, actualDistance, club, shotNum, lie_ball);
         Map<String, Object> shotValues = shot.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/shots/" + holeid + "/" + shotKey, shotValues);
+        childUpdates.put("/shots/" + shotKey, shotValues);
 
         mDatabase.updateChildren(childUpdates);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        final DatabaseReference ref = database.getReference("shots/" + holeid + "/" + shotKey);
+        final DatabaseReference ref = database.getReference("shots/" + shotKey);
         ref.orderByChild("shotNum");
         //System.out.println(ref.);
 

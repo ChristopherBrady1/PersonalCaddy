@@ -173,7 +173,7 @@ public class CreateRoundFragment extends Fragment {
         Map<String, Object> roundValues = round.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/rounds/" + userId + "/" + key, roundValues);
+        childUpdates.put("/rounds/" + key, roundValues);
 
         mDatabase.updateChildren(childUpdates);
 

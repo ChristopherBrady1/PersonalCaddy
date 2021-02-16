@@ -1,19 +1,31 @@
-package com.cbrady.personalcaddy.ui.dashboard;
+package com.cbrady.personalcaddy.ui.clubChoice;
 
+
+
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.ShotTemp;
 import com.cbrady.personalcaddy.models.Shots;
+import com.cbrady.personalcaddy.ui.map.MapFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,58 +36,154 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticsFragment extends Fragment {
+public class clubChoice extends Fragment {
+    public clubChoice() {}
 
-    // [START define_database_reference]
+    Context mContext;
+    FloatingActionButton submitShotDetails;
     private DatabaseReference mDatabase;
-    // [END define_database_reference]
+    String[] club;
+    clubChoice.SpinnerAdapter adapter;
+    private Button btnDisplay;
+    String currentClub;
 
-    private RecyclerView mRecycler;
-    private List<Shots> shotTempList;
+    //array for club names
     String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "Pitching Wedge", "Sand Wedge"};
     float[] avgClub = new float[12];
+    private List<Shots> shotTempList;
+
     //variables to store the average of each club
     float avgDriver, avg3Wood, avg5Wood, avg3iron, avg4iron, avg5iron, avg6iron, avg7iron, avg8iron, avg9iron, avgPW, avgSW = 0;
     float avgDriverTot, avg3WoodTot, avg5WoodTot, avg3ironTot, avg4ironTot, avg5ironTot, avg6ironTot, avg7ironTot, avg8ironTot, avg9ironTot, avgPWTot, avgSWTot = 0;
     float avgDriverNum, avg3WoodNum, avg5WoodNum, avg3ironNum, avg4ironNum, avg5ironNum, avg6ironNum, avg7ironNum, avg8ironNum, avg9ironNum, avgPWNum, avgSWNum = 0;
     String actualDistance = "";
+    float desired_distance, adjusted_desired_distance;
+    String lie_ball = "";
+    TextView clubSuggestion;
 
-    public StatisticsFragment() {}
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_statistics, container, false);
-        //final TextView textView = root.findViewById(R.id.text_dashboard);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_clubchoice, container, false);
 
+
+        //call club suggestion stuff here
+        getAverages();
+
+        //Set the text to the suggested club
+        clubSuggestion = (TextView) rootView.findViewById(R.id.clubSuggestion);
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // [END initialize_database_ref]
+
+
+        club = getResources().getStringArray(R.array.clubs);
+        adapter = new clubChoice.SpinnerAdapter(mContext);
+
+        final Spinner spinner = (Spinner)getView().findViewById(R.id.clubSpinner);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Auto-generated method stub
+                currentClub = club[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        submitShotDetails = (FloatingActionButton)getView().findViewById(R.id.submitShotDetails);
+        submitShotDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDetails(currentClub);
+            }
+        });
+    }
+
+    private void setDetails(String currentClub){
+
+        ((MainActivity)getActivity()).setCurrentClub1(currentClub);
+
+        getActivity().onBackPressed();
+
+    }
+
+    public class SpinnerAdapter extends BaseAdapter {
+        Context context;
+        private LayoutInflater mInflater;
+
+        public SpinnerAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return club.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ListContent holder;
+            View v = convertView;
+            if (v == null) {
+                mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                v = mInflater.inflate(R.layout.row_textview, null);
+                holder = new ListContent();
+                holder.text = (TextView) v.findViewById(R.id.textView1);
+
+                v.setTag(holder);
+            } else {
+                holder = (ListContent) v.getTag();
+            }
+
+            holder.text.setText(club[position]);
+
+            return v;
+        }
+    }
+    static class ListContent {
+        TextView text;
+    }
+
+    public void getAverages(){
         shotTempList = new ArrayList<>();
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference("shots");
         // [END create_database_reference]
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("userId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
-            /*
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "issue" node with all children with id 0
-                    for (DataSnapshot shots : dataSnapshot.getChildren()) {
-                        // do something with the individual "issues"
-                        ShotTemp shot = shots.getValue(ShotTemp.class);
-                        shotTempList.add(shot);
-                        String club = shot.getClub();
-                        Log.d("QUERY1", club);
-                    }
-                }
-            }*/
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "issue" node with all children with id 0
 
-                    //float counter = 1;
-                    //int j = 0;
-                    //float temp = 0;
-                    String prevClub = "";
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
                     for (DataSnapshot shots : dataSnapshot.getChildren()) {
                         // do something with the individual "issues"
                         Shots shot = shots.getValue(Shots.class);
@@ -83,15 +191,6 @@ public class StatisticsFragment extends Fragment {
 
                         //String actualDistance = shot.getActualDistance();
                         String club = shot.getClub();
-
-                        //if previous club was the different
-                        /*if(!prevClub.equals(club)){
-                            avgClub[j] = temp/counter;
-                            Log.d("AVERAGES", String.valueOf(clubNames[j]) + " = " + String.valueOf(avgClub[j]));
-                            j++;
-                            temp = 0;
-                            counter =0;
-                        }*/
 
                         switch(club){
                             case "Driver":
@@ -159,25 +258,12 @@ public class StatisticsFragment extends Fragment {
                                 break;
                         }
 
-                        /*
-                        //getting the average for each club
-                        for(int i=0; i<clubNames.length; i++){
-
-                            if(club.equals(clubNames[i])){
-                                String actualDistance = shot.getActualDistance();
-                                temp = temp + Integer.parseInt(actualDistance);
-                                //Log.d("AVERAGES", " Temp : " + String.valueOf(temp));
-                                counter++;
-                                prevClub = club;
-                            }
-
-                        }*/
 
                     }
                 }
 
+                //calculating averages
                 avgDriver = avgDriverTot/avgDriverNum;
-                Log.d("AVERAGES", "Here is the avgDriver--> " + String.valueOf(avgDriver));
                 avg3Wood = avg3WoodTot/avg3WoodNum;
                 avg5Wood = avg5WoodTot/avg5WoodNum;
                 avg3iron = avg3ironTot/avg3ironNum;
@@ -190,6 +276,7 @@ public class StatisticsFragment extends Fragment {
                 avgPW = avgPWTot/avgPWNum;
                 avgSW = avgSWTot/avgSWNum;
 
+                //storing averages in an array
                 avgClub[0] = avgDriver;
                 avgClub[1] = avg3Wood;
                 avgClub[2] = avg5Wood;
@@ -215,12 +302,51 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        getAverages();
-        return root;
-    }
-
-    public void getAverages(){
-        //calculating average club values and putting into an array
+        adjust_distance();
 
     }
+
+    public void adjust_distance(){
+        //get desired distance
+        desired_distance = ((MainActivity)getActivity()).getDesired_distance();
+
+        //get lie of ball
+        lie_ball = ((MainActivity)getActivity()).getCurrentLie1();
+
+        //switch statement to apply based on lie of ball
+        switch(lie_ball){
+            case "Rough":
+                adjusted_desired_distance = desired_distance + 10;
+            case "Sand":
+                adjusted_desired_distance = desired_distance + 20;
+            case "Green":
+                //set club suggestion to putter
+            default:
+                adjusted_desired_distance = desired_distance;
+        }
+
+        calculate_suggestion(adjusted_desired_distance);
+    }
+
+    public void calculate_suggestion(float calculated_distance){
+        //find the closest distance in the array to the adjusted desired distance
+        float closest_distance =  Math.abs(avgClub[0] - calculated_distance);;
+        int index =0;
+        for(int i=1; i<avgClub.length; i++){
+
+            //get the closest and store this
+            float tempdist = Math.abs(avgClub[i] - calculated_distance);
+            if(tempdist < closest_distance){
+                index = i;
+                closest_distance = tempdist;
+            }
+        }
+
+        Log.d("CLUB_SUGGESTION", clubNames[index]);
+        //clubSuggestion.setText(clubNames[index]);
+    }
+
 }
+
+
+

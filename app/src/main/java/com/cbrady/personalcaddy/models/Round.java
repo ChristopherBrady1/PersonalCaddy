@@ -11,6 +11,8 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Round {
 
+
+
     public String uid;
     public String user;
     public String golfCourseName;
@@ -45,5 +47,52 @@ public class Round {
     }
     // [END post_to_map]
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getGolfCourseName() {
+        return golfCourseName;
+    }
+
+    public void setGolfCourseName(String golfCourseName) {
+        this.golfCourseName = golfCourseName;
+    }
+
+    public String getParCourse() {
+        return parCourse;
+    }
+
+    public void setParCourse(String parCourse) {
+        this.parCourse = parCourse;
+    }
+
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    public Map<String, Boolean> getHoles() {
+        return holes;
+    }
+
+    public void setHoles(Map<String, Boolean> holes) {
+        this.holes = holes;
+    }
 }
 // [END post_class]

@@ -15,9 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
+import com.cbrady.personalcaddy.ui.clubChoice.clubChoice;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
@@ -31,12 +34,10 @@ public class ShotDetailsFragment extends Fragment {
     FloatingActionButton submitShotDetails;
     private DatabaseReference mDatabase;
     String lie_ball;
-    String[] club;
-    ShotDetailsFragment.SpinnerAdapter adapter;
     private RadioGroup radioGroup;
     private MaterialRadioButton radio_fairway,radio_rough,radio_green,radio_teebox,radio_sand;
     private Button btnDisplay;
-    String currentLieBall,currentClub;
+    String currentLieBall;
 
     @Override
     public void onAttach(Context context) {
@@ -84,36 +85,16 @@ public class ShotDetailsFragment extends Fragment {
         });
 
 
-        club = getResources().getStringArray(R.array.clubs);
-        adapter = new ShotDetailsFragment.SpinnerAdapter(mContext);
-
-        final Spinner spinner = (Spinner)getView().findViewById(R.id.clubSpinner);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
-                currentClub = club[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
         submitShotDetails = (FloatingActionButton)getView().findViewById(R.id.submitShotDetails);
         submitShotDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDetails(currentLieBall, currentClub);
+                setDetails(currentLieBall);
             }
         });
     }
 
-    private void setDetails(String currentLieBall, String currentClub){
+    private void setDetails(String currentLieBall){
         /*
         if(((MainActivity)getActivity()).getCurrentClub1() == null && ((MainActivity)getActivity()).getCurrentLie1() == null){
             ((MainActivity)getActivity()).setCurrentClub1(currentClub);
@@ -135,58 +116,17 @@ public class ShotDetailsFragment extends Fragment {
                 //TODO push these at the point where distance is gotten
             }
         }*/
-        ((MainActivity)getActivity()).setCurrentClub1(currentClub);
+        //((MainActivity)getActivity()).setCurrentClub1(currentClub);
         ((MainActivity)getActivity()).setCurrentLie1(currentLieBall);
+
+        //call clubChoice fragment
+
+
 
         getActivity().onBackPressed();
 
     }
 
-    public class SpinnerAdapter extends BaseAdapter {
-        Context context;
-        private LayoutInflater mInflater;
 
-        public SpinnerAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return club.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ListContent holder;
-            View v = convertView;
-            if (v == null) {
-                mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-                v = mInflater.inflate(R.layout.row_textview, null);
-                holder = new ListContent();
-                holder.text = (TextView) v.findViewById(R.id.textView1);
-
-                v.setTag(holder);
-            } else {
-                holder = (ListContent) v.getTag();
-            }
-
-            holder.text.setText(club[position]);
-
-            return v;
-        }
-    }
-    static class ListContent {
-        TextView text;
-    }
 
 }
