@@ -72,6 +72,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+
     public String getHolePar() {
         return holePar;
     }

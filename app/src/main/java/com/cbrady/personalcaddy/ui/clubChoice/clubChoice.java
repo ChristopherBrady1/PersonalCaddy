@@ -72,8 +72,134 @@ public class clubChoice extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_clubchoice, container, false);
 
 
-        //call club suggestion stuff here
-        getAverages();
+        shotTempList = new ArrayList<>();
+        // [START create_database_reference]
+        mDatabase = FirebaseDatabase.getInstance().getReference("shots");
+        // [END create_database_reference]
+
+        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    String prevClub = "";
+                    for (DataSnapshot shots : dataSnapshot.getChildren()) {
+                        Shots shot = shots.getValue(Shots.class);
+                        shotTempList.add(shot);
+
+                        String club = shot.getClub();
+
+
+                        switch(club){
+                            case "Driver":
+                                actualDistance = shot.getActualDistance();
+                                avgDriverTot = avgDriverTot + Integer.parseInt(actualDistance);
+                                avgDriverNum++;
+                                //Log.d("AVERAGES", "THIS WORKED -- > avg = " + String.valueOf(avgDriverTot));
+                                break;
+                            case "3Wood":
+                                actualDistance = shot.getActualDistance();
+                                avg3WoodTot = avg3WoodTot + Integer.parseInt(actualDistance);
+                                avg3WoodNum++;
+                                break;
+                            case "5Wood":
+                                actualDistance = shot.getActualDistance();
+                                avg5WoodTot = avg5WoodTot + Integer.parseInt(actualDistance);
+                                avg5WoodNum++;
+                                break;
+                            case "3-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg3ironTot = avg3ironTot + Integer.parseInt(actualDistance);
+                                avg3ironNum++;
+                                break;
+                            case "4-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg4ironTot = avg4ironTot + Integer.parseInt(actualDistance);
+                                avg4ironNum++;
+                                break;
+                            case "5-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg5ironTot = avg5ironTot + Integer.parseInt(actualDistance);
+                                avg5ironNum++;
+                                break;
+                            case "6-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg6ironTot = avg6ironTot + Integer.parseInt(actualDistance);
+                                avg6ironNum++;
+                                break;
+                            case "7-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg7ironTot = avg7ironTot + Integer.parseInt(actualDistance);
+                                avg7ironNum++;
+                                break;
+                            case "8-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg8ironTot = avg8ironTot + Integer.parseInt(actualDistance);
+                                avg8ironNum++;
+                                break;
+                            case "9-iron":
+                                actualDistance = shot.getActualDistance();
+                                avg9ironTot = avg9ironTot + Integer.parseInt(actualDistance);
+                                avg9ironNum++;
+                                break;
+                            case "Pitching Wedge":
+                                actualDistance = shot.getActualDistance();
+                                avgPWTot = avgPWTot + Integer.parseInt(actualDistance);
+                                avgPWNum++;
+                                break;
+                            case "Sand Wedge":
+                                actualDistance = shot.getActualDistance();
+                                avgSWTot = avgSWTot + Integer.parseInt(actualDistance);
+                                avgSWNum++;
+                                break;
+                            default:
+                                break;
+                        }
+
+
+                    }
+                }
+
+                avgDriver = avgDriverTot/avgDriverNum;
+                Log.d("AVERAGES", "Here is the avgDriver--> " + String.valueOf(avgDriver));
+                avg3Wood = avg3WoodTot/avg3WoodNum;
+                avg5Wood = avg5WoodTot/avg5WoodNum;
+                avg3iron = avg3ironTot/avg3ironNum;
+                avg4iron = avg4ironTot/avg4ironNum;
+                avg5iron = avg5ironTot/avg5ironNum;
+                avg6iron = avg6ironTot/avg6ironNum;
+                avg7iron = avg7ironTot/avg7ironNum;
+                avg8iron = avg8ironTot/avg8ironNum;
+                avg9iron = avg9ironTot/avg9ironNum;
+                avgPW = avgPWTot/avgPWNum;
+                avgSW = avgSWTot/avgSWNum;
+
+                avgClub[0] = avgDriver;
+                avgClub[1] = avg3Wood;
+                avgClub[2] = avg5Wood;
+                avgClub[3] = avg3iron;
+                avgClub[4] = avg4iron;
+                avgClub[5] = avg5iron;
+                avgClub[6] = avg6iron;
+                avgClub[7] = avg7iron;
+                avgClub[8] = avg8iron;
+                avgClub[9] = avg9iron;
+                avgClub[10] = avgPW;
+                avgClub[11] = avgSW;
+
+                for(int i=0; i<avgClub.length; i++){
+                    Log.d("AVERAGES", String.valueOf(clubNames[i]) + " = " + String.valueOf(avgClub[i]));
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         //Set the text to the suggested club
         clubSuggestion = (TextView) rootView.findViewById(R.id.clubSuggestion);
@@ -86,7 +212,9 @@ public class clubChoice extends Fragment {
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+        //call club suggestion stuff here
 
+        adjust_distance();
 
         club = getResources().getStringArray(R.array.clubs);
         adapter = new clubChoice.SpinnerAdapter(mContext);
@@ -191,13 +319,15 @@ public class clubChoice extends Fragment {
 
                         //String actualDistance = shot.getActualDistance();
                         String club = shot.getClub();
+                        Log.d("HELPPPP", club);
 
                         switch(club){
                             case "Driver":
                                 actualDistance = shot.getActualDistance();
+
                                 avgDriverTot = avgDriverTot + Integer.parseInt(actualDistance);
                                 avgDriverNum++;
-                                //Log.d("AVERAGES", "THIS WORKED -- > avg = " + String.valueOf(avgDriverTot));
+                                Log.d("AVERAGES", "THIS WORKED -- > avg = " + String.valueOf(avgDriverTot));
                                 break;
                             case "3Wood":
                                 actualDistance = shot.getActualDistance();
@@ -312,20 +442,29 @@ public class clubChoice extends Fragment {
 
         //get lie of ball
         lie_ball = ((MainActivity)getActivity()).getCurrentLie1();
+        Log.d("LieBall",lie_ball);
 
         //switch statement to apply based on lie of ball
+        Log.d("AdjustDistance",String.valueOf(desired_distance));
         switch(lie_ball){
             case "Rough":
                 adjusted_desired_distance = desired_distance + 10;
+                Log.d("AdjustDistance","Should change here" + String.valueOf(adjusted_desired_distance));
+                calculate_suggestion(adjusted_desired_distance);
             case "Sand":
                 adjusted_desired_distance = desired_distance + 20;
+                calculate_suggestion(adjusted_desired_distance);
             case "Green":
                 //set club suggestion to putter
             default:
                 adjusted_desired_distance = desired_distance;
+                calculate_suggestion(adjusted_desired_distance);
         }
 
-        calculate_suggestion(adjusted_desired_distance);
+        //log
+        Log.d("AdjustDistance",String.valueOf(adjusted_desired_distance));
+
+
     }
 
     public void calculate_suggestion(float calculated_distance){
