@@ -12,8 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cbrady.personalcaddy.R;
+import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.ShotTemp;
 import com.cbrady.personalcaddy.models.Shots;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +43,9 @@ public class StatisticsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private List<Shots> shotTempList;
+    private List<Round>  roundTempList;
+    int[] scores = new int[5];
+    String[] dates = new String[5];
     String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "Pitching Wedge", "Sand Wedge"};
     float[] avgClub = new float[12];
     //variables to store the average of each club
@@ -39,6 +53,11 @@ public class StatisticsFragment extends Fragment {
     float avgDriverTot, avg3WoodTot, avg5WoodTot, avg3ironTot, avg4ironTot, avg5ironTot, avg6ironTot, avg7ironTot, avg8ironTot, avg9ironTot, avgPWTot, avgSWTot = 0;
     float avgDriverNum, avg3WoodNum, avg5WoodNum, avg3ironNum, avg4ironNum, avg5ironNum, avg6ironNum, avg7ironNum, avg8ironNum, avg9ironNum, avgPWNum, avgSWNum = 0;
     String actualDistance = "";
+    int x = 0;
+    private LineChart lineChart;
+    ArrayList<Entry> yEntrys = new ArrayList<>();
+    ArrayList<String> xEntrys = new ArrayList<>();
+
 
     public StatisticsFragment() {}
 
@@ -47,27 +66,55 @@ public class StatisticsFragment extends Fragment {
         //final TextView textView = root.findViewById(R.id.text_dashboard);
 
         shotTempList = new ArrayList<>();
+        roundTempList = new ArrayList<>();
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference("shots");
         // [END create_database_reference]
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+        lineChart = root.findViewById(R.id.lineChart);
+        lineChart.setTouchEnabled(true);
+        lineChart.setPinchZoom(true);
+
+        Query query1 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo("z353UXcdNJam9yT1s8qoiW4CX4j2").limitToLast(5);
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
-            /*
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "issue" node with all children with id 0
-                    for (DataSnapshot shots : dataSnapshot.getChildren()) {
-                        // do something with the individual "issues"
-                        ShotTemp shot = shots.getValue(ShotTemp.class);
-                        shotTempList.add(shot);
-                        String club = shot.getClub();
-                        Log.d("QUERY1", club);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot rounds : snapshot.getChildren()) {
+                        Round round = rounds.getValue(Round.class);
+                        roundTempList.add(round);
+
+                        int score = round.getScore();
+                        String date = round.getCurrentDate();
+                        String delim = "[ ]+";
+                        String[] dateOwn = date.split(delim);
+
+                        scores[x] = score;
+                        dates[x] = dateOwn[0];
+                        //Log.d("SCORES", String.valueOf(score) + " date: " + dateOwn[0] + " x = " + String.valueOf(scores[x]));
+                        x++;
+
                     }
                 }
-            }*/
+
+                for(int i=0; i<scores.length; i++){
+                    Log.d("SCORES", "Score = " + String.valueOf(scores[i]) + " date =  " + String.valueOf(dates[i]));
+                }
+
+                //call graph
+                makeGraph(scores,dates);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        /*
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // dataSnapshot is the "issue" node with all children with id 0
@@ -91,7 +138,7 @@ public class StatisticsFragment extends Fragment {
                             j++;
                             temp = 0;
                             counter =0;
-                        }*/
+                        }
 
                         switch(club){
                             case "Driver":
@@ -171,7 +218,7 @@ public class StatisticsFragment extends Fragment {
                                 prevClub = club;
                             }
 
-                        }*/
+                        }
 
                     }
                 }
@@ -209,18 +256,44 @@ public class StatisticsFragment extends Fragment {
             }
 
 
-            @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
-        getAverages();
+
+
         return root;
     }
 
-    public void getAverages(){
+    public void makeGraph(int[] scores, String[] dates){
         //calculating average club values and putting into an array
+        for(int i=0; i<scores.length; i++){
+            yEntrys.add(new Entry(i, scores[i]));
+        }
 
+        for(int i=0; i<dates.length; i++){
+            xEntrys.add(dates[i]);
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(yEntrys, "Data Set 1");
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        final String weekArr[]={"Week 1 ","Week 2","Week 3","Week 4"};
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        YAxis rightAxis = lineChart.getAxisRight();
+        rightAxis.setEnabled(false);
+
+
+        lineChart.getAxisLeft().setAxisMaxValue(150f);
+        lineChart.getAxisLeft().setAxisMinValue(50f);
+
+        LineData data = new LineData(lineDataSet);
+        lineChart.setData(data);
+        lineChart.invalidate();
     }
 }
