@@ -404,9 +404,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
 
 
-                current_shot++;
 
-                shotNumText.setText(String.valueOf(current_shot));
+
+
 
                 confirmShot.setVisibility(View.INVISIBLE);
 
@@ -459,6 +459,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                     //increment shot num
                     shotNum++;
+                    shotNumText.setText(String.valueOf(shotNum));
 
                     Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
@@ -518,6 +519,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         present_hole = holeNumText.getText().toString();
+                        String currentShotNum = shotNumText.getText().toString();
 
 
                         //pushing current hole to the database
@@ -527,8 +529,19 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         }
 
                         //add score to scorecard
-                        ((MainActivity)getActivity()).scorecard.set(scorecardIndex,String.valueOf(current_shot));
+                        ((MainActivity)getActivity()).scorecard.set(scorecardIndex,currentShotNum);
                         scorecardIndex ++;
+
+                        //TODO set score in DB
+                        //Code to update score of each hole in DB
+                        holeKey = ((MainActivity)getActivity()).getHoleKey();
+
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                        final DatabaseReference Holeref = database.getReference("holes/" + holeKey);
+                        final DatabaseReference objRef = Holeref.child("score");
+                        objRef.setValue(String.valueOf(currentShotNum));
+
 
                         current_shot = 1;
                         shotNumText.setText(String.valueOf(current_shot));
@@ -632,6 +645,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
                     writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
+                    //TODO add putt counter
 
                     //increment shot num
                     shotNum++;

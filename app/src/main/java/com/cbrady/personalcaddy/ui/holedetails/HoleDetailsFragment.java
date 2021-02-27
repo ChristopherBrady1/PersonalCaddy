@@ -123,7 +123,7 @@ public class HoleDetailsFragment extends Fragment{
         //TODO set hole key public
 
         holeKey = mDatabase.child("holes").push().getKey();
-        Holes hole = new Holes(roundid, userID, distance, par, holeNum);
+        Holes hole = new Holes(roundid, userID, distance, par, holeNum,"0");
         Map<String, Object> holeValues = hole.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
