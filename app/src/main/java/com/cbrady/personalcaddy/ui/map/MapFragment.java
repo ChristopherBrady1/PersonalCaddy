@@ -147,6 +147,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     int shotNum = 1;
     int pushHolecounter = 1;
     int scorecardIndex =0;
+    int numPutts = 0;
 
 
     @Override
@@ -535,15 +536,16 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         //TODO set score in DB
                         //Code to update score of each hole in DB
                         holeKey = ((MainActivity)getActivity()).getHoleKey();
-
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
                         final DatabaseReference Holeref = database.getReference("holes/" + holeKey);
-                        final DatabaseReference objRef = Holeref.child("score");
-                        objRef.setValue(String.valueOf(currentShotNum));
+                        final DatabaseReference scoreRef = Holeref.child("score");
+                        final DatabaseReference puttsRef = Holeref.child("putts");
+                        scoreRef.setValue(String.valueOf(currentShotNum));
+                        puttsRef.setValue(numPutts);
 
 
                         current_shot = 1;
+                        numPutts=0;
                         shotNumText.setText(String.valueOf(current_shot));
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
@@ -623,6 +625,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 String present_shot = shotNumText.getText().toString();
                 int present_shot_value_int = Integer.parseInt(present_shot);
                 present_shot_value_int++;
+                numPutts++;
 
                 shotNumText.setText(String.valueOf(present_shot_value_int));
 
@@ -649,6 +652,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                     //increment shot num
                     shotNum++;
+
 
                     Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));

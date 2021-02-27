@@ -19,19 +19,23 @@ public class Holes {
     public String holeNum;
 
 
+
+
     public String score;
 
     public Holes() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Holes(String roundid, String userID, String distance, String par, String holeNum, String score) {
+    public Holes(String roundid, String userID, String distance, String par, String holeNum, String score, int putts) {
         this.roundid = roundid;
         this.userID = userID;
         this.distance = distance;
         this.par = par;
         this.holeNum = holeNum;
         this.score = score;
+        this.putts = putts;
+
     }
 
     // [START post_to_map]
@@ -44,6 +48,7 @@ public class Holes {
         result.put("par", par);
         result.put("holeNum", holeNum);
         result.put("score",score);
+        result.put("putts", putts);
 
         return result;
     }
@@ -97,5 +102,10 @@ public class Holes {
         this.score = score;
     }
 
+    public int getPutts() {
+        return putts;
+    }
+
+    public int putts;
 }
 // [END post_class]
