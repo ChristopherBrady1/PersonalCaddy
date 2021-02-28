@@ -25,6 +25,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,7 +77,11 @@ public class StatisticsFragment extends Fragment {
         lineChart.setTouchEnabled(true);
         lineChart.setPinchZoom(true);
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo("z353UXcdNJam9yT1s8qoiW4CX4j2").limitToLast(5);
+        //final String userId = getUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        Query query1 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo(uid).limitToLast(5);
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -112,6 +118,8 @@ public class StatisticsFragment extends Fragment {
 
             }
         });
+
+        //Query query2 =  FirebaseDatabase.getInstance().getReference("holes").orderByChild("uid").equalTo(uid).limitToLast(5);
 
         /*
         query1.addListenerForSingleValueEvent(new ValueEventListener() {

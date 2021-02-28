@@ -170,7 +170,7 @@ public class CreateRoundFragment extends Fragment {
         // /posts/$postid simultaneously
         key = mDatabase.child("rounds").push().getKey();
         int score = 0;
-        Round round = new Round(userId, username, golfCourseName, parCourse, currentDate, score);
+        Round round = new Round(userId, username, golfCourseName, parCourse, currentDate, score, 0);
         Map<String, Object> roundValues = round.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

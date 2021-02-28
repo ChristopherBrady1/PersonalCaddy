@@ -148,6 +148,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     int pushHolecounter = 1;
     int scorecardIndex =0;
     int numPutts = 0;
+    int totalPutts = 0;
+    int totalScore = 0;
 
 
     @Override
@@ -282,6 +284,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         Button puttMode = getView().findViewById(R.id.puttMode);
         Button addShotPutter = getView().findViewById(R.id.addShotPutter);
         ImageButton scorecardButton = getView().findViewById(R.id.scorecardButton);
+        Button finishRoundButton = getView().findViewById(R.id.finishRoundButton);
 
         present_shot = shotNumText.getText().toString();
 
@@ -523,6 +526,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         String currentShotNum = shotNumText.getText().toString();
 
 
+                        if(present_hole == "18"){
+                            endRound();
+                        }
+
                         //pushing current hole to the database
                         //TODO FIX
                         if(current_hole > 1){
@@ -533,6 +540,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         ((MainActivity)getActivity()).scorecard.set(scorecardIndex,currentShotNum);
                         scorecardIndex ++;
 
+                        totalScore = totalScore + Integer.valueOf(currentShotNum);
+                        totalPutts = totalPutts + numPutts;
+
                         //TODO set score in DB
                         //Code to update score of each hole in DB
                         holeKey = ((MainActivity)getActivity()).getHoleKey();
@@ -540,7 +550,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         final DatabaseReference Holeref = database.getReference("holes/" + holeKey);
                         final DatabaseReference scoreRef = Holeref.child("score");
                         final DatabaseReference puttsRef = Holeref.child("putts");
-                        scoreRef.setValue(String.valueOf(currentShotNum));
+                        scoreRef.setValue(currentShotNum);
                         puttsRef.setValue(numPutts);
 
 
@@ -627,6 +637,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 present_shot_value_int++;
                 numPutts++;
 
+
                 shotNumText.setText(String.valueOf(present_shot_value_int));
 
                 //TODO have to push shot from before green
@@ -686,6 +697,14 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 //hide shot button
                 addShotPutter.setVisibility(View.INVISIBLE);
 
+            }
+        });
+
+        //if the user wants to end the round early
+        finishRoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endRound();
             }
         });
 
@@ -901,6 +920,21 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
+
+
+    }
+
+    public void endRound(){
+        //updating score and total putts values
+        currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference roundRef = database.getReference("rounds/" + currentRoundID);
+        final DatabaseReference scoreRef = roundRef.child("score");
+        final DatabaseReference totalPuttsRef = roundRef.child("Total Putts");
+        scoreRef.setValue(totalScore);
+        totalPuttsRef.setValue(totalPutts);
+
+        //TODO closing the fragment
 
 
     }

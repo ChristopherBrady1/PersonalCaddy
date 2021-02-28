@@ -19,19 +19,21 @@ public class Round {
     public String parCourse;
     public String currentDate;
     public int score;
+    public int totalPutts;
     public Map<String, Boolean> holes = new HashMap<>();
 
     public Round() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Round(String uid, String user, String golfCourseName, String parCourse, String currentDate, int score) {
+    public Round(String uid, String user, String golfCourseName, String parCourse, String currentDate, int score, int totalPutts) {
         this.uid = uid;
         this.user = user;
         this.golfCourseName = golfCourseName;
         this.parCourse = parCourse;
         this.currentDate = currentDate;
         this.score = score;
+        this.totalPutts = totalPutts;
     }
 
     // [START post_to_map]
@@ -45,6 +47,7 @@ public class Round {
         result.put("currentDate", currentDate);
         result.put("holes", holes);
         result.put("score",score);
+        result.put("Total Putts", totalPutts);
 
         return result;
     }
@@ -104,6 +107,14 @@ public class Round {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getTotalPutts() {
+        return totalPutts;
+    }
+
+    public void setTotalPutts(int totalPutts) {
+        this.totalPutts = totalPutts;
     }
 }
 // [END post_class]
