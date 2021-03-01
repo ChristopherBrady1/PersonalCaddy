@@ -47,7 +47,7 @@ public class Round {
         result.put("currentDate", currentDate);
         result.put("holes", holes);
         result.put("score",score);
-        result.put("Total Putts", totalPutts);
+        result.put("totalPutts", totalPutts);
 
         return result;
     }

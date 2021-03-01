@@ -4,16 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.StatisticsFragment">
+    tools:context=".ui.dashboard.StatisticsFragment"
+    android:orientation="vertical">
 
     <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:id="@+id/lineChartScore"
+        android:layout_width="378dp"
+        android:layout_height="167dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
         android:background="@color/white"
-        android:elevation="10dp"/>
+        android:elevation="10dp">
+
+    </com.github.mikephil.charting.charts.LineChart>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChartPutts"
+        android:layout_width="378dp"
+        android:layout_height="158dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"
+        android:elevation="10dp" />
+
+
 
 </LinearLayout>
