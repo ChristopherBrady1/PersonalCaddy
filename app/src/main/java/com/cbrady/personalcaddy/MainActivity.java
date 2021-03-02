@@ -29,6 +29,10 @@ public class MainActivity extends BaseActivity {
     private String holeDistance;
     private String holeKey;
     private int holeDetailsComplete;
+    private int currentShot;
+    private int fir =0;
+
+    private int numPar3s =0;
 
     private float desired_distance;
 
@@ -165,4 +169,35 @@ public class MainActivity extends BaseActivity {
     public void setDesired_distance(float desired_distance) {
         this.desired_distance = desired_distance;
     }
+
+
+
+    public int getCurrentShot() {
+        return currentShot;
+    }
+
+    public void setCurrentShot(int currentShot) {
+        this.currentShot = currentShot;
+    }
+
+
+
+    public int getFIR() {
+        return fir;
+    }
+
+    public void setFIR(int fir) {
+        this.fir = fir;
+    }
+
+
+
+    public int getNumPar3s() {
+        return numPar3s;
+    }
+
+    public void setNumPar3s(int numPar3s) {
+        this.numPar3s = numPar3s;
+    }
+
 }

@@ -62,12 +62,20 @@ public class ShotDetailsFragment extends Fragment {
         radioGroup=(RadioGroup)getView().findViewById(R.id.radioGroup);
 
 
+        int currentShot = ((MainActivity)getActivity()).getCurrentShot();
+
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.radio_fairway){
                    currentLieBall = getResources().getString(R.string.fairway);
+                   //incrementing the FIR variable if the second shot is on the fairway
+                   int fir = ((MainActivity)getActivity()).getFIR();
+                   fir++;
+                   if(currentShot == 1){
+                       ((MainActivity)getActivity()).setFIR(fir);
+                   }
                 }
                 if(checkedId == R.id.radio_green){
                     currentLieBall = getResources().getString(R.string.green);

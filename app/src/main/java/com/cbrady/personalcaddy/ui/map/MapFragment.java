@@ -151,6 +151,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     int totalPutts = 0;
     int totalScore = 0;
 
+    //variables to get the Greens in Regulation
+    int totalGIR=0;
+    int maxShotsGIR =0;
+
 
     @Override
     public void onAttach(Context context) {
@@ -408,12 +412,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
 
 
-
-
-
-
                 confirmShot.setVisibility(View.INVISIBLE);
-
+                ((MainActivity)getActivity()).setCurrentShot(shotNum);
 
                 //calling club choice
                 Fragment clubChoice = new clubChoice();
@@ -555,6 +555,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
 
                         current_shot = 1;
+                        shotNum=1;
                         numPutts=0;
                         shotNumText.setText(String.valueOf(current_shot));
                         current_hole++;
@@ -625,6 +626,30 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 addShotPutter.setVisibility(View.VISIBLE);
                 shotMode.setVisibility(View.VISIBLE);
 
+                //set the green in regulation
+
+                //get the par of the current hole and work out the max number of shots to get a green in reg
+                String parHole = ((MainActivity)getActivity()).getHolePar();
+                //compare maxShotsGIR to shotNum and increment totalGIR if suited
+                switch(parHole){
+                    case "3":
+                        if(shotNum <= 2){
+                            totalGIR++;
+                        }
+                        break;
+                    case "4":
+                        if(shotNum <= 3){
+                            totalGIR++;
+                        }
+                        break;
+                    case "5":
+                        if(shotNum <= 4){
+                            totalGIR++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
             }
         });
@@ -927,12 +952,21 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     public void endRound(){
         //updating score and total putts values
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
+        int fir = ((MainActivity)getActivity()).getFIR();
+        int numPar3s = ((MainActivity)getActivity()).getNumPar3s();
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference roundRef = database.getReference("rounds/" + currentRoundID);
         final DatabaseReference scoreRef = roundRef.child("score");
-        final DatabaseReference totalPuttsRef = roundRef.child("Total Putts");
+        final DatabaseReference totalPuttsRef = roundRef.child("totalPutts");
+        final DatabaseReference totalGIRRef = roundRef.child("totalGIR");
+        final DatabaseReference totalFIRRef = roundRef.child("totalFIR");
+        final DatabaseReference numPar3Ref = roundRef.child("numPar3s");
         scoreRef.setValue(totalScore);
         totalPuttsRef.setValue(totalPutts);
+        totalGIRRef.setValue(totalGIR);
+        totalFIRRef.setValue(fir);
+        numPar3Ref.setValue(numPar3s);
 
         //TODO closing the fragment
 

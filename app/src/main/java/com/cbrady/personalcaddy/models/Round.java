@@ -20,13 +20,16 @@ public class Round {
     public String currentDate;
     public int score;
     public int totalPutts;
+    public int totalGIR;
+    public int totalFIR;
+    public int numPar3s;
     public Map<String, Boolean> holes = new HashMap<>();
 
     public Round() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Round(String uid, String user, String golfCourseName, String parCourse, String currentDate, int score, int totalPutts) {
+    public Round(String uid, String user, String golfCourseName, String parCourse, String currentDate, int score, int totalPutts, int totalGIR, int totalFIR, int numPar3s) {
         this.uid = uid;
         this.user = user;
         this.golfCourseName = golfCourseName;
@@ -34,6 +37,10 @@ public class Round {
         this.currentDate = currentDate;
         this.score = score;
         this.totalPutts = totalPutts;
+        this.totalGIR =totalGIR;
+        this.totalFIR = totalFIR;
+        this.numPar3s = numPar3s;
+
     }
 
     // [START post_to_map]
@@ -48,6 +55,9 @@ public class Round {
         result.put("holes", holes);
         result.put("score",score);
         result.put("totalPutts", totalPutts);
+        result.put("totalGIR",totalGIR);
+        result.put("totalFIR",totalFIR);
+        result.put("numPar3s", numPar3s);
 
         return result;
     }
@@ -115,6 +125,35 @@ public class Round {
 
     public void setTotalPutts(int totalPutts) {
         this.totalPutts = totalPutts;
+    }
+
+
+
+    public int getTotalGIR() {
+        return totalGIR;
+    }
+
+    public void setTotalGIR(int totalGIR) {
+        this.totalGIR = totalGIR;
+    }
+
+
+    public int getTotalFIR() {
+        return totalFIR;
+    }
+
+    public void setTotalFIR(int totalFIR) {
+        this.totalFIR = totalFIR;
+    }
+
+
+
+    public int getNumPar3s() {
+        return numPar3s;
+    }
+
+    public void setNumPar3s(int numPar3s) {
+        this.numPar3s = numPar3s;
     }
 }
 // [END post_class]

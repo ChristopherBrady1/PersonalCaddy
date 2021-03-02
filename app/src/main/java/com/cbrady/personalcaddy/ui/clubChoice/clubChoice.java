@@ -26,6 +26,8 @@ import com.cbrady.personalcaddy.models.Shots;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,7 +79,10 @@ public class clubChoice extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference("shots");
         // [END create_database_reference]
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo(uid);
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {

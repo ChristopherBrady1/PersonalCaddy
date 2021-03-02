@@ -1,5 +1,6 @@
 package com.cbrady.personalcaddy.ui.dashboard;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,16 +16,21 @@ import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.ShotTemp;
 import com.cbrady.personalcaddy.models.Shots;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,12 +56,10 @@ public class StatisticsFragment extends Fragment {
     float[] putts = new float[5];
     float[] avgPutts = new float[5];
     String[] dates = new String[5];
-    String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "Pitching Wedge", "Sand Wedge"};
-    float[] avgClub = new float[12];
-    //variables to store the average of each club
-    float avgDriver, avg3Wood, avg5Wood, avg3iron, avg4iron, avg5iron, avg6iron, avg7iron, avg8iron, avg9iron, avgPW, avgSW = 0;
-    float avgDriverTot, avg3WoodTot, avg5WoodTot, avg3ironTot, avg4ironTot, avg5ironTot, avg6ironTot, avg7ironTot, avg8ironTot, avg9ironTot, avgPWTot, avgSWTot = 0;
-    float avgDriverNum, avg3WoodNum, avg5WoodNum, avg3ironNum, avg4ironNum, avg5ironNum, avg6ironNum, avg7ironNum, avg8ironNum, avg9ironNum, avgPWNum, avgSWNum = 0;
+    String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "PW", "SW"};
+    int[] clubUsage = new int[12];
+    //variables to store the usage of each club
+    int DriverUsage, Wood3Usage, Wood5Usage, iron3Usage, iron4Usage, iron5Usage, iron6Usage, iron7Usage, iron8Usage, iron9Usage, PWUsage, SWUsage = 0;
     String actualDistance = "";
     int x = 0;
     private LineChart lineChartScores;
@@ -64,6 +68,7 @@ public class StatisticsFragment extends Fragment {
     ArrayList<String> xEntrys = new ArrayList<>();
     ArrayList<Entry> yEntrys2 = new ArrayList<>();
     ArrayList<String> xEntrys2 = new ArrayList<>();
+    BarChart clubUsageChart;
 
 
     public StatisticsFragment() {}
@@ -85,6 +90,7 @@ public class StatisticsFragment extends Fragment {
         lineChartPutts = root.findViewById(R.id.lineChartPutts);
         lineChartPutts.setTouchEnabled(true);
         lineChartPutts.setPinchZoom(true);
+        clubUsageChart = root.findViewById(R.id.barChartUsage);
 
         //final String userId = getUid();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -204,8 +210,130 @@ public class StatisticsFragment extends Fragment {
         lineChartPutts.invalidate();
 
         //calling the next query
-       //Query query2 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo(uid).limitToLast(5);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        Query query2 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot shots : dataSnapshot.getChildren()) {
+                        Shots shot = shots.getValue(Shots.class);
+                        shotTempList.add(shot);
 
+                        String club = shot.getClub();
+
+
+                        switch(club){
+                            case "Driver":
+                                DriverUsage++;
+                                break;
+                            case "3Wood":
+                                Wood3Usage++;
+                                break;
+                            case "5Wood":
+                                Wood5Usage++;
+                                break;
+                            case "3-iron":
+                                iron3Usage++;
+                                break;
+                            case "4-iron":
+                                iron4Usage++;
+                                break;
+                            case "5-iron":
+                                iron5Usage++;
+                                break;
+                            case "6-iron":
+                                iron6Usage++;
+                                break;
+                            case "7-iron":
+                                iron7Usage++;
+                                break;
+                            case "8-iron":
+                                iron8Usage++;
+                                break;
+                            case "9-iron":
+                                iron9Usage++;
+                                break;
+                            case "Pitching Wedge":
+                                PWUsage++;
+                                break;
+                            case "Sand Wedge":
+                                SWUsage++;
+                                break;
+                            default:
+                                break;
+                        }
+
+
+                    }
+                }
+                
+                clubUsage[0] = DriverUsage;
+                clubUsage[1] = Wood3Usage;
+                clubUsage[2] = Wood5Usage;
+                clubUsage[3] = iron3Usage;
+                clubUsage[4] = iron4Usage;
+                clubUsage[5] = iron5Usage;
+                clubUsage[6] = iron6Usage;
+                clubUsage[7] = iron7Usage;
+                clubUsage[8] = iron8Usage;
+                clubUsage[9] = iron9Usage;
+                clubUsage[10] = PWUsage;
+                clubUsage[11] = SWUsage;
+
+                for(int i=0; i<clubUsage.length; i++){
+                    Log.d("USAGE", String.valueOf(clubNames[i]) + " = " + String.valueOf(clubUsage[i]));
+                }
+
+                makeClubUsageChart(clubUsage);
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    public void makeClubUsageChart(int[] clubUsage){
+        ArrayList<BarEntry> usages = new ArrayList<>();
+        ArrayList<BarEntry> yEntrys3 = new ArrayList<>();
+        ArrayList<String> xEntrys3 = new ArrayList<>();
+
+        for(int i=0; i<clubUsage.length; i++){
+            yEntrys3.add(new BarEntry(i, clubUsage[i]));
+        }
+
+        for(int i=0; i<clubNames.length; i++){
+            xEntrys3.add(clubNames[i]);
+        }
+
+        BarDataSet barDataSet = new BarDataSet(yEntrys3, "Number of times each club was used");
+
+        XAxis xAxis = clubUsageChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(clubNames));
+        xAxis.setLabelRotationAngle(30);
+        xAxis.setLabelCount(11);
+        YAxis rightAxis = clubUsageChart.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(16f);
+
+        BarData barData = new BarData(barDataSet);
+
+        clubUsageChart.setFitBars(true);
+        clubUsageChart.setData(barData);
+        clubUsageChart.getDescription().setText("Bar Chart Example");
+        clubUsageChart.animateY(2000);
 
     }
 }

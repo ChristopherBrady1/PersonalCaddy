@@ -86,6 +86,13 @@ public class HoleDetailsFragment extends Fragment{
         final String distanceHole = txtdistanceHole.getText().toString();
         final String parHole = txtparHole.getText().toString();
 
+        //counting number of par3s to store this in DB
+        int numPar3s = ((MainActivity)getActivity()).getNumPar3s();
+        if(parHole == "3"){
+            numPar3s ++;
+        }
+        ((MainActivity)getActivity()).setNumPar3s(numPar3s);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
