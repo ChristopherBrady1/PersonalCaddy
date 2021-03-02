@@ -54,6 +54,8 @@ public class StatisticsFragment extends Fragment {
     private List<Round>  roundTempList1, roundTempList2;
     int[] scores = new int[5];
     float[] putts = new float[5];
+    float[] firPercentage = new float[5];
+    int[] girTotals = new int[5];
     float[] avgPutts = new float[5];
     String[] dates = new String[5];
     String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "PW", "SW"};
@@ -64,6 +66,8 @@ public class StatisticsFragment extends Fragment {
     int x = 0;
     private LineChart lineChartScores;
     private LineChart lineChartPutts;
+    private LineChart lineChartFir;
+    private LineChart lineChartGir;
     ArrayList<Entry> yEntrys = new ArrayList<>();
     ArrayList<String> xEntrys = new ArrayList<>();
     ArrayList<Entry> yEntrys2 = new ArrayList<>();
@@ -90,6 +94,12 @@ public class StatisticsFragment extends Fragment {
         lineChartPutts = root.findViewById(R.id.lineChartPutts);
         lineChartPutts.setTouchEnabled(true);
         lineChartPutts.setPinchZoom(true);
+        lineChartGir = root.findViewById(R.id.lineChartGir);
+        lineChartGir.setTouchEnabled(true);
+        lineChartGir.setPinchZoom(true);
+        lineChartFir = root.findViewById(R.id.lineChartFir);
+        lineChartFir.setTouchEnabled(true);
+        lineChartFir.setPinchZoom(true);
         clubUsageChart = root.findViewById(R.id.barChartUsage);
 
         //final String userId = getUid();
@@ -110,11 +120,17 @@ public class StatisticsFragment extends Fragment {
 
                         int score = round.getScore();
                         int total_putts = round.getTotalPutts();
+                        int totalFIR = round.getTotalFIR();
+                        int par3s = round.getNumPar3s();
+                        int totalGIR = round.getTotalGIR();
                         String date = round.getCurrentDate();
                         String delim = "[ ]+";
                         String[] dateOwn = date.split(delim);
 
                         scores[x] = score;
+                        girTotals[x] = totalGIR;
+                        int numHolesFir = 18-par3s;
+                        firPercentage[x] = (((float)totalFIR/(float)numHolesFir)*(float)100);
 
                         putts[x] = (float)total_putts/(float)18;
                         dates[x] = dateOwn[0];
@@ -127,11 +143,15 @@ public class StatisticsFragment extends Fragment {
                 for(int i=0; i<scores.length; i++){
                     Log.d("SCORES", "Score = " + String.valueOf(scores[i]) + " date =  " + String.valueOf(dates[i]));
                 }
+                for(int i=0; i<girTotals.length; i++){
+                    Log.d("FIR", "Fir = " + String.valueOf(firPercentage[i]) + " Gir =  " + String.valueOf(girTotals[i]));
+                }
 
-                //call graph
+                //call graphs
                 makeScoresGraph(scores,dates);
-                //call graph
                 makePuttsGraph(putts,dates);
+                makeGirGraph(girTotals,dates);
+                makeFirGraph(firPercentage,dates);
 
                 x=0;
 
@@ -157,14 +177,13 @@ public class StatisticsFragment extends Fragment {
             xEntrys.add(dates[i]);
         }
 
-        LineDataSet lineDataSet = new LineDataSet(yEntrys, "Data Set 1");
+        LineDataSet lineDataSet = new LineDataSet(yEntrys, "Last 5 Scores");
 
         XAxis xAxis = lineChartScores.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-        final String weekArr[]={"Week 1 ","Week 2","Week 3","Week 4"};
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         YAxis rightAxis = lineChartScores.getAxisRight();
         rightAxis.setEnabled(false);
@@ -180,6 +199,78 @@ public class StatisticsFragment extends Fragment {
 
     }
 
+    public void makeFirGraph(float[] firPercentages, String[] dates){
+        //calculating average club values and putting into an array
+
+        ArrayList<Entry> yEntrysFir = new ArrayList<>();
+        ArrayList<String> xEntrysFir = new ArrayList<>();
+
+        for(int i=0; i<firPercentages.length; i++){
+            yEntrysFir.add(new Entry(i, firPercentages[i]));
+        }
+
+        for(int i=0; i<dates.length; i++){
+            xEntrysFir.add(dates[i]);
+        }
+
+        LineDataSet lineDataSetFir = new LineDataSet(yEntrysFir, "Fairways in Regulation");
+
+        XAxis xAxis = lineChartFir.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        YAxis rightAxis = lineChartFir.getAxisRight();
+        rightAxis.setEnabled(false);
+
+
+        lineChartFir.getAxisLeft().setAxisMaxValue(100f);
+        lineChartFir.getAxisLeft().setAxisMinValue(0f);
+
+        LineData data = new LineData(lineDataSetFir);
+        lineChartFir.setData(data);
+        lineChartFir.invalidate();
+
+
+    }
+
+    public void makeGirGraph(int[] girTotals, String[] dates){
+        //calculating average club values and putting into an array
+
+        ArrayList<Entry> yEntrysGir = new ArrayList<>();
+        ArrayList<String> xEntrysGir = new ArrayList<>();
+
+        for(int i=0; i<girTotals.length; i++){
+            yEntrysGir.add(new Entry(i, girTotals[i]));
+        }
+
+        for(int i=0; i<dates.length; i++){
+            xEntrysGir.add(dates[i]);
+        }
+
+        LineDataSet lineDataSetGir = new LineDataSet(yEntrysGir, "Greens in Regulation");
+
+        XAxis xAxis = lineChartGir.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        YAxis rightAxis = lineChartGir.getAxisRight();
+        rightAxis.setEnabled(false);
+
+
+        lineChartGir.getAxisLeft().setAxisMaxValue(18f);
+        lineChartGir.getAxisLeft().setAxisMinValue(0f);
+
+        LineData data = new LineData(lineDataSetGir);
+        lineChartGir.setData(data);
+        lineChartGir.invalidate();
+
+
+    }
+
     public void makePuttsGraph(float[] avgPutts, String[] dates){
         //calculating average club values and putting into an array
         for(int i=0; i<avgPutts.length; i++){
@@ -190,7 +281,7 @@ public class StatisticsFragment extends Fragment {
             xEntrys2.add(dates[i]);
         }
 
-        LineDataSet lineDataSet2 = new LineDataSet(yEntrys2, "Data Set 1");
+        LineDataSet lineDataSet2 = new LineDataSet(yEntrys2, "Average Putts per Round");
 
         XAxis xAxis2 = lineChartPutts.getXAxis();
         xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
