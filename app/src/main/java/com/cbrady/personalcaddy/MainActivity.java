@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity {
     private int holeDetailsComplete;
     private int currentShot;
     private int fir =0;
+    private String hiddenKey;
 
     private int numPar3s =0;
 
@@ -199,5 +200,16 @@ public class MainActivity extends BaseActivity {
     public void setNumPar3s(int numPar3s) {
         this.numPar3s = numPar3s;
     }
+
+
+
+    public String getHiddenKey() {
+        return hiddenKey;
+    }
+
+    public void setHiddenKey(String hiddenKey) {
+        this.hiddenKey = hiddenKey;
+    }
+
 
 }

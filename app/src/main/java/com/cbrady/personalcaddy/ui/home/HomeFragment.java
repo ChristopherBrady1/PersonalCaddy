@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,12 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.homeRoundDetails;
 import com.cbrady.personalcaddy.homeRoundDetailsAdapter;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.ui.createround.CreateRoundFragment;
+import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
+import com.cbrady.personalcaddy.ui.roundListDetails.RoundListDetailsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -112,8 +116,9 @@ public class HomeFragment extends Fragment {
                         String date = round.getCurrentDate();
                         String delim = "[ ]+";
                         String[] dateOwn = date.split(delim);
+                        String roundID = rounds.getKey();
 
-                        homeRoundDetailsArrayList.add(new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0]));
+                        homeRoundDetailsArrayList.add(new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0], roundID));
                         //homeRoundDetails[x] = new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0]);
 
                         //x++;
@@ -131,6 +136,20 @@ public class HomeFragment extends Fragment {
                 ListView listView = (ListView) root.findViewById(R.id.homeList);
                 listView.setAdapter(homeRoundDetailsAdapter);
                 x=0;
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        TextView hiddenID = view.findViewById(R.id.hiddenID);
+                        ((MainActivity)getActivity()).setHiddenKey(hiddenID.getText().toString());
+
+                        Fragment roundListDetailsFragment = new RoundListDetailsFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, roundListDetailsFragment, "findThisFragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
 
 
 

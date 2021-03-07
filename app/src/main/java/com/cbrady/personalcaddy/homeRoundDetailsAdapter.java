@@ -37,6 +37,9 @@ public class homeRoundDetailsAdapter extends ArrayAdapter<homeRoundDetails> {
         TextView date_label = (TextView) convertView.findViewById(R.id.datePlayed);
         date_label.setText(homeRoundDetailsvar.date);
 
+        TextView hidden_label = (TextView) convertView.findViewById(R.id.hiddenID);
+        hidden_label.setText(homeRoundDetailsvar.hiddenID);
+
         return convertView;
     }
 }

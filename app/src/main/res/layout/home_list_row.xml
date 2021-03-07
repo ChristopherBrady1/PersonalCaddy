@@ -32,15 +32,32 @@
             android:textSize="20sp"
             />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/datePlayed"
-            android:text="Date"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePlayed"
+                android:text="Date"
+                android:layout_margin="5dp"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hiddenID"
+                android:textSize="1sp"
+                />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
+
 
 </LinearLayout>
