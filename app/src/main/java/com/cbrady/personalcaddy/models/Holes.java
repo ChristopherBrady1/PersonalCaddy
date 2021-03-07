@@ -17,14 +17,15 @@ public class Holes {
     public String distance;
     public String par;
     public String holeNum;
-
-
-
-
     public String score;
+    public int putts;
 
     public Holes() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+    }
+
+    public void setPutts(int putts) {
+        this.putts = putts;
     }
 
     public Holes(String roundid, String userID, String distance, String par, String holeNum, String score, int putts) {
@@ -105,7 +106,5 @@ public class Holes {
     public int getPutts() {
         return putts;
     }
-
-    public int putts;
 }
 // [END post_class]
