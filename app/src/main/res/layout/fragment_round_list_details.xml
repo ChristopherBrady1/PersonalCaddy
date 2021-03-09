@@ -33,7 +33,7 @@
                 android:text="Date: " />
 
             <TextView
-                android:id="@+id/parCourse"
+                android:id="@+id/parHoleLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

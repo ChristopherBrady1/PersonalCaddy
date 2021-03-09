@@ -2,7 +2,6 @@ package com.cbrady.personalcaddy.ui.roundListDetails;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,9 @@ import com.cbrady.personalcaddy.HoleDetails;
 import com.cbrady.personalcaddy.HoleDetailsAdapter;
 import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
-import com.cbrady.personalcaddy.homeRoundDetails;
-import com.cbrady.personalcaddy.homeRoundDetailsAdapter;
 import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.cbrady.personalcaddy.shotListFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +63,7 @@ public class RoundListDetailsFragment extends Fragment {
         TextView scoreShotLabel = (TextView)rootView.findViewById(R.id.scoreShot);
         TextView courseNameLabel = (TextView)rootView.findViewById(R.id.courseNameHeading);
         TextView dateCoursePlayedLabel = (TextView)rootView.findViewById(R.id.dateCoursePlayed);
-        TextView parCourseLabel = (TextView)rootView.findViewById(R.id.parCourse);
+        TextView parCourseLabel = (TextView)rootView.findViewById(R.id.parHoleLabel);
         TextView totalPuttsLabel = (TextView)rootView.findViewById(R.id.totalPutts);
         TextView girLabel = (TextView)rootView.findViewById(R.id.GIR);
         TextView firLabel = (TextView)rootView.findViewById(R.id.FIR);
@@ -126,9 +123,10 @@ public class RoundListDetailsFragment extends Fragment {
                                 String distHole = hole.getDistance();
                                 String parHole = hole.getPar();
                                 String scoreHole = hole.getScore();
+                                String holeID = holes.getKey();
 
                                 if(holeNum != null) {
-                                    holeDetailsArrayList.add(new HoleDetails(parHole, scoreHole, holeNum,  distHole));
+                                    holeDetailsArrayList.add(new HoleDetails(parHole, scoreHole, holeNum,  distHole, holeID));
                                 }
 
                             }
@@ -138,6 +136,21 @@ public class RoundListDetailsFragment extends Fragment {
 
                         ListView listView = (ListView) rootView.findViewById(R.id.holeList);
                         listView.setAdapter(holeDetailsAdapter);
+
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //TextView hiddenID = view.findViewById(R.id.hiddenID);
+                                View hiddenID = view.findViewById(R.id.layout_hole_row);
+                                ((MainActivity)getActivity()).setHiddenHoleKey(hiddenID.getContentDescription().toString());
+
+                                Fragment shotListFrag = new shotListFragment();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.nav_host_fragment, shotListFrag, "findThisFragment")
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        });
 
 
                     }

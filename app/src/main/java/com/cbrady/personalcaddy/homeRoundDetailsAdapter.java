@@ -2,6 +2,7 @@ package com.cbrady.personalcaddy;
 
 
 import android.app.Activity;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,11 @@ public class homeRoundDetailsAdapter extends ArrayAdapter<homeRoundDetails> {
         TextView date_label = (TextView) convertView.findViewById(R.id.datePlayed);
         date_label.setText(homeRoundDetailsvar.date);
 
-        TextView hidden_label = (TextView) convertView.findViewById(R.id.hiddenID);
-        hidden_label.setText(homeRoundDetailsvar.hiddenID);
+        View home_layout = (View) convertView.findViewById(R.id.layout_home_row);
+        home_layout.setContentDescription(homeRoundDetailsvar.hiddenID);
+
+        //TextView hidden_label = (TextView) convertView.findViewById(R.id.hiddenID);
+        //hidden_label.setText(homeRoundDetailsvar.hiddenID);
 
         return convertView;
     }

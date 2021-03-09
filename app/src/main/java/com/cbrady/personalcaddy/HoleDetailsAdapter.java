@@ -38,6 +38,9 @@ public class HoleDetailsAdapter extends ArrayAdapter<HoleDetails> {
         TextView scoreLabel = (TextView) convertView.findViewById(R.id.scoreActual);
         scoreLabel.setText(holeDetails.scoreHole);
 
+        View hole_layout = (View) convertView.findViewById(R.id.layout_hole_row);
+        hole_layout.setContentDescription(holeDetails.hiddenHoleID);
+
 
         return convertView;
     }

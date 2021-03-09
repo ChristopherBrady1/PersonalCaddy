@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:id="@+id/layout_hole_row">
+    android:id="@+id/layout_shot_row">
 
     <TextView
-        android:id="@+id/holeNumLabel"
-        android:layout_width="75dp"
+        android:id="@+id/shotNumLabel"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text="100"
         android:textAlignment="center"
         android:textColor="@color/main_text"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        tools:text="100" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,31 +26,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/desired_distLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/parLabel"
-                android:text="Par: "
-                android:textColor="@color/main_text"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
-                />
+                android:layout_weight="1"
+                android:text="Desired Distance: "
+                android:textColor="@color/main_text"
+                android:textSize="18sp" />
+
             <TextView
+                android:id="@+id/desired_dist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/parActual"
-                android:text="actPar"
-                android:textColor="@color/main_text"
-                android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
-                android:layout_marginLeft="40dp"
-                />
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="des Dist" />
 
         </LinearLayout>
 
@@ -59,25 +60,57 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/distLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/actual_distLabel"
+                android:text="Actual Distance: "
+                android:textColor="@color/main_text"
+                android:layout_margin="5dp"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:id="@+id/actual_dist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="act Dist" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/clubUsedLabel"
                 android:layout_width="46dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Distance: "
+                android:text="Club Used: "
                 android:textColor="@color/main_text"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
+
             <TextView
+                android:id="@+id/clubUsed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/distActual"
-                android:text="actDist"
-                android:textColor="@color/main_text"
-                android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
                 android:layout_weight="1"
-                />
+                android:textAlignment="viewEnd"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="clubUsed" />
 
         </LinearLayout>
 
@@ -89,24 +122,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/scoreLabel"
-                android:text="Score: "
+                android:id="@+id/lieBallLabel"
+                android:text="Lie of the Ball:"
                 android:textColor="@color/main_text"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_weight="1"
                 />
+
             <TextView
+                android:id="@+id/lieBall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/scoreActual"
-                android:text="actScore"
-                android:textColor="@color/main_text"
-                android:textStyle="bold"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
                 android:layout_weight="1"
-                />
+                android:textAlignment="viewEnd"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="lieBall" />
 
         </LinearLayout>
 

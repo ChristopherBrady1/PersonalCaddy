@@ -140,8 +140,9 @@ public class HomeFragment extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        TextView hiddenID = view.findViewById(R.id.hiddenID);
-                        ((MainActivity)getActivity()).setHiddenKey(hiddenID.getText().toString());
+                        //TextView hiddenID = view.findViewById(R.id.hiddenID);
+                        View hiddenID = view.findViewById(R.id.layout_home_row);
+                        ((MainActivity)getActivity()).setHiddenKey(hiddenID.getContentDescription().toString());
 
                         Fragment roundListDetailsFragment = new RoundListDetailsFragment();
                         getActivity().getSupportFragmentManager().beginTransaction()

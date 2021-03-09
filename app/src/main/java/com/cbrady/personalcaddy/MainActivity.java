@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
-
-
     private String currentRoundKey;
     private String currentHoleNum;
     private int holeNum = 1;
@@ -32,6 +30,16 @@ public class MainActivity extends BaseActivity {
     private int currentShot;
     private int fir =0;
     private String hiddenKey;
+
+    public String getHiddenHoleKey() {
+        return hiddenHoleKey;
+    }
+
+    public void setHiddenHoleKey(String hiddenHoleKey) {
+        this.hiddenHoleKey = hiddenHoleKey;
+    }
+
+    private String hiddenHoleKey;
 
     private int numPar3s =0;
 
