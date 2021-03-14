@@ -5,11 +5,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.preference.PreferenceManager;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -356,7 +359,20 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             Location.distanceBetween(destPos.latitude, destPos.longitude,
                                     myPos.latitude, myPos.longitude,
                                     results);
-                            distance.setText("Distance = " + String.format("%.2f", results[0]) + "m");
+                            //get whether it should be calculated for meters or yards:
+                            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+                            String mes_unit_adj = sharedPrefs.getString("dist_Measure", "1");
+                            String mes_unit;
+                            if(mes_unit_adj.equals("1")){
+                                mes_unit = "meters";
+                            }
+                            else{
+                                mes_unit = "yards";
+                            }
+
+                            float adjustment = Float.valueOf(mes_unit_adj);
+
+                            distance.setText( String.format("%.1f", results[0] * adjustment) + mes_unit);
                             distance.setVisibility(View.VISIBLE);
 
 
@@ -387,7 +403,21 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                                             myPos1.latitude, myPos1.longitude,
                                             results);
 
-                                    distance.setText("Distance = " + String.format("%.2f", results[0]) + "m");
+                                    //get whether it should be calculated for meters or yards:
+                                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+                                    String mes_unit_adj = sharedPrefs.getString("dist_Measure", "1");
+                                    String mes_unit;
+                                    if(mes_unit_adj.equals("1")){
+                                        mes_unit = "meters";
+                                    }
+                                    else{
+                                        mes_unit = "yards";
+                                    }
+
+                                    float adjustment = Float.valueOf(mes_unit_adj);
+
+
+                                    distance.setText(String.format("%.1f", results[0] * adjustment ) + " " + mes_unit);
                                     polyline1 = map.addPolyline(new PolylineOptions().add(new LatLng(destPos1.latitude, destPos1.longitude), new LatLng(myPos1.latitude, myPos1.longitude)).color(Color.RED));
                                     polyline1.setPattern(pattern);
 
@@ -853,7 +883,21 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             Location.distanceBetween(destPos.latitude, destPos.longitude,
                     myPos.latitude, myPos.longitude,
                     results);
-            distance.setText("Distance = " + String.format("%.2f", results[0]) + "m");
+
+            //get whether it should be calculated for meters or yards:
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String mes_unit_adj = sharedPrefs.getString("dist_Measure", "1");
+            String mes_unit;
+            if(mes_unit_adj.equals("1")){
+                mes_unit = "meters";
+            }
+            else{
+                mes_unit = "yards";
+            }
+
+            float adjustment = Float.valueOf(mes_unit_adj);
+
+            distance.setText(String.format("%.1f", results[0] * adjustment) + mes_unit);
             distance.setVisibility(View.VISIBLE);
 
 

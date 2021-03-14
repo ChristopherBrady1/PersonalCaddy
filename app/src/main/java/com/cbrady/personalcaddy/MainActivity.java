@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
         sets.add("def Value");
 
         builder.append("\n" + "Perform Sync:\t" + sharedPrefs.getBoolean("perform_sync", false));
-        builder.append("\n" + "Measurement Unit:\t" + sharedPrefs.getString("dist_Measure", "-1"));
+        builder.append("\n" + "Measurement Unit:\t" + sharedPrefs.getString("dist_Measure", "1"));
         builder.append("\n" + "Clubs:\t" + sharedPrefs.getStringSet("club_List",sets ));
         builder.append("\n" + "Name:\t" + sharedPrefs.getString("full_name", "Not known to us"));
         builder.append("\n" + "Email Address:\t" + sharedPrefs.getString("email_address", "No EMail Address Provided"));
