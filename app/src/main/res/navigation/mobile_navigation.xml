@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.cbrady.personalcaddy.ui.dashboard.StatisticsFragment"
+        android:name="com.cbrady.personalcaddy.ui.stats.StatisticsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.cbrady.personalcaddy.ui.notifications.SettingsFragment"
+        android:name="com.cbrady.personalcaddy.ui.settings.SettingsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_settings" />
 </navigation>

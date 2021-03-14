@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Sync Information"
+        android:key="sync_category">
+
+        <CheckBoxPreference
+            android:key="perform_sync"
+            android:summary="Enable or disable data sync"
+            android:title="Enable Auto Sync"
+            android:defaultValue="true"/>
+
+        <ListPreference
+            android:key="dist_Measure"
+            android:title="Measurement Unit"
+            android:summary="Define measurement unit  used"
+            android:defaultValue="1"
+            android:entries="@array/distMeasure"
+            android:entryValues="@array/distMeasureValues"
+            android:dependency="perform_sync"/>
+
+        <MultiSelectListPreference
+            android:key="club_List"
+            android:defaultValue="@array/clubs"
+            android:entries="@array/clubs"
+            android:entryValues="@array/clubs"
+            android:title="Choose your clubs" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Personal Informations"
+        android:key="personal_category">
+
+
+        <EditTextPreference
+            android:key="full_name"
+            android:title="Name"
+            android:summary="Enter Your Complete Name"
+            android:dialogTitle="Your Name"
+            android:dialogMessage="Enter Your Complete Name"
+            android:defaultValue=""
+            android:inputType="textCapWords"/>
+
+        <EditTextPreference
+            android:key="email_address"
+            android:title="Email Address"
+            android:summary="Enter Your Email Address"
+            android:dialogTitle="Enter Your Email Address"
+            android:dialogMessage="Enter Your Email Address"
+            android:defaultValue=""
+            android:inputType="textEmailAddress"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

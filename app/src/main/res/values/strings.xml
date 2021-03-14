@@ -23,16 +23,16 @@
     <string name="tee_box">Tee Box</string>
     <string-array name="clubs">
         <item>Driver</item>
-        <item>3-Wood</item>
-        <item>5-Wood</item>
-        <item>7-Wood</item>
-        <item>3-Iron</item>
-        <item>4-Iron</item>
-        <item>5-Iron</item>
-        <item>6-Iron</item>
-        <item>7-Iron</item>
-        <item>8-Iron</item>
-        <item>9-Iron</item>
+        <item>3Wood</item>
+        <item>5Wood</item>
+        <item>7Wood</item>
+        <item>3-iron</item>
+        <item>4-iron</item>
+        <item>5-iron</item>
+        <item>6-iron</item>
+        <item>7-iron</item>
+        <item>8-iron</item>
+        <item>9-iron</item>
         <item>Pitching Wedge</item>
         <item>Sand Wedge</item>
         <item>Gap Wedge</item>

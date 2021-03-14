@@ -1,24 +1,24 @@
-package com.cbrady.personalcaddy.ui.dashboard;
+package com.cbrady.personalcaddy.ui.stats;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Round;
-import com.cbrady.personalcaddy.models.ShotTemp;
 import com.cbrady.personalcaddy.models.Shots;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -27,9 +27,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +39,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class StatisticsFragment extends Fragment {
 
@@ -58,10 +58,15 @@ public class StatisticsFragment extends Fragment {
     int[] girTotals = new int[5];
     float[] avgPutts = new float[5];
     String[] dates = new String[5];
-    String[] clubNames = {"Driver", "3Wood", "5Wood", "3-iron", "4-iron", "5-iron", "6-iron", "7-iron", "8-iron", "9-iron", "PW", "SW"};
-    int[] clubUsage = new int[12];
-    //variables to store the usage of each club
-    int DriverUsage, Wood3Usage, Wood5Usage, iron3Usage, iron4Usage, iron5Usage, iron6Usage, iron7Usage, iron8Usage, iron9Usage, PWUsage, SWUsage = 0;
+    Context mContext;
+
+
+    //club names Array list
+    ArrayList<String> club_namesAL = new ArrayList<>();
+    //usage arrayList
+    ArrayList<Integer> club_usageAL = new ArrayList<>();
+
+
     String actualDistance = "";
     int x = 0;
     private LineChart lineChartScores;
@@ -77,6 +82,12 @@ public class StatisticsFragment extends Fragment {
 
     public StatisticsFragment() {}
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
         //final TextView textView = root.findViewById(R.id.text_dashboard);
@@ -87,6 +98,22 @@ public class StatisticsFragment extends Fragment {
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference("shots");
         // [END create_database_reference]
+
+
+
+        //setting club names arrayList
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        Set<String> sets = new HashSet<>();
+        sets.add("def Value");
+        Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
+        for (String str : setNew)
+            club_namesAL.add(str);
+
+        //setting club usage Array List
+        for(int i=0; i< setNew.size(); i++){
+            club_usageAL.add(0);
+        }
+
 
         lineChartScores = root.findViewById(R.id.lineChartScore);
         lineChartScores.setTouchEnabled(true);
@@ -312,71 +339,27 @@ public class StatisticsFragment extends Fragment {
                         shotTempList.add(shot);
 
                         String club = shot.getClub();
+                        int x =0;
 
-
-                        switch(club){
-                            case "Driver":
-                                DriverUsage++;
-                                break;
-                            case "3Wood":
-                                Wood3Usage++;
-                                break;
-                            case "5Wood":
-                                Wood5Usage++;
-                                break;
-                            case "3-iron":
-                                iron3Usage++;
-                                break;
-                            case "4-iron":
-                                iron4Usage++;
-                                break;
-                            case "5-iron":
-                                iron5Usage++;
-                                break;
-                            case "6-iron":
-                                iron6Usage++;
-                                break;
-                            case "7-iron":
-                                iron7Usage++;
-                                break;
-                            case "8-iron":
-                                iron8Usage++;
-                                break;
-                            case "9-iron":
-                                iron9Usage++;
-                                break;
-                            case "Pitching Wedge":
-                                PWUsage++;
-                                break;
-                            case "Sand Wedge":
-                                SWUsage++;
-                                break;
-                            default:
-                                break;
+                        //incrementing the amount of times each club is used
+                        for(String str: club_namesAL){
+                            if(club.equals(str)){
+                                club_usageAL.set(x,club_usageAL.get(x) + 1);
+                            }
+                            x++;
                         }
-
 
                     }
                 }
-                
-                clubUsage[0] = DriverUsage;
-                clubUsage[1] = Wood3Usage;
-                clubUsage[2] = Wood5Usage;
-                clubUsage[3] = iron3Usage;
-                clubUsage[4] = iron4Usage;
-                clubUsage[5] = iron5Usage;
-                clubUsage[6] = iron6Usage;
-                clubUsage[7] = iron7Usage;
-                clubUsage[8] = iron8Usage;
-                clubUsage[9] = iron9Usage;
-                clubUsage[10] = PWUsage;
-                clubUsage[11] = SWUsage;
 
-                for(int i=0; i<clubUsage.length; i++){
-                    Log.d("USAGE", String.valueOf(clubNames[i]) + " = " + String.valueOf(clubUsage[i]));
+
+                int y=0;
+                for(String str: club_namesAL){
+                    Log.d("USAGE", str + ": " + club_usageAL.get(y));
+                    y++;
                 }
 
-                makeClubUsageChart(clubUsage);
+                makeClubUsageChart();
             }
 
 
@@ -389,18 +372,19 @@ public class StatisticsFragment extends Fragment {
 
     }
 
-    public void makeClubUsageChart(int[] clubUsage){
+    public void makeClubUsageChart(){
         ArrayList<BarEntry> usages = new ArrayList<>();
         ArrayList<BarEntry> yEntrys3 = new ArrayList<>();
         ArrayList<String> xEntrys3 = new ArrayList<>();
 
-        for(int i=0; i<clubUsage.length; i++){
-            yEntrys3.add(new BarEntry(i, clubUsage[i]));
+        for(int i=0; i<club_usageAL.size(); i++){
+            yEntrys3.add(new BarEntry(i, club_usageAL.get(i)));
         }
 
-        for(int i=0; i<clubNames.length; i++){
-            xEntrys3.add(clubNames[i]);
+        for(String str: club_namesAL){
+            xEntrys3.add(str);
         }
+
 
         BarDataSet barDataSet = new BarDataSet(yEntrys3, "Number of times each club was used");
 
@@ -409,15 +393,16 @@ public class StatisticsFragment extends Fragment {
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(clubNames));
-        xAxis.setLabelRotationAngle(30);
-        xAxis.setLabelCount(11);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(club_namesAL));
+        xAxis.setLabelRotationAngle(90);
+        xAxis.setLabelCount(club_namesAL.size());
         YAxis rightAxis = clubUsageChart.getAxisRight();
         rightAxis.setEnabled(false);
 
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(16f);
+        barDataSet.setDrawValues(false);
 
         BarData barData = new BarData(barDataSet);
 

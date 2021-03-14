@@ -1,7 +1,9 @@
 package com.cbrady.personalcaddy;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -11,8 +13,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainActivity extends BaseActivity {
 
@@ -72,6 +77,33 @@ public class MainActivity extends BaseActivity {
 
         Log.d("ARRAYLIST", String.valueOf(scorecard.size()) );
 
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        StringBuilder builder = new StringBuilder();
+        Set<String> sets = new HashSet<>();
+        sets.add("def Value");
+
+        builder.append("\n" + "Perform Sync:\t" + sharedPrefs.getBoolean("perform_sync", false));
+        builder.append("\n" + "Measurement Unit:\t" + sharedPrefs.getString("dist_Measure", "-1"));
+        builder.append("\n" + "Clubs:\t" + sharedPrefs.getStringSet("club_List",sets ));
+        builder.append("\n" + "Name:\t" + sharedPrefs.getString("full_name", "Not known to us"));
+        builder.append("\n" + "Email Address:\t" + sharedPrefs.getString("email_address", "No EMail Address Provided"));
+        builder.append("\n" + "Customized Notification Ringtone:\t" + sharedPrefs.getString("notification_ringtone", ""));
+        builder.append("\n\nClick on Settings Button at bottom right corner to Modify Your Prefrences");
+
+        Log.d("pref", builder.toString());
+
+        ArrayList<String> arrayListClubs = new ArrayList<String>();
+        Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
+        for (String str : setNew)
+            arrayListClubs.add(str);
+
+        int x=0;
+        for(String str : arrayListClubs) {
+            Log.d("ClubsArrayList", "club" + String.valueOf(x) + ": " + str);
+            x++;
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
