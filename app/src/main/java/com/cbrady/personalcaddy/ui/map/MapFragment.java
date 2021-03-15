@@ -556,9 +556,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         String currentShotNum = shotNumText.getText().toString();
 
 
-                        if(present_hole == "18"){
-                            endRound();
-                        }
 
                         //pushing current hole to the database
                         //TODO FIX

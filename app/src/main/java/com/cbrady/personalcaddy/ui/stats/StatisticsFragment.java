@@ -39,6 +39,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -103,8 +104,8 @@ public class StatisticsFragment extends Fragment {
 
         //setting club names arrayList
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        Set<String> sets = new HashSet<>();
-        sets.add("def Value");
+        String[] arrayString = getResources().getStringArray(R.array.clubs);
+        Set<String> sets = new HashSet<>(Arrays.asList(arrayString));
         Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
         for (String str : setNew)
             club_namesAL.add(str);
@@ -161,7 +162,7 @@ public class StatisticsFragment extends Fragment {
 
                         putts[x] = (float)total_putts/(float)18;
                         dates[x] = dateOwn[0];
-                        //Log.d("SCORES", String.valueOf(score) + " date: " + dateOwn[0] + " x = " + String.valueOf(scores[x]));
+                        Log.d("SCORES", String.valueOf(score) + " date: " + dateOwn[0] + " x = " + String.valueOf(scores[x]));
                         x++;
 
                     }
@@ -330,7 +331,7 @@ public class StatisticsFragment extends Fragment {
         //calling the next query
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
-        Query query2 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo("okwgaFDy6ffFWRh0JBpCO1T2ODJ3");
+        Query query2 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("userId").equalTo(uid);
         query2.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -340,6 +341,8 @@ public class StatisticsFragment extends Fragment {
 
                         String club = shot.getClub();
                         int x =0;
+
+
 
                         //incrementing the amount of times each club is used
                         for(String str: club_namesAL){

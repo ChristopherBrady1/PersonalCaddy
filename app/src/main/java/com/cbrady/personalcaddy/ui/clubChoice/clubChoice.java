@@ -38,6 +38,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,8 +87,8 @@ public class clubChoice extends Fragment {
 
         //setting club names arrayList
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        Set<String> sets = new HashSet<>();
-        sets.add("def Value");
+        String[] arrayString = getResources().getStringArray(R.array.clubs);
+        Set<String> sets = new HashSet<>(Arrays.asList(arrayString));
         Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
         for (String str : setNew)
             club_namesAL.add(str);
