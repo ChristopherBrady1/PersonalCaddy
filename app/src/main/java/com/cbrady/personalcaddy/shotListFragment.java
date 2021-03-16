@@ -108,6 +108,7 @@ public class shotListFragment extends Fragment {
 
 
                         ListView listView = (ListView) rootView.findViewById(R.id.shotList);
+                        listView.setEmptyView(listView);
                         listView.setAdapter(shotDetailsDisplayAdapter);
 
 

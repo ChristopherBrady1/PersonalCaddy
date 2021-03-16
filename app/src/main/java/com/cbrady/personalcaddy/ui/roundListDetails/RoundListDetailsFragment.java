@@ -38,9 +38,10 @@ public class RoundListDetailsFragment extends Fragment {
     private DatabaseReference mDatabase;
 
     private com.cbrady.personalcaddy.HoleDetailsAdapter holeDetailsAdapter;
-    ArrayList<HoleDetails> holeDetailsArrayList = new ArrayList<>();
+    ArrayList<HoleDetails> holeDetailsArrayList;
     private List<Holes> holeTempList;
     private List<Round> roundTempList1;
+    ListView listView;
 
     @Override
     public void onAttach(Context context) {
@@ -114,7 +115,7 @@ public class RoundListDetailsFragment extends Fragment {
                 query2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                        holeDetailsArrayList = new ArrayList<HoleDetails>();
                         if (snapshot.exists()) {
                             for (DataSnapshot holes : snapshot.getChildren()) {
                                 Holes hole = holes.getValue(Holes.class);
@@ -134,8 +135,9 @@ public class RoundListDetailsFragment extends Fragment {
 
                         holeDetailsAdapter = new HoleDetailsAdapter(getActivity(),holeDetailsArrayList);
 
-                        ListView listView = (ListView) rootView.findViewById(R.id.holeList);
+                        listView = (ListView) rootView.findViewById(R.id.holeList);
                         listView.setAdapter(holeDetailsAdapter);
+
 
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -149,6 +151,9 @@ public class RoundListDetailsFragment extends Fragment {
                                         .replace(R.id.nav_host_fragment, shotListFrag, "findThisFragment")
                                         .addToBackStack(null)
                                         .commit();
+
+
+
                             }
                         });
 
@@ -179,9 +184,10 @@ public class RoundListDetailsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        if(mDatabase == null){
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+        }
         // [END initialize_database_ref]
-
 
     }
 }

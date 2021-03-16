@@ -148,6 +148,8 @@ public class HomeFragment extends Fragment {
                 homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(),homeRoundDetailsArrayList);
 
                 ListView listView = (ListView) root.findViewById(R.id.homeList);
+                listView.setEmptyView(listView);
+
                 listView.setAdapter(homeRoundDetailsAdapter);
                 x=0;
 
