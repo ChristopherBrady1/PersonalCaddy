@@ -192,6 +192,16 @@
         android:layout_marginBottom="193dp"
         android:text="finish" />
 
+    <Button
+        android:id="@+id/ArButton"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="117dp"
+        android:text="AR" />
+
 
     <!-- target="_blank" href="https://icons8.com/icons/set/golf-club">Golf Club icon by target="_blank" href="https://icons8.com">Icons8-->
 

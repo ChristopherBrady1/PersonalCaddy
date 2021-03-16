@@ -25,6 +25,7 @@ import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.homeRoundDetails;
 import com.cbrady.personalcaddy.homeRoundDetailsAdapter;
 import com.cbrady.personalcaddy.models.Round;
+import com.cbrady.personalcaddy.ui.AR.ArFragment;
 import com.cbrady.personalcaddy.ui.createround.CreateRoundFragment;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
@@ -83,6 +84,19 @@ public class HomeFragment extends Fragment {
 
         createRound = root.findViewById(R.id.createRound);
         roundTempList1 = new ArrayList<>();
+
+        Button buttonARNOW = root.findViewById(R.id.buttonARNOW);
+
+        buttonARNOW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment arFragment = new ArFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, arFragment, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         createRound.setOnClickListener(new View.OnClickListener() {
             @Override

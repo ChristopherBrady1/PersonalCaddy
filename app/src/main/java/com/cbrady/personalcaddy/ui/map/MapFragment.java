@@ -45,6 +45,7 @@ import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
+import com.cbrady.personalcaddy.ui.AR.ArFragment;
 import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
 import com.cbrady.personalcaddy.ui.clubChoice.clubChoice;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
@@ -289,6 +290,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
         Button shotMode = getView().findViewById(R.id.shotMode);
         Button puttMode = getView().findViewById(R.id.puttMode);
+        Button arMode = getView().findViewById(R.id.ArButton);
         Button addShotPutter = getView().findViewById(R.id.addShotPutter);
         ImageButton scorecardButton = getView().findViewById(R.id.scorecardButton);
         Button finishRoundButton = getView().findViewById(R.id.finishRoundButton);
@@ -749,6 +751,17 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 //hide shot button
                 addShotPutter.setVisibility(View.INVISIBLE);
 
+            }
+        });
+
+        arMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment arFragment = new ArFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, arFragment, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
