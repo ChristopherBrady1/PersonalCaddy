@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:id="@+id/layout_home_row"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/score"

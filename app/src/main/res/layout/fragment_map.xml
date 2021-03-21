@@ -3,16 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:foregroundTint="#FFFFFF"
     android:textAlignment="center"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/background">
 
     <fragment
         android:id="@+id/google_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:layout_width="43dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="195dp"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Shot"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceButton"
+            android:textSize="22dp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="43dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="351dp"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Hole"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceButton"
+            android:textSize="22dp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/removeMarker"
@@ -174,13 +236,40 @@
 
     <ImageButton
         android:id="@+id/scorecardButton"
-        android:layout_width="59dp"
-        android:layout_height="54dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="19dp"
+        android:layout_toStartOf="@+id/imageButton2"
+        android:backgroundTint="@color/teal_200"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/scorecard" />
+
+
+    <ImageButton
+        android:id="@+id/addMarkerPin"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/addMarkerPin3"
+        android:backgroundTint="@color/teal_200"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/pin" />
+
+    <ImageButton
+        android:id="@+id/addMarkerPin3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="19dp"
+        android:layout_toStartOf="@+id/scorecardButton"
+        android:backgroundTint="@color/teal_200"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/putter" />
 
     <Button
         android:id="@+id/finishRoundButton"
@@ -201,6 +290,18 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="117dp"
         android:text="AR" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="19dp"
+        android:backgroundTint="@color/teal_200"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/finish_flag" />
 
 
     <!-- target="_blank" href="https://icons8.com/icons/set/golf-club">Golf Club icon by target="_blank" href="https://icons8.com">Icons8-->

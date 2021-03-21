@@ -86,6 +86,18 @@ public class HomeFragment extends Fragment {
         roundTempList1 = new ArrayList<>();
 
         Button buttonARNOW = root.findViewById(R.id.buttonARNOW);
+        Button testMap = root.findViewById(R.id.testMap);
+
+        testMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment map = new MapFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, map, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         buttonARNOW.setOnClickListener(new View.OnClickListener() {
             @Override

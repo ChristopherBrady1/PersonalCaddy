@@ -1,6 +1,5 @@
 package com.cbrady.personalcaddy;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cbrady.personalcaddy.databinding.ActivitySignInBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -20,22 +20,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.cbrady.personalcaddy.R;
-import com.cbrady.personalcaddy.databinding.ActivitySignInBinding;
+import com.cbrady.personalcaddy.databinding.ActivitySignUpBinding;
 import com.cbrady.personalcaddy.models.User;
 
-public class SignInActivity extends BaseActivity implements View.OnClickListener {
-
-    private static final String TAG = "SignInActivity";
+public class SignUpActivity extends BaseActivity implements View.OnClickListener {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private ActivitySignInBinding binding;
+    private ActivitySignUpBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySignInBinding.inflate(getLayoutInflater());
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
         FirebaseApp.initializeApp(this);
 
@@ -45,8 +44,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Views
 
         // Click listeners
-        binding.buttonLogin.setOnClickListener(this);
-        binding.signUpHere.setOnClickListener(this);
+        binding.buttonRegister.setOnClickListener(this);
+        binding.signInHere.setOnClickListener(this);
     }
 
     @Override
@@ -60,35 +59,33 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void signIn() {
-        Log.d(TAG, "signIn");
+        startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+        finish();
+    }
+
+    private void signUp() {
         if (!validateForm()) {
             return;
         }
 
         showProgressBar();
-        String email = binding.editTextEmailAddressSignIn.getText().toString();
-        String password = binding.editTextPasswordSignIn.getText().toString();
+        String email = binding.editTextEmailAddressSignUp.getText().toString();
+        String password = binding.editTextPasswordSignUp.getText().toString();
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
                         hideProgressBar();
 
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(SignInActivity.this, "Sign In Failed",
+                            Toast.makeText(SignUpActivity.this, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    private void signUp() {
-        startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
-        finish();
     }
 
     private void onAuthSuccess(FirebaseUser user) {
@@ -98,7 +95,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         writeNewUser(user.getUid(), username, user.getEmail());
 
         // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
         finish();
     }
 
@@ -112,18 +109,18 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private boolean validateForm() {
         boolean result = true;
-        if (TextUtils.isEmpty(binding.editTextEmailAddressSignIn.getText().toString())) {
-            binding.editTextEmailAddressSignIn.setError("Required");
+        if (TextUtils.isEmpty(binding.editTextEmailAddressSignUp.getText().toString())) {
+            binding.editTextEmailAddressSignUp.setError("Required");
             result = false;
         } else {
-            binding.editTextEmailAddressSignIn.setError(null);
+            binding.editTextEmailAddressSignUp.setError(null);
         }
 
-        if (TextUtils.isEmpty(binding.editTextPasswordSignIn.getText().toString())) {
-            binding.editTextPasswordSignIn.setError("Required");
+        if (TextUtils.isEmpty(binding.editTextPasswordSignUp.getText().toString())) {
+            binding.editTextPasswordSignUp.setError("Required");
             result = false;
         } else {
-            binding.editTextPasswordSignIn.setError(null);
+            binding.editTextPasswordSignUp.setError(null);
         }
 
         return result;
@@ -140,10 +137,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.buttonLogin) {
-            signIn();
-        } else if (i == R.id.signUpHere) {
+        if (i == R.id.buttonRegister) {
             signUp();
+        } else if (i == R.id.signInHere) {
+            signIn();
         }
     }
 }

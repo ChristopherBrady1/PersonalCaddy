@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:id="@+id/layout_shot_row">
+    android:id="@+id/layout_shot_row"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/shotNumLabel"

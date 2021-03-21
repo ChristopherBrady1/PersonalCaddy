@@ -49,6 +49,7 @@ import com.cbrady.personalcaddy.ui.AR.ArFragment;
 import com.cbrady.personalcaddy.ui.ShotDetails.ShotDetailsFragment;
 import com.cbrady.personalcaddy.ui.clubChoice.clubChoice;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
+import com.cbrady.personalcaddy.ui.home.HomeFragment;
 import com.cbrady.personalcaddy.ui.scorecard.ScorecardFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,6 +75,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -158,6 +160,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     //variables to get the Greens in Regulation
     int totalGIR=0;
     int maxShotsGIR =0;
+    BottomNavigationView bnv;
 
 
     @Override
@@ -186,7 +189,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -294,6 +296,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         Button addShotPutter = getView().findViewById(R.id.addShotPutter);
         ImageButton scorecardButton = getView().findViewById(R.id.scorecardButton);
         Button finishRoundButton = getView().findViewById(R.id.finishRoundButton);
+
+        bnv = getActivity().findViewById(R.id.nav_view);
+        bnv.setVisibility(View.GONE);
+
 
         present_shot = shotNumText.getText().toString();
 
@@ -1022,8 +1028,17 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         totalFIRRef.setValue(fir);
         numPar3Ref.setValue(numPar3s);
 
-        //TODO closing the fragment
+        bnv = getActivity().findViewById(R.id.nav_view);
+        bnv.setVisibility(View.VISIBLE);
 
+
+
+        //TODO closing the fragment
+        Fragment homeFrag = new HomeFragment();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, homeFrag, "findThisFragment")
+                .addToBackStack(null)
+                .commit();
 
     }
 
