@@ -1,6 +1,7 @@
 package com.cbrady.personalcaddy.ui.map;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
@@ -174,6 +175,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+        //hide actionbar
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
         return rootView;
     }
 
@@ -280,23 +284,21 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         matrixValues = new float[3];
 
         //button listeners
-        Button addMarker = getView().findViewById(R.id.addMarker);
+        ImageButton addMarker = getView().findViewById(R.id.addMarker);
         Button removeMarker = getView().findViewById(R.id.removeMarker);
         Button confirmShot = getView().findViewById(R.id.confirmShot);
         TextView distance = getView().findViewById(R.id.distance);
-
-        ImageButton nextHoleButton = getView().findViewById(R.id.nextHoleButton);
-        //ImageButton addShotButton = getView().findViewById(R.id.addShot);
+        Button nextHoleButton = getView().findViewById(R.id.nextHoleButton);
         TextView holeNumText = getView().findViewById(R.id.holeNum);
         TextView shotNumText = getView().findViewById(R.id.shotNum);
-
         Button shotMode = getView().findViewById(R.id.shotMode);
-        Button puttMode = getView().findViewById(R.id.puttMode);
+        ImageButton puttMode = getView().findViewById(R.id.puttMode);
         Button arMode = getView().findViewById(R.id.ArButton);
         Button addShotPutter = getView().findViewById(R.id.addShotPutter);
         ImageButton scorecardButton = getView().findViewById(R.id.scorecardButton);
-        Button finishRoundButton = getView().findViewById(R.id.finishRoundButton);
+        ImageButton finishRoundButton = getView().findViewById(R.id.finishRoundButton);
 
+        //getting rid of bottom nav view
         bnv = getActivity().findViewById(R.id.nav_view);
         bnv.setVisibility(View.GONE);
 
@@ -349,16 +351,12 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng point) {
-                        //destMarker = new MarkerOptions().position(new LatLng(point.latitude, point.longitude));
-                        //map.addMarker();
+
+                        //ensuring only one marker can  be added at a time
                         if (destMarker == null) {
                             destMarker = map.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)));
                             destMarker.setDraggable(true);
                             map.setOnMapClickListener(null);
-
-                            //use these to get current position of marker:
-                            //var lat = marker.getPosition().lat();
-                            //var lng = marker.getPosition().lng();
 
 
                             float[] results = new float[1];
@@ -367,6 +365,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             Location.distanceBetween(destPos.latitude, destPos.longitude,
                                     myPos.latitude, myPos.longitude,
                                     results);
+
                             //get whether it should be calculated for meters or yards:
                             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
                             String mes_unit_adj = sharedPrefs.getString("dist_Measure", "1");
@@ -385,7 +384,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
 
                             List<PatternItem> pattern = Arrays.asList(new Dash(30), new Gap(25));
-                            polyline1 = map.addPolyline(new PolylineOptions().add(new LatLng(destPos.latitude, destPos.longitude), new LatLng(myPos.latitude, myPos.longitude)).color(Color.RED));
+                            polyline1 = map.addPolyline(new PolylineOptions().add(new LatLng(destPos.latitude, destPos.longitude),
+                                    new LatLng(myPos.latitude, myPos.longitude)).color(Color.RED));
                             polyline1.setPattern(pattern);
 
                             confirmShot.setVisibility(View.VISIBLE);
@@ -530,7 +530,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 //removing marker
                 //TODO MAKE a function called remove marker and add marker that these can call
                 destMarker.remove();
-                distance.setText("Distance = ");
+                distance.setText("");
                 distance.setVisibility(View.INVISIBLE);
                 polyline1.remove();
                 destMarker = null;
@@ -542,7 +542,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             @Override
             public void onClick(View v) {
                 destMarker.remove();
-                distance.setText("Distance = ");
+                distance.setText("");
                 distance.setVisibility(View.INVISIBLE);
                 polyline1.remove();
                 destMarker = null;
@@ -655,7 +655,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 //hide other buttons
                 addMarker.setVisibility(View.INVISIBLE);
                 removeMarker.setVisibility(View.INVISIBLE);
-
 
                 //show shot button
                 addShotPutter.setVisibility(View.VISIBLE);
@@ -886,8 +885,12 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     public void onLocationChanged(Location location) {
         LatLng location_update =  new LatLng(location.getLatitude()
                 ,location.getLongitude());
-        marker.setPosition(location_update);
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(location_update, 17));
+        if(marker != null) {
+            marker.setPosition(location_update);
+        }
+        if(map!= null) {
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(location_update, 17));
+        }
 
         if (destMarker != null){
             float[] results = new float[1];

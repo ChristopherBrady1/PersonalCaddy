@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -92,7 +93,7 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_statistics, container, false);
         //final TextView textView = root.findViewById(R.id.text_dashboard);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         shotTempList = new ArrayList<>();
         roundTempList1 = new ArrayList<>();
         roundTempList2 = new ArrayList<>();

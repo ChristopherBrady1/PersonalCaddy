@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
 
         //setting defaults for scorecard array list
         for (int i=0; i < 18; i++){
-            scorecard.add(String.valueOf(i));
+            scorecard.add(String.valueOf(0));
         }
 
         Log.d("ARRAYLIST", String.valueOf(scorecard.size()) );

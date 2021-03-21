@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.cbrady.personalcaddy.HoleDetails;
@@ -52,6 +53,7 @@ public class RoundListDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_round_list_details, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
         //TextView roundID = rootView.findViewById(R.id.roundIDclicked);
         String hiddenKey =  ((MainActivity)getActivity()).getHiddenKey();

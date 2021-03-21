@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.ListFragment;
 
 import com.cbrady.personalcaddy.MainActivity;
@@ -25,7 +26,6 @@ public class ScorecardFragment extends ListFragment {
     Context mContext;
     String[] holeNum= {"Hole 1","Hole 2","Hole 3","Hole 4","Hole 5","Hole 6","Hole 7","Hole 8","Hole 9","Hole 10","Hole 11","Hole 12", "Hole 13", "Hole 14", "Hole 15", "Hole 16", "Hole 17", "Hole 18"};
     String[] holeScores = new String[18];
-    //String[] holeScoreSample = {"1","2","3","4","5","6","7","8","9","10","11","12", "13", "14", "15", "16", "17", "18"};
 
     ArrayList<HashMap<String, String>> data=new ArrayList<HashMap<String,String>>();
     SimpleAdapter adapter;
@@ -39,7 +39,7 @@ public class ScorecardFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //View rootView = inflater.inflate(R.layout.fragment_scorecard, container, false);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         holeScores = ((MainActivity)getActivity()).scorecard.toArray(holeScores);
 
         HashMap<String, String> map=new HashMap<String, String>();
@@ -50,7 +50,6 @@ public class ScorecardFragment extends ListFragment {
 
             data.add(map);
         }
-
         //KEYS IN MAP
         String[] from={"HoleNum","HoleScore"};
 
@@ -60,11 +59,6 @@ public class ScorecardFragment extends ListFragment {
         //ADAPTER
         adapter=new SimpleAdapter(getActivity(), data, R.layout.list_row, from, to);
         setListAdapter(adapter);
-
-
-        //setListAdapter(new CustomAdapter(mContext, R.id.hole_number, holeNum));
-
-        //setListAdapter(new CustomAdapter(mContext, R.id.hole_score, holeScores));
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.cbrady.personalcaddy.MainActivity;
@@ -60,7 +61,7 @@ public class HoleDetailsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_hole_details, container, false);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         return rootView;
     }
 
