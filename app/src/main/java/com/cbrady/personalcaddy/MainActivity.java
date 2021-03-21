@@ -50,7 +50,9 @@ public class MainActivity extends BaseActivity {
 
     private float desired_distance;
 
-    public ArrayList<String> scorecard = new ArrayList<String>();
+    public ArrayList<String> scorecardScores = new ArrayList<String>();
+    public ArrayList<String> scorecardHoleNum = new ArrayList<String>();
+    public ArrayList<String> scorecardPars = new ArrayList<String>();
 
     public int getCounter() {
         return counter;
@@ -72,10 +74,11 @@ public class MainActivity extends BaseActivity {
 
         //setting defaults for scorecard array list
         for (int i=0; i < 18; i++){
-            scorecard.add(String.valueOf(0));
+            scorecardScores.add(String.valueOf(0));
+            scorecardPars.add(String.valueOf(0));
+            scorecardHoleNum.add(String.valueOf(i));
         }
 
-        Log.d("ARRAYLIST", String.valueOf(scorecard.size()) );
 
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);

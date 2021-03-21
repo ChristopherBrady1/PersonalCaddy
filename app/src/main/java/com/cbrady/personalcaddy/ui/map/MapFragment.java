@@ -572,7 +572,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         }
 
                         //add score to scorecard
-                        ((MainActivity)getActivity()).scorecard.set(scorecardIndex,currentShotNum);
+                        String parHole = ((MainActivity)getActivity()).getHolePar();
+                        ((MainActivity)getActivity()).scorecardScores.set(scorecardIndex,currentShotNum);
+                        ((MainActivity)getActivity()).scorecardPars.set(scorecardIndex,parHole);
                         scorecardIndex ++;
 
                         totalScore = totalScore + Integer.valueOf(currentShotNum);
@@ -1035,6 +1037,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         bnv.setVisibility(View.VISIBLE);
 
 
+        //TODO
+        //delete data from scorecard arrayList
 
         //TODO closing the fragment
         Fragment homeFrag = new HomeFragment();
