@@ -133,6 +133,7 @@ public class ShotDetailsFragment extends Fragment {
         submitShotDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 setDetails(currentLieBall, currentHill, currentWind);
             }
         });
@@ -144,7 +145,14 @@ public class ShotDetailsFragment extends Fragment {
         ((MainActivity)getActivity()).setCurrentHill(currentHill);
         ((MainActivity)getActivity()).setCurrentWind(currentWind);
 
-        getActivity().onBackPressed();
+        //calling club choice
+        Fragment clubChoice = new clubChoice();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, clubChoice, "clubChoice")
+                .addToBackStack(null)
+                .commit();
+
+
 
     }
 

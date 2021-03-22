@@ -78,6 +78,16 @@ public class HomeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        View bnv = getActivity().findViewById(R.id.nav_view);
+        bnv.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        View bnv = getActivity().findViewById(R.id.nav_view);
+        bnv.setVisibility(View.VISIBLE);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +104,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment map = new MapFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, map, "findThisFragment")
+                        .replace(R.id.nav_host_fragment, map, "mapFragment")
                         .addToBackStack(null)
                         .commit();
             }

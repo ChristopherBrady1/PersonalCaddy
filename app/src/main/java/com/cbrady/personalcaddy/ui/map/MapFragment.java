@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
@@ -184,6 +185,13 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     @Override
     public void onResume() {
         super.onResume();
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for(int i = fm.getBackStackEntryCount()-1; i > 0 ; i--) {
+            if(fm.getBackStackEntryAt(i) != this.getParentFragment()){
+                fm.popBackStack();
+            }
+        }
 
         getCurrentLocation(0);
         supportMapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -453,12 +461,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 confirmShot.setVisibility(View.INVISIBLE);
                 ((MainActivity)getActivity()).setCurrentShot(shotNum);
 
-                //calling club choice
-                Fragment clubChoice = new clubChoice();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, clubChoice, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
+
 
 
                 //Calling Shot details fragment
@@ -993,6 +996,15 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             }
         });
 
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        View bnv = getActivity().findViewById(R.id.nav_view);
+        bnv.setVisibility(View.VISIBLE);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
     }
 

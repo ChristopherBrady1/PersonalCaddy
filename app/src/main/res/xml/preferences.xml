@@ -16,7 +16,7 @@
             android:summary="Define measurement unit  used"
             android:defaultValue="1"
             android:entries="@array/distMeasure"
-            android:entryValues="@array/distMeasureValues"
+            android:entryValues="@array/distMeasure"
             android:dependency="perform_sync"/>
 
         <MultiSelectListPreference

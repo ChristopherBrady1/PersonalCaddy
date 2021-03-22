@@ -218,7 +218,11 @@ public class clubChoice extends Fragment {
 
         ((MainActivity)getActivity()).setCurrentClub1(currentClub);
 
-        getActivity().onBackPressed();
+        Fragment fragment = getFragmentManager().findFragmentByTag("mapFragment");
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.nav_host_fragment, fragment, "mapFragment")
+                .addToBackStack(null)
+                .commit();
 
     }
 

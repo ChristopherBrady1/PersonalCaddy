@@ -80,15 +80,9 @@ public class CreateRoundFragment extends Fragment {
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
-
-        //Practice
-        //Log.d("PRACTICE", "Value: " + ((MainActivity)getActivity()).practice.get(0));
-
-
         for(int i =65; i<76; i++){
             pars.add(String.valueOf(i));
         }
-
         adapter = new CreateRoundFragment.SpinnerAdapter(mContext);
 
         final Spinner spinner = (Spinner)getView().findViewById(R.id.parSpinner);
@@ -98,18 +92,13 @@ public class CreateRoundFragment extends Fragment {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
                 currentPar = pars.get(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // TODO Auto-generated method stub
-
             }
         });
-
-
         submitRound = (FloatingActionButton)getView().findViewById(R.id.submitRound);
         submitRound.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,8 +197,6 @@ public class CreateRoundFragment extends Fragment {
         mDatabase.updateChildren(childUpdates);
 
         //saving key as global variable to know it is the current round.
-        //setting this
-        //TODO SET THIS
         ((MainActivity)getActivity()).setCurrentRoundKey(key);
 
         String currentKeyID = ((MainActivity)getActivity()).getCurrentRoundKey();
@@ -218,27 +205,10 @@ public class CreateRoundFragment extends Fragment {
 
         final DatabaseReference ref = database.getReference("rounds/" + userId + "/" + key);
         ref.orderByChild("golfCourseName");
-        //System.out.println(ref.);
-
-        // Attach a listener to read the data at our rounds reference
-        /*ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Round round = dataSnapshot.getValue(Round.class);
-                System.out.println(round.golfCourseName);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-        */
         Log.d("ID_now", "Value: " + key);
 
         //String currentkey = obj.getCurrentRound();
         Log.d("GET_KEY", "Value: " + currentKeyID);
-
 
     }
 
