@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity {
     private float desired_distance;
 
     public ArrayList<String> scorecardScores = new ArrayList<String>();
-    public ArrayList<String> scorecardHoleNum = new ArrayList<String>();
     public ArrayList<String> scorecardPars = new ArrayList<String>();
 
     public int getCounter() {
@@ -76,7 +75,6 @@ public class MainActivity extends BaseActivity {
         for (int i=0; i < 18; i++){
             scorecardScores.add(String.valueOf(0));
             scorecardPars.add(String.valueOf(0));
-            scorecardHoleNum.add(String.valueOf(i));
         }
 
 

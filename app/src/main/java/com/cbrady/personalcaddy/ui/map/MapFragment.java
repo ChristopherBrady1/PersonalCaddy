@@ -496,7 +496,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     String club = ((MainActivity)getActivity()).getCurrentClub1();
                     String lie = ((MainActivity)getActivity()).getCurrentLie1();
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
-                    writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+                    writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),
+                            String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
 
                     //increment shot num
@@ -562,15 +563,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     public void onClick(DialogInterface dialog, int id) {
                         present_hole = holeNumText.getText().toString();
                         String currentShotNum = shotNumText.getText().toString();
-
-
-
-                        //pushing current hole to the database
-                        //TODO FIX
-                        if(current_hole > 1){
-                            mDatabase.child("rounds").child(uid).child(currentRoundID).child("holes").setValue(present_hole);
-                        }
-
                         //add score to scorecard
                         String parHole = ((MainActivity)getActivity()).getHolePar();
                         ((MainActivity)getActivity()).scorecardScores.set(scorecardIndex,currentShotNum);
@@ -579,8 +571,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                         totalScore = totalScore + Integer.valueOf(currentShotNum);
                         totalPutts = totalPutts + numPutts;
-
-                        //TODO set score in DB
                         //Code to update score of each hole in DB
                         holeKey = ((MainActivity)getActivity()).getHoleKey();
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -590,16 +580,12 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         scoreRef.setValue(currentShotNum);
                         puttsRef.setValue(numPutts);
 
-
                         current_shot = 1;
                         shotNum=1;
                         numPutts=0;
                         shotNumText.setText(String.valueOf(current_shot));
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
-
-                        //setting counter
-                        ((MainActivity)getActivity()).setCounter(2);
 
                         //set variables for push
                         ((MainActivity)getActivity()).setCurrentHoleNum(present_hole);
@@ -610,7 +596,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                                 .addToBackStack(null)
                                 .commit();
 
-                        //pushHole();
                         dialog.cancel();
                     }
                 });
@@ -864,9 +849,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             double roll = Math.toDegrees(matrixValues[2]);
             if(!( Math.toDegrees(tempAz) == azimuth) ){
                 if(! (map == null)) {
-                    //map.clear();
-                    //LatLng latLng = map.getCameraPosition().target;
-                    //Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("arrow", 100, 100))));
                     //centering the marker bitmap
                     marker.setAnchor(0.5f,0.5f);
                     marker.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("arrow", 100, 100)));

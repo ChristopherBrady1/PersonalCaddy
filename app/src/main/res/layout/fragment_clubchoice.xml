@@ -26,23 +26,24 @@
         android:id="@+id/clubSuggestionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:ems="10"
+        android:layout_marginTop="72dp"
         android:inputType="textPersonName"
-        android:text="Here is a suggested club"
+        android:text="Suggested Club:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/divider" />
+        android:textSize="25sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/divider"
+        android:background="@color/background"/>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="32dp"
-        android:background="?android:attr/listDivider"
+        android:layout_marginTop="84dp"
+        android:background="@color/teal_200"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintHorizontal_bias="0.781"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clubSpinner" />
 
@@ -50,12 +51,14 @@
         android:id="@+id/clubSelectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="44dp"
+        android:background="@color/background"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Select a club"
+        android:text="Select a club:"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,22 +66,27 @@
         android:id="@+id/clubSpinner"
         android:layout_width="382dp"
         android:layout_height="42dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="68dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clubSelectionTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/clubSelectionTitle"
+        android:background="@color/teal_200"/>
 
     <TextView
         android:id="@+id/clubSuggestion"
-        android:layout_width="121dp"
-        android:layout_height="100dp"
-        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@drawable/rectangle"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clubSuggestionTitle"
-        android:textSize="30sp"/>
+        app:layout_constraintVertical_bias="0.355"
+        tools:text="TextView"
+        android:padding="5dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
