@@ -56,9 +56,10 @@ public class clubChoice extends Fragment {
     private Button btnDisplay;
     String currentClub;
     private List<Shots> shotTempList;
-
+    Boolean sorted = false;
     //club names Array list
     ArrayList<String> club_namesAL = new ArrayList<>();
+    ArrayList<String> club_namesALTemp = new ArrayList<>();
     //usage arrayList
     ArrayList<Float> club_usageAL = new ArrayList<>();
     //total arrayList
@@ -95,16 +96,23 @@ public class clubChoice extends Fragment {
         Set<String> sets = new HashSet<>(Arrays.asList(arrayString));
         Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
         for (String str : setNew)
-            club_namesAL.add(str);
+            club_namesALTemp.add(str);
 
-        Collections.sort(club_namesAL);
-        for (int i=0; i< club_namesAL.size(); i++){
+        //only sort once
+
+
+        Collections.sort(club_namesALTemp);
+        club_namesAL = club_namesALTemp;
+
+        for (int i = 0; i < club_namesAL.size(); i++) {
             String[] str = club_namesAL.get(i).split(" ");
-            if(str.length > 1){
+            if (str.length > 1) {
                 club_namesAL.set(i, str[1]);
             }
-
+            Log.d("Order:", club_namesAL.get(i));
         }
+
+
 
         float zero =0;
         //setting club usage and total Array List
@@ -128,25 +136,23 @@ public class clubChoice extends Fragment {
                         Shots shot = shots.getValue(Shots.class);
                         shotTempList.add(shot);
                         String club = shot.getClub();
-                        int x =0;
-
 
                         //incrementing the amount of times each club is used
-                        for(String str: club_namesAL){
-                            if(club.equals(str)){
+
+                        for(int i =0; i<club_namesAL.size(); i++){
+                            if(club_namesAL.get(i).equals(club)){
                                 actualDistance = shot.getActualDistance();
-                                club_usageAL.set(x,club_usageAL.get(x) + 1);
-                                club_totalAL.set(x,club_totalAL.get(x) + Integer.parseInt(actualDistance));
+                                club_usageAL.set(i,club_usageAL.get(i) + 1);
+                                club_totalAL.set(i,club_totalAL.get(i) + Integer.parseInt(actualDistance));
                             }
-                            x++;
+
                         }
                     }
                 }
-                int indexClub =0;
-                for(String str: club_namesAL){
-                    club_avgAL.set(indexClub,(club_totalAL.get(indexClub)/club_usageAL.get(indexClub)));
-                    Log.d("Calc", club_namesAL.get(indexClub) + ": "+ String.valueOf(club_avgAL.get(indexClub)));
-                    indexClub++;
+                for(int i =0; i<club_avgAL.size(); i++){
+                    club_avgAL.set(i,(club_totalAL.get(i)/club_usageAL.get(i)));
+                    Log.d("Calc", club_namesAL.get(i) + ": "+ club_avgAL.get(i));
+
                 }
 
             }
@@ -318,7 +324,7 @@ public class clubChoice extends Fragment {
 
         //log
         calculate_suggestion(desired_distance,adjustment);
-        Log.d("AdjustDistance",String.valueOf(adjusted_desired_distance));
+        Log.d("adjustment",String.valueOf(adjustment));
 
     }
 
@@ -338,15 +344,14 @@ public class clubChoice extends Fragment {
 
         index = index + adjustment;
         if(index <= 0){
-            clubSuggestion.setText("Driver");
+            clubSuggestion.setText(club_namesAL.get(0));
+        }
+        else if(index >= club_namesAL.size()){
+            //setting it to the lowest possible club
+            clubSuggestion.setText(club_namesAL.get((club_namesAL.size())-1));
         }
         else{
-            for(int i =0; i<club_namesAL.size(); i++){
-                String[] str = club_namesAL.get(i).split(" ");
-                if(str.length > 1) {
-                    club_namesAL.set(i, str[1]);
-                }
-            }
+
             clubSuggestion.setText(club_namesAL.get(index));
         }
 

@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Context;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +23,7 @@ import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.User;
+import com.cbrady.personalcaddy.ui.clubChoice.clubChoice;
 import com.cbrady.personalcaddy.ui.holedetails.HoleDetailsFragment;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +56,9 @@ public class CreateRoundFragment extends Fragment {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
     String key;
+    ArrayList<String> pars = new ArrayList<>();
+    CreateRoundFragment.SpinnerAdapter adapter;
+    String currentPar;
 
     @Override
     public void onAttach(Context context) {
@@ -75,20 +84,44 @@ public class CreateRoundFragment extends Fragment {
         //Practice
         //Log.d("PRACTICE", "Value: " + ((MainActivity)getActivity()).practice.get(0));
 
+
+        for(int i =65; i<76; i++){
+            pars.add(String.valueOf(i));
+        }
+
+        adapter = new CreateRoundFragment.SpinnerAdapter(mContext);
+
+        final Spinner spinner = (Spinner)getView().findViewById(R.id.parSpinner);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(5);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Auto-generated method stub
+                currentPar = pars.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
         submitRound = (FloatingActionButton)getView().findViewById(R.id.submitRound);
         submitRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subRound();
+                subRound(currentPar);
             }
         });
     }
 
-    private void subRound() {
+    private void subRound(String parCourse) {
         txtgolfCourse = (EditText)getView().findViewById(R.id.golfCourse);
-        txtPar = (EditText)getView().findViewById(R.id.par);
         final String golfCourseName = txtgolfCourse.getText().toString();
-        final String parCourse = txtPar.getText().toString();
 
         //date parameter
         Date c = Calendar.getInstance().getTime();
@@ -100,12 +133,6 @@ public class CreateRoundFragment extends Fragment {
         // Title is required
         if (TextUtils.isEmpty(golfCourseName)) {
             txtgolfCourse.setError(REQUIRED);
-            return;
-        }
-
-        // Body is required
-        if (TextUtils.isEmpty(parCourse)) {
-            txtPar.setError(REQUIRED);
             return;
         }
 
@@ -213,6 +240,53 @@ public class CreateRoundFragment extends Fragment {
         Log.d("GET_KEY", "Value: " + currentKeyID);
 
 
+    }
+
+    public class SpinnerAdapter extends BaseAdapter {
+        Context context;
+        private LayoutInflater mInflater;
+
+        public SpinnerAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return pars.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final CreateRoundFragment.ListContent holder;
+            View v = convertView;
+            if (v == null) {
+                mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                v = mInflater.inflate(R.layout.row_textview, null);
+                holder = new CreateRoundFragment.ListContent();
+                holder.text = (TextView) v.findViewById(R.id.textView1);
+
+                v.setTag(holder);
+            } else {
+                holder = (CreateRoundFragment.ListContent) v.getTag();
+            }
+
+            holder.text.setText(pars.get(position));
+
+            return v;
+        }
+    }
+    static class ListContent {
+        TextView text;
     }
     // [END write_fan_out]
 }
