@@ -21,6 +21,12 @@
     <string name="sand">Sand</string>
     <string name="green">Green</string>
     <string name="tee_box">Tee Box</string>
+    <string name="uphill">Uphill</string>
+    <string name="downhill">Downhill</string>
+    <string name="flat">Flat</string>
+    <string name="against_wind">Against Wind</string>
+    <string name="with_wind">With Wind</string>
+    <string name="no_wind">No Wind</string>
     <string-array name="clubs">
         <item>Driver</item>
         <item>3Wood</item>

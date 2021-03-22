@@ -79,7 +79,6 @@ public class clubChoice extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_clubchoice, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
 
         shotTempList = new ArrayList<>();
@@ -116,9 +115,7 @@ public class clubChoice extends Fragment {
                     for (DataSnapshot shots : dataSnapshot.getChildren()) {
                         Shots shot = shots.getValue(Shots.class);
                         shotTempList.add(shot);
-
                         String club = shot.getClub();
-
                         int x =0;
 
                         //incrementing the amount of times each club is used
@@ -130,12 +127,8 @@ public class clubChoice extends Fragment {
                             }
                             x++;
                         }
-
                     }
                 }
-
-
-
                 int indexClub =0;
                 for(String str: club_namesAL){
                     club_avgAL.set(indexClub,(club_totalAL.get(indexClub)/club_usageAL.get(indexClub)));
@@ -151,7 +144,6 @@ public class clubChoice extends Fragment {
 
             }
         });
-
 
         //Set the text to the suggested club
         clubSuggestion = (TextView) rootView.findViewById(R.id.clubSuggestion);
@@ -268,25 +260,27 @@ public class clubChoice extends Fragment {
                 adjustment = 1;
                 Log.d("AdjustDistance","Should change here" + String.valueOf(adjusted_desired_distance));
                 calculate_suggestion(desired_distance,adjustment);
+                break;
             case "Sand":
                 clubSuggestion.setText("Maybe chip out");
+                break;
             case "Green":
                 //set club suggestion to putter
                 clubSuggestion.setText("Putter");
+                break;
             default:
                 adjustment = 0;
                 calculate_suggestion(desired_distance, adjustment);
+                break;
         }
-
         //log
         Log.d("AdjustDistance",String.valueOf(adjusted_desired_distance));
-
 
     }
 
     public void calculate_suggestion(float calculated_distance, int adjustment){
         //find the closest distance in the array to the adjusted desired distance
-        float closest_distance =  Math.abs(club_avgAL.get(0) - calculated_distance);;
+        float closest_distance =  Math.abs(club_avgAL.get(0) - calculated_distance);
         int index =0;
         for(int i=1; i<club_avgAL.size(); i++){
 
