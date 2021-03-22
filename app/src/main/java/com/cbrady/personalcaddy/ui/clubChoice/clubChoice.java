@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -96,6 +97,15 @@ public class clubChoice extends Fragment {
         for (String str : setNew)
             club_namesAL.add(str);
 
+        Collections.sort(club_namesAL);
+        for (int i=0; i< club_namesAL.size(); i++){
+            String[] str = club_namesAL.get(i).split(" ");
+            if(str.length > 1){
+                club_namesAL.set(i, str[1]);
+            }
+
+        }
+
         float zero =0;
         //setting club usage and total Array List
         for(int i=0; i< setNew.size(); i++){
@@ -119,6 +129,7 @@ public class clubChoice extends Fragment {
                         shotTempList.add(shot);
                         String club = shot.getClub();
                         int x =0;
+
 
                         //incrementing the amount of times each club is used
                         for(String str: club_namesAL){
@@ -163,6 +174,12 @@ public class clubChoice extends Fragment {
         adjust_distance();
 
         club = getResources().getStringArray(R.array.clubs);
+
+        for(int i =0; i<club.length; i++){
+            String[] str = club[i].split(" ");
+            club[i] = str[1];
+        }
+
         adapter = new clubChoice.SpinnerAdapter(mContext);
 
         final Spinner spinner = (Spinner)getView().findViewById(R.id.clubSpinner);
@@ -255,13 +272,14 @@ public class clubChoice extends Fragment {
         wind = ((MainActivity)getActivity()).getCurrentWind();
         hill = ((MainActivity)getActivity()).getCurrentHill();
         Log.d("LieBall",lie_ball);
+        Log.d("Retrievals"," Lie: " + lie_ball + " Wind: " + wind + " Hill: " + hill);
         int adjustment = 0;
 
         //switch statement to apply based on lie of ball
         Log.d("AdjustDistance",String.valueOf(desired_distance));
         switch(lie_ball){
             case "Rough":
-                adjustment = adjustment + 1;
+                adjustment = adjustment - 1;
                 Log.d("AdjustDistance","Should change here" + String.valueOf(adjusted_desired_distance));
                 break;
             case "Sand":
@@ -277,10 +295,10 @@ public class clubChoice extends Fragment {
         }
         switch (hill){
             case "Uphill":
-                adjustment = adjustment + 1;
+                adjustment = adjustment - 1;
                 break;
             case "Downhill":
-                adjustment = adjustment - 1;
+                adjustment = adjustment + 1;
                 break;
             default:
                 //no adjustment
@@ -288,10 +306,10 @@ public class clubChoice extends Fragment {
         }
         switch (wind){
             case "Against Wind":
-                adjustment = adjustment + 1;
+                adjustment = adjustment - 1;
                 break;
             case "With Wind":
-                adjustment = adjustment - 1;
+                adjustment = adjustment + 1;
                 break;
             default:
                 //no adjustment
@@ -319,7 +337,19 @@ public class clubChoice extends Fragment {
         }
 
         index = index + adjustment;
-        clubSuggestion.setText(club_namesAL.get(index));
+        if(index <= 0){
+            clubSuggestion.setText("Driver");
+        }
+        else{
+            for(int i =0; i<club_namesAL.size(); i++){
+                String[] str = club_namesAL.get(i).split(" ");
+                if(str.length > 1) {
+                    club_namesAL.set(i, str[1]);
+                }
+            }
+            clubSuggestion.setText(club_namesAL.get(index));
+        }
+
     }
 
 }

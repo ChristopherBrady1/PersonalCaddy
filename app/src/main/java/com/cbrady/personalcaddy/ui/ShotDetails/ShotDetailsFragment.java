@@ -96,20 +96,7 @@ public class ShotDetailsFragment extends Fragment {
             }
         });
 
-        radioGroupWind.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.radio_with_wind){
-                    currentWind = getResources().getString(R.string.with_wind);
-                }
-                if(checkedId == R.id.radio_sand){
-                    currentWind = getResources().getString(R.string.against_wind);
-                }
-                if(checkedId == R.id.radio_teebox){
-                    currentWind = getResources().getString(R.string.no_wind);
-                }
-            }
-        });
+
 
         radioGroupHill.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -126,12 +113,27 @@ public class ShotDetailsFragment extends Fragment {
             }
         });
 
+        radioGroupWind.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.radio_with_wind){
+                    currentWind = getResources().getString(R.string.with_wind);
+                }
+                if(checkedId == R.id.radio_against_wind){
+                    currentWind = getResources().getString(R.string.against_wind);
+                }
+                if(checkedId == R.id.radio_no_wind){
+                    currentWind = getResources().getString(R.string.no_wind);
+                }
+            }
+        });
+
 
         submitShotDetails = (FloatingActionButton)getView().findViewById(R.id.submitShotDetails);
         submitShotDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDetails(currentLieBall, currentWind, currentLieBall);
+                setDetails(currentLieBall, currentHill, currentWind);
             }
         });
     }

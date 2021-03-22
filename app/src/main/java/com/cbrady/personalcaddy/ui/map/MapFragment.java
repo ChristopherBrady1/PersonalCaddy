@@ -494,7 +494,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     //TODO push desired and actual distance to the database
                     //TODO PUSH DISTANCE, CLUB and LIE to the DB
                     String club = ((MainActivity)getActivity()).getCurrentClub1();
-                    String lie = ((MainActivity)getActivity()).getCurrentLie1();
+                    String lie = ((MainActivity)getActivity()).getCurrentLie();
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
                     writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),
                             String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
@@ -504,7 +504,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     shotNum++;
                     shotNumText.setText(String.valueOf(shotNum));
 
-                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
+                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
                     Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
 
@@ -701,7 +701,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                             actual_distance);
 
                     String club = ((MainActivity)getActivity()).getCurrentClub1();
-                    String lie = ((MainActivity)getActivity()).getCurrentLie1();
+                    String lie = ((MainActivity)getActivity()).getCurrentLie();
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
                     writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
@@ -711,7 +711,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     shotNum++;
 
 
-                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie1());
+                    Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
                     Log.d("SHOT_DETAILS", "Club: " + ((MainActivity)getActivity()).getCurrentClub1());
 

@@ -28,22 +28,22 @@
     <string name="with_wind">With Wind</string>
     <string name="no_wind">No Wind</string>
     <string-array name="clubs">
-        <item>Driver</item>
-        <item>3Wood</item>
-        <item>5Wood</item>
-        <item>7Wood</item>
-        <item>3-iron</item>
-        <item>4-iron</item>
-        <item>5-iron</item>
-        <item>6-iron</item>
-        <item>7-iron</item>
-        <item>8-iron</item>
-        <item>9-iron</item>
-        <item>Pitching Wedge</item>
-        <item>Sand Wedge</item>
-        <item>Gap Wedge</item>
-        <item>Log Wedge</item>
-        <item>Putter</item>
+        <item>01: Driver</item>
+        <item>02: 3Wood</item>
+        <item>03: 5Wood</item>
+        <item>04: 7Wood</item>
+        <item>05: 3-iron</item>
+        <item>06: 4-iron</item>
+        <item>07: 5-iron</item>
+        <item>08: 6-iron</item>
+        <item>09: 7-iron</item>
+        <item>10: 8-iron</item>
+        <item>11: 9-iron</item>
+        <item>12: Pitching-Wedge</item>
+        <item>13: Sand-Wedge</item>
+        <item>14: Gap-Wedge</item>
+        <item>15: Lob-Wedge</item>
+        <item>16: Putter</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

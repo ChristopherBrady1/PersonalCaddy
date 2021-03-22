@@ -11,254 +11,251 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/background">
 
-    <androidx.core.widget.NestedScrollView
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/submitShotDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/ic_navigation_check_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/shotDetailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:text="Enter Details About Your Shot:"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/clubSuggestionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:text="Pick the lie of your ball"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shotDetailsTitle" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLie"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clubSuggestionTitle">
+
+        <RadioButton
+            android:id="@+id/radio_fairway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="@color/black"
+            android:text="@string/fairway"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radio_rough"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="@color/black"
+            android:text="@string/rough"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radio_sand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="@color/black"
+            android:text="@string/sand"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radio_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="@color/black"
+            android:text="@string/green"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radio_teebox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:buttonTint="@color/black"
+            android:text="@string/tee_box"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/divider1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/submitShotDetails"
+        android:layout_height="3dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupLie" />
+
+    <EditText
+        android:id="@+id/uphillTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:text="Strongly uphill or downhill?"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupHill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uphillTitle">
+
+
+        <RadioButton
+            android:id="@+id/radio_uphill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="4dp"
-            android:src="@drawable/ic_navigation_check_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/uphill"
+            android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/shotDetailsTitle"
+        <RadioButton
+            android:id="@+id/radio_downhill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rectangle"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            android:text="Enter Details About Your Shot:"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/downhill"
+            android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/clubSuggestionTitle"
+        <RadioButton
+            android:id="@+id/radio_flat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            android:text="Pick the lie of your ball"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/shotDetailsTitle" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/flat"
+            android:textSize="15sp" />
+    </RadioGroup>
 
-        <RadioGroup
-            android:id="@+id/radioGroupLie"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rectangle"
-            android:orientation="vertical"
-            android:weightSum="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clubSuggestionTitle">
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupHill" />
 
-            <RadioButton
-                android:id="@+id/radio_fairway"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/black"
-                android:text="@string/fairway"
-                android:textSize="12sp" />
+    <EditText
+        android:id="@+id/windTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:text="Strongly with or against wind?"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-            <RadioButton
-                android:id="@+id/radio_rough"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/black"
-                android:text="@string/rough"
-                android:textSize="12sp" />
+    <RadioGroup
+        android:id="@+id/radioGroupWind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rectangle"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/windTitle">
 
-            <RadioButton
-                android:id="@+id/radio_sand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/black"
-                android:text="@string/sand"
-                android:textSize="12sp" />
 
-            <RadioButton
-                android:id="@+id/radio_green"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/black"
-                android:text="@string/green"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/radio_teebox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/black"
-                android:text="@string/tee_box"
-                android:textSize="12sp" />
-        </RadioGroup>
-
-        <View
-            android:id="@+id/divider1"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
-        <EditText
-            android:id="@+id/uphillTitle"
+        <RadioButton
+            android:id="@+id/radio_with_wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            android:text="Strongly uphill or downhill?"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/with_wind"
+            android:textSize="15sp" />
 
-        <RadioGroup
-            android:id="@+id/radioGroupHill"
+        <RadioButton
+            android:id="@+id/radio_against_wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rectangle"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uphillTitle">
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/against_wind"
+            android:textSize="15sp" />
 
-
-            <RadioButton
-                android:id="@+id/radio_uphill"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/uphill"
-                android:textSize="15sp" />
-
-            <RadioButton
-                android:id="@+id/radio_downhill"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/downhill"
-                android:textSize="15sp" />
-
-            <RadioButton
-                android:id="@+id/radio_flat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/flat"
-                android:textSize="15sp" />
-        </RadioGroup>
-
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
-
-        <EditText
-            android:id="@+id/windTitle"
+        <RadioButton
+            android:id="@+id/radio_no_wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/black"
-            android:inputType="textPersonName"
-            android:padding="10dp"
-            android:text="Strongly with or against wind?"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:buttonTint="@color/black"
+            android:text="@string/no_wind"
+            android:textSize="15sp" />
+    </RadioGroup>
 
-        <RadioGroup
-            android:id="@+id/radioGroupWind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/rectangle"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/windTitle">
-
-
-            <RadioButton
-                android:id="@+id/radio_with_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/with_wind"
-                android:textSize="15sp" />
-
-            <RadioButton
-                android:id="@+id/radio_against_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/against_wind"
-                android:textSize="15sp" />
-
-            <RadioButton
-                android:id="@+id/radio_no_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:buttonTint="@color/black"
-                android:text="@string/no_wind"
-                android:textSize="15sp" />
-        </RadioGroup>
-
-    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
