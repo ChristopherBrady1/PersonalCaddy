@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
         this.counter = counter;
     }
 
-    private int counter;
+    private int counter =1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

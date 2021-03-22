@@ -48,7 +48,7 @@ public class CreateRoundFragment extends Fragment {
 
     Context mContext;
     FloatingActionButton submitRound;
-    EditText txtgolfCourse, txtPar;
+    EditText txtgolfCourse;
     private static final String TAG = "NewRound";
     private static final String REQUIRED = "Required";
 
@@ -174,7 +174,6 @@ public class CreateRoundFragment extends Fragment {
 
     private void setEditingEnabled(boolean enabled) {
         txtgolfCourse.setEnabled(enabled);
-        txtPar.setEnabled(enabled);
         if (enabled) {
             submitRound.setVisibility(View.VISIBLE);
         } else {

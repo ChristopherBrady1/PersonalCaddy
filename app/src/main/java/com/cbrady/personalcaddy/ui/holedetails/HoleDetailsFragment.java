@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +22,7 @@ import com.cbrady.personalcaddy.R;
 import com.cbrady.personalcaddy.models.Holes;
 import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.User;
+import com.cbrady.personalcaddy.ui.createround.CreateRoundFragment;
 import com.cbrady.personalcaddy.ui.map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,12 +46,17 @@ public class HoleDetailsFragment extends Fragment{
 
     Context mContext;
     FloatingActionButton submitHoleDetails;
-    EditText txtparHole, txtdistanceHole;
+    EditText txtparHole, txtdistanceHole,title;
     String holeKey;
     String holeNum;
     int holeNumint;
     private static final String TAG = "NewHole";
     private static final String REQUIRED = "Required";
+    ArrayList<String> pars = new ArrayList<>();
+    HoleDetailsFragment.SpinnerAdapter adapter;
+    String parHole;
+
+
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
@@ -72,24 +83,47 @@ public class HoleDetailsFragment extends Fragment{
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
+        title = (EditText) getView().findViewById(R.id.holeDetailsTitle);
+        holeNum = String.valueOf(((MainActivity)getActivity()).getHoleNum());
+        title.append(holeNum+":");
+
+
+        for(int i =3; i<6; i++){
+            pars.add("par "+ String.valueOf(i));
+        }
+        adapter = new HoleDetailsFragment.SpinnerAdapter(mContext);
+
+        final Spinner spinner = (Spinner)getView().findViewById(R.id.parHoleSpinner);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parHole = pars.get(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
         submitHoleDetails = (FloatingActionButton)getView().findViewById(R.id.submitHoleDetails);
         submitHoleDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subHoleDetails();
+                subHoleDetails(parHole);
             }
         });
     }
 
-    private void subHoleDetails() {
-        txtparHole = (EditText)getView().findViewById(R.id.parHole);
+    private void subHoleDetails(String parHole) {
         txtdistanceHole = (EditText)getView().findViewById(R.id.distanceHole);
         final String distanceHole = txtdistanceHole.getText().toString();
-        final String parHole = txtparHole.getText().toString();
 
         //counting number of par3s to store this in DB
         int numPar3s = ((MainActivity)getActivity()).getNumPar3s();
-        if(parHole == "3"){
+        if( parHole == "3"){
             numPar3s ++;
         }
         ((MainActivity)getActivity()).setNumPar3s(numPar3s);
@@ -117,9 +151,10 @@ public class HoleDetailsFragment extends Fragment{
         else {
             Fragment mapFragment = new MapFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.nav_host_fragment, mapFragment, "findThisFragment")
+                    .replace(R.id.nav_host_fragment, mapFragment, "mapFragment")
                     .addToBackStack(null)
                     .commit();
+
         }
     }
 
@@ -165,6 +200,52 @@ public class HoleDetailsFragment extends Fragment{
 
 
 
+    }
+    public class SpinnerAdapter extends BaseAdapter {
+        Context context;
+        private LayoutInflater mInflater;
+
+        public SpinnerAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return pars.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final HoleDetailsFragment.ListContent holder;
+            View v = convertView;
+            if (v == null) {
+                mInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+                v = mInflater.inflate(R.layout.row_textview, null);
+                holder = new HoleDetailsFragment.ListContent();
+                holder.text = (TextView) v.findViewById(R.id.textView1);
+
+                v.setTag(holder);
+            } else {
+                holder = (HoleDetailsFragment.ListContent) v.getTag();
+            }
+
+            holder.text.setText(pars.get(position));
+
+            return v;
+        }
+    }
+    static class ListContent {
+        TextView text;
     }
 
 

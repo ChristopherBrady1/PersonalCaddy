@@ -186,12 +186,13 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     public void onResume() {
         super.onResume();
 
+        /*
         FragmentManager fm = getActivity().getSupportFragmentManager();
         for(int i = fm.getBackStackEntryCount()-1; i > 0 ; i--) {
             if(fm.getBackStackEntryAt(i) != this.getParentFragment()){
                 fm.popBackStack();
             }
-        }
+        }*/
 
         getCurrentLocation(0);
         supportMapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.google_map);
@@ -589,6 +590,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         shotNumText.setText(String.valueOf(current_shot));
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
+
+                        //setting counter
+                        ((MainActivity)getActivity()).setCounter(2);
 
                         //set variables for push
                         ((MainActivity)getActivity()).setCurrentHoleNum(present_hole);
