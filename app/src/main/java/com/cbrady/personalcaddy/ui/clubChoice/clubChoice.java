@@ -68,6 +68,8 @@ public class clubChoice extends Fragment {
     String actualDistance = "";
     float desired_distance, adjusted_desired_distance;
     String lie_ball = "";
+    String wind = "";
+    String hill = "";
     TextView clubSuggestion;
 
     @Override
@@ -249,7 +251,9 @@ public class clubChoice extends Fragment {
         desired_distance = ((MainActivity)getActivity()).getDesired_distance();
 
         //get lie of ball
-        lie_ball = ((MainActivity)getActivity()).getCurrentLie1();
+        lie_ball = ((MainActivity)getActivity()).getCurrentLie();
+        wind = ((MainActivity)getActivity()).getCurrentWind();
+        hill = ((MainActivity)getActivity()).getCurrentHill();
         Log.d("LieBall",lie_ball);
         int adjustment = 0;
 
@@ -257,9 +261,8 @@ public class clubChoice extends Fragment {
         Log.d("AdjustDistance",String.valueOf(desired_distance));
         switch(lie_ball){
             case "Rough":
-                adjustment = 1;
+                adjustment = adjustment + 1;
                 Log.d("AdjustDistance","Should change here" + String.valueOf(adjusted_desired_distance));
-                calculate_suggestion(desired_distance,adjustment);
                 break;
             case "Sand":
                 clubSuggestion.setText("Maybe chip out");
@@ -269,11 +272,34 @@ public class clubChoice extends Fragment {
                 clubSuggestion.setText("Putter");
                 break;
             default:
-                adjustment = 0;
-                calculate_suggestion(desired_distance, adjustment);
+                //no adjustment
                 break;
         }
+        switch (hill){
+            case "Uphill":
+                adjustment = adjustment + 1;
+                break;
+            case "Downhill":
+                adjustment = adjustment - 1;
+                break;
+            default:
+                //no adjustment
+                break;
+        }
+        switch (wind){
+            case "Against Wind":
+                adjustment = adjustment + 1;
+                break;
+            case "With Wind":
+                adjustment = adjustment - 1;
+                break;
+            default:
+                //no adjustment
+                break;
+        }
+
         //log
+        calculate_suggestion(desired_distance,adjustment);
         Log.d("AdjustDistance",String.valueOf(adjusted_desired_distance));
 
     }

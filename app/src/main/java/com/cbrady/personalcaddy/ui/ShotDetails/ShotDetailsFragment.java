@@ -35,10 +35,10 @@ public class ShotDetailsFragment extends Fragment {
     FloatingActionButton submitShotDetails;
     private DatabaseReference mDatabase;
     String lie_ball;
-    private RadioGroup radioGroup;
+    private RadioGroup radioGroupLie, radioGroupWind, radioGroupHill;
     private MaterialRadioButton radio_fairway,radio_rough,radio_green,radio_teebox,radio_sand;
     private Button btnDisplay;
-    String currentLieBall;
+    String currentLieBall, currentWind, currentHill;
 
     @Override
     public void onAttach(Context context) {
@@ -61,13 +61,15 @@ public class ShotDetailsFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        radioGroup=(RadioGroup)getView().findViewById(R.id.radioGroup);
+        radioGroupLie=(RadioGroup)getView().findViewById(R.id.radioGroupLie);
+        radioGroupWind=(RadioGroup)getView().findViewById(R.id.radioGroupWind);
+        radioGroupHill=(RadioGroup)getView().findViewById(R.id.radioGroupHill);
 
 
         int currentShot = ((MainActivity)getActivity()).getCurrentShot();
 
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroupLie.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId == R.id.radio_fairway){
@@ -94,44 +96,51 @@ public class ShotDetailsFragment extends Fragment {
             }
         });
 
+        radioGroupWind.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.radio_with_wind){
+                    currentWind = getResources().getString(R.string.with_wind);
+                }
+                if(checkedId == R.id.radio_sand){
+                    currentWind = getResources().getString(R.string.against_wind);
+                }
+                if(checkedId == R.id.radio_teebox){
+                    currentWind = getResources().getString(R.string.no_wind);
+                }
+            }
+        });
+
+        radioGroupHill.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.radio_downhill){
+                    currentHill = getResources().getString(R.string.downhill);
+                }
+                if(checkedId == R.id.radio_uphill){
+                    currentHill = getResources().getString(R.string.uphill);
+                }
+                if(checkedId == R.id.radio_flat){
+                    currentHill = getResources().getString(R.string.flat);
+                }
+            }
+        });
+
 
         submitShotDetails = (FloatingActionButton)getView().findViewById(R.id.submitShotDetails);
         submitShotDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDetails(currentLieBall);
+                setDetails(currentLieBall, currentWind, currentLieBall);
             }
         });
     }
 
-    private void setDetails(String currentLieBall){
-        /*
-        if(((MainActivity)getActivity()).getCurrentClub1() == null && ((MainActivity)getActivity()).getCurrentLie1() == null){
-            ((MainActivity)getActivity()).setCurrentClub1(currentClub);
-            ((MainActivity)getActivity()).setCurrentLie1(currentLieBall);
-        }
-        else{
-            if(((MainActivity)getActivity()).getCurrentClub2() == null && ((MainActivity)getActivity()).getCurrentLie2() == null){
-                ((MainActivity)getActivity()).setCurrentClub2(currentClub);
-                ((MainActivity)getActivity()).setCurrentLie2(currentLieBall);
-            }
-            else{
-                //set current club 2 to club 1
-                ((MainActivity)getActivity()).setCurrentClub1(((MainActivity)getActivity()).getCurrentClub2());
-                ((MainActivity)getActivity()).setCurrentLie1(((MainActivity)getActivity()).getCurrentLie2());
+    private void setDetails(String currentLieBall, String currentHill, String currentWind){
 
-                ((MainActivity)getActivity()).setCurrentClub2(currentClub);
-                ((MainActivity)getActivity()).setCurrentLie2(currentLieBall);
-
-                //TODO push these at the point where distance is gotten
-            }
-        }*/
-        //((MainActivity)getActivity()).setCurrentClub1(currentClub);
-        ((MainActivity)getActivity()).setCurrentLie1(currentLieBall);
-
-        //call clubChoice fragment
-
-
+        ((MainActivity)getActivity()).setCurrentLie(currentLieBall);
+        ((MainActivity)getActivity()).setCurrentHill(currentHill);
+        ((MainActivity)getActivity()).setCurrentWind(currentWind);
 
         getActivity().onBackPressed();
 

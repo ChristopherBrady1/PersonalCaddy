@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@id/shotDetailsTitle" />
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/radioGroupLie"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -140,7 +140,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
         <RadioGroup
-            android:id="@+id/radioGroup2"
+            android:id="@+id/radioGroupHill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -212,7 +212,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <RadioGroup
-            android:id="@+id/radioGroup3"
+            android:id="@+id/radioGroupWind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

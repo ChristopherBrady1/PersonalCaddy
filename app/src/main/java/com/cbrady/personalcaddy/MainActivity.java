@@ -26,8 +26,26 @@ public class MainActivity extends BaseActivity {
     private int holeNum = 1;
     private String currentClub1;
     private String currentClub2;
-    private String currentLie1 = "";
-    private String currentLie2;
+    private String currentLie = "";
+
+    public String getCurrentWind() {
+        return currentWind;
+    }
+
+    public void setCurrentWind(String currentWind) {
+        this.currentWind = currentWind;
+    }
+
+    public String getCurrentHill() {
+        return currentHill;
+    }
+
+    public void setCurrentHill(String currentHill) {
+        this.currentHill = currentHill;
+    }
+
+    private String currentWind = "";
+    private String currentHill = "";
     private String holePar;
     private String holeDistance;
     private String holeKey;
@@ -160,20 +178,12 @@ public class MainActivity extends BaseActivity {
         this.currentClub2 = currentClub2;
     }
 
-    public String getCurrentLie1() {
-        return currentLie1;
+    public String getCurrentLie() {
+        return currentLie;
     }
 
-    public void setCurrentLie1(String currentLie1) {
-        this.currentLie1 = currentLie1;
-    }
-
-    public String getCurrentLie2() {
-        return currentLie2;
-    }
-
-    public void setCurrentLie2(String currentLie2) {
-        this.currentLie2 = currentLie2;
+    public void setCurrentLie(String currentLie) {
+        this.currentLie = currentLie;
     }
 
     public int getHoleDetailsComplete() { return holeDetailsComplete; }
