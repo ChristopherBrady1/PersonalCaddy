@@ -85,6 +85,18 @@ public class clubChoice extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_clubchoice, container, false);
 
 
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // [END initialize_database_ref]
+        //call club suggestion stuff here
+
         shotTempList = new ArrayList<>();
         // [START create_database_reference]
         mDatabase = FirebaseDatabase.getInstance().getReference("shots");
@@ -154,6 +166,7 @@ public class clubChoice extends Fragment {
                     Log.d("Calc", club_namesAL.get(i) + ": "+ club_avgAL.get(i));
 
                 }
+                adjust_distance();
 
             }
 
@@ -165,19 +178,7 @@ public class clubChoice extends Fragment {
         });
 
         //Set the text to the suggested club
-        clubSuggestion = (TextView) rootView.findViewById(R.id.clubSuggestion);
-        return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        // [END initialize_database_ref]
-        //call club suggestion stuff here
-
-        adjust_distance();
+        clubSuggestion = (TextView) getView().findViewById(R.id.clubSuggestion);
 
         club = getResources().getStringArray(R.array.clubs);
 
@@ -204,6 +205,7 @@ public class clubChoice extends Fragment {
 
             }
         });
+
 
         submitShotDetails = (FloatingActionButton)getView().findViewById(R.id.submitShotDetails);
         submitShotDetails.setOnClickListener(new View.OnClickListener() {
@@ -336,6 +338,11 @@ public class clubChoice extends Fragment {
         //find the closest distance in the array to the adjusted desired distance
         float closest_distance =  Math.abs(club_avgAL.get(0) - calculated_distance);
         int index =0;
+
+        for(int i=0; i<club_avgAL.size(); i++){
+            Log.d("CHECK_AVG", club_namesAL.get(i) + ": "+ club_avgAL.get(i));
+        }
+
         for(int i=1; i<club_avgAL.size(); i++){
 
             //get the closest and store this
