@@ -16,8 +16,8 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChartPutts"
-            android:layout_width="378dp"
-            android:layout_height="158dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
@@ -26,8 +26,8 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChartScore"
-            android:layout_width="378dp"
-            android:layout_height="167dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
@@ -38,8 +38,8 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChartGir"
-            android:layout_width="378dp"
-            android:layout_height="158dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
@@ -48,8 +48,8 @@
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChartFir"
-            android:layout_width="378dp"
-            android:layout_height="158dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
@@ -58,7 +58,7 @@
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChartUsage"
-            android:layout_width="378dp"
+            android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"

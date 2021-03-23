@@ -159,12 +159,6 @@ public class HoleDetailsFragment extends Fragment{
     }
 
     private void writeNewHole(String roundid, String userID, String distance, String par, String holeNum) {
-
-        //checking vals
-        //Log.d("HOLE_ERROR", "roundid: " + roundid + " , holeNum: " + holeNum);
-
-        //TODO set hole key public
-
         holeKey = mDatabase.child("holes").push().getKey();
         Holes hole = new Holes(roundid, userID, distance, par, holeNum,"0",0);
         Map<String, Object> holeValues = hole.toMap();
@@ -196,9 +190,6 @@ public class HoleDetailsFragment extends Fragment{
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-
-
 
     }
     public class SpinnerAdapter extends BaseAdapter {

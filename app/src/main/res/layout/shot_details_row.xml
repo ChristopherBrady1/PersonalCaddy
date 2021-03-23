@@ -33,20 +33,20 @@
 
             <TextView
                 android:id="@+id/desired_distLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight=".6"
                 android:text="Desired Distance: "
                 android:textColor="@color/main_text"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/desired_dist"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight=".4"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/main_text"
                 android:textSize="18sp"
@@ -61,9 +61,9 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".6"
                 android:id="@+id/actual_distLabel"
                 android:text="Actual Distance: "
                 android:textColor="@color/main_text"
@@ -73,11 +73,11 @@
 
             <TextView
                 android:id="@+id/actual_dist"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginLeft="40dp"
-                android:layout_weight="1"
+                android:layout_weight=".4"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/main_text"
                 android:textSize="18sp"
@@ -93,20 +93,20 @@
 
             <TextView
                 android:id="@+id/clubUsedLabel"
-                android:layout_width="46dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight=".6"
                 android:text="Club Used: "
                 android:textColor="@color/main_text"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/clubUsed"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight=".4"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/main_text"
                 android:textSize="18sp"
@@ -128,7 +128,7 @@
                 android:textColor="@color/main_text"
                 android:layout_margin="5dp"
                 android:textSize="18sp"
-                android:layout_weight="1"
+                android:layout_weight=".6"
                 />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_weight="1"
+                android:layout_weight=".4"
                 android:textAlignment="viewEnd"
                 android:textColor="@color/main_text"
                 android:textSize="18sp"

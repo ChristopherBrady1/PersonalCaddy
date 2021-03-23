@@ -10,4 +10,7 @@
     <color name="background">#FFFFFF</color>
     <color name="main_text">#000000</color>
     <color name="hint">#E4E0E0</color>
+    <color name="green">#119e14</color>
+    <color name="red">#cc141e</color>
+    <color name="orange">#c77100</color>
 </resources>

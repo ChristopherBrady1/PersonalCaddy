@@ -30,17 +30,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/parLabel"
                 android:text="Par: "
+                android:paddingStart="20dp"
                 android:textColor="@color/main_text"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
                 />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/parActual"
@@ -61,15 +62,16 @@
 
             <TextView
                 android:id="@+id/distLabel"
-                android:layout_width="46dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:paddingStart="20dp"
                 android:text="Distance: "
                 android:textColor="@color/main_text"
                 android:textSize="20sp" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/distActual"
                 android:text="actDist"
@@ -88,17 +90,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/scoreLabel"
                 android:text="Score: "
+                android:paddingStart="20dp"
                 android:textColor="@color/main_text"
                 android:layout_margin="5dp"
                 android:textSize="20sp"
                 android:layout_weight="1"
                 />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/scoreActual"
                 android:text="actScore"

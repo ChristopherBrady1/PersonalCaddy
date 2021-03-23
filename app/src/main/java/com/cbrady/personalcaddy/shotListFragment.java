@@ -54,8 +54,7 @@ public class shotListFragment extends Fragment {
         String uid = user.getUid();
 
         //setting text views
-        TextView holeNumTitle = (TextView)rootView.findViewById(R.id.holeNumTitle);
-        TextView parHoleTitle = (TextView)rootView.findViewById(R.id.parHoleTitle);
+        TextView holeNumTitle = (TextView)rootView.findViewById(R.id.holeNumHeading);
 
 
         Query query1 =  FirebaseDatabase.getInstance().getReference("holes").orderByKey().equalTo(hiddenHoleKey);
@@ -74,7 +73,6 @@ public class shotListFragment extends Fragment {
 
 
                         String parHole= hole.getPar();
-                        parHoleTitle.append(parHole);
 
 
                     }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.cbrady.personalcaddy.models.Round;
 import com.cbrady.personalcaddy.models.Shots;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -41,6 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,6 +60,7 @@ public class StatisticsFragment extends Fragment {
     int[] scores = new int[5];
     float[] putts = new float[5];
     float[] firPercentage = new float[5];
+    float[] girPercentage = new float[5];
     int[] girTotals = new int[5];
     float[] avgPutts = new float[5];
     String[] dates = new String[5];
@@ -65,6 +69,8 @@ public class StatisticsFragment extends Fragment {
 
     //club names Array list
     ArrayList<String> club_namesAL = new ArrayList<>();
+
+    ArrayList<String> club_namesALTemp = new ArrayList<>();
     //usage arrayList
     ArrayList<Integer> club_usageAL = new ArrayList<>();
 
@@ -102,21 +108,6 @@ public class StatisticsFragment extends Fragment {
         // [END create_database_reference]
 
 
-
-        //setting club names arrayList
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String[] arrayString = getResources().getStringArray(R.array.clubs);
-        Set<String> sets = new HashSet<>(Arrays.asList(arrayString));
-        Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
-        for (String str : setNew)
-            club_namesAL.add(str);
-
-        //setting club usage Array List
-        for(int i=0; i< setNew.size(); i++){
-            club_usageAL.add(0);
-        }
-
-
         lineChartScores = root.findViewById(R.id.lineChartScore);
         lineChartScores.setTouchEnabled(true);
         lineChartScores.setPinchZoom(true);
@@ -137,7 +128,6 @@ public class StatisticsFragment extends Fragment {
 
 
         Query query1 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo(uid).limitToLast(5);
-
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -160,6 +150,7 @@ public class StatisticsFragment extends Fragment {
                         girTotals[x] = totalGIR;
                         int numHolesFir = 18-par3s;
                         firPercentage[x] = (((float)totalFIR/(float)numHolesFir)*(float)100);
+                        girPercentage[x] = (((float)totalGIR/(float)18)*(float)100);
 
                         putts[x] = (float)total_putts/(float)18;
                         dates[x] = dateOwn[0];
@@ -168,28 +159,18 @@ public class StatisticsFragment extends Fragment {
 
                     }
                 }
-
                 for(int i=0; i<scores.length; i++){
                     Log.d("SCORES", "Score = " + String.valueOf(scores[i]) + " date =  " + String.valueOf(dates[i]));
                 }
-                for(int i=0; i<girTotals.length; i++){
-                    Log.d("FIR", "Fir = " + String.valueOf(firPercentage[i]) + " Gir =  " + String.valueOf(girTotals[i]));
-                }
-
                 //call graphs
                 makeScoresGraph(scores,dates);
                 makePuttsGraph(putts,dates);
-                makeGirGraph(girTotals,dates);
+                makeGirGraph(girPercentage,dates);
                 makeFirGraph(firPercentage,dates);
-
                 x=0;
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
@@ -207,21 +188,32 @@ public class StatisticsFragment extends Fragment {
         }
 
         LineDataSet lineDataSet = new LineDataSet(yEntrys, "Last 5 Scores");
+        int color = ContextCompat.getColor(mContext, R.color.purple_500);
+        lineDataSet.setValueTextSize(12);
+        lineDataSet.setColor(color);
+        lineDataSet.setLineWidth(2);
 
         XAxis xAxis = lineChartScores.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
+        xAxis.setLabelRotationAngle(90);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         YAxis rightAxis = lineChartScores.getAxisRight();
+        YAxis leftAxis = lineChartScores.getAxisLeft();
         rightAxis.setEnabled(false);
+        leftAxis.setDrawLabels(false);
 
+        Legend legend = lineChartScores.getLegend();
+        legend.setTextSize(15);
 
+        lineChartScores.getDescription().setEnabled(false);
         lineChartScores.getAxisLeft().setAxisMaxValue(150f);
         lineChartScores.getAxisLeft().setAxisMinValue(50f);
 
         LineData data = new LineData(lineDataSet);
+        lineChartScores.setExtraBottomOffset(5);
         lineChartScores.setData(data);
         lineChartScores.invalidate();
 
@@ -242,18 +234,28 @@ public class StatisticsFragment extends Fragment {
             xEntrysFir.add(dates[i]);
         }
 
-        LineDataSet lineDataSetFir = new LineDataSet(yEntrysFir, "Fairways in Regulation");
+        LineDataSet lineDataSetFir = new LineDataSet(yEntrysFir, "Fairways in Regulation (%)");
+        int color = ContextCompat.getColor(mContext, R.color.teal_700);
+        lineDataSetFir.setValueTextSize(12);
+        lineDataSetFir.setColor(color);
+        lineDataSetFir.setLineWidth(2);
 
         XAxis xAxis = lineChartFir.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
+        xAxis.setLabelRotationAngle(90);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         YAxis rightAxis = lineChartFir.getAxisRight();
+        YAxis leftAxis = lineChartFir.getAxisLeft();
         rightAxis.setEnabled(false);
+        leftAxis.setDrawLabels(false);
 
+        Legend legend = lineChartFir.getLegend();
+        legend.setTextSize(15);
 
+        lineChartFir.getDescription().setEnabled(false);
         lineChartFir.getAxisLeft().setAxisMaxValue(100f);
         lineChartFir.getAxisLeft().setAxisMinValue(0f);
 
@@ -264,33 +266,44 @@ public class StatisticsFragment extends Fragment {
 
     }
 
-    public void makeGirGraph(int[] girTotals, String[] dates){
+    public void makeGirGraph(float[] girPercentage, String[] dates){
         //calculating average club values and putting into an array
 
         ArrayList<Entry> yEntrysGir = new ArrayList<>();
         ArrayList<String> xEntrysGir = new ArrayList<>();
 
-        for(int i=0; i<girTotals.length; i++){
-            yEntrysGir.add(new Entry(i, girTotals[i]));
+        for(int i=0; i<girPercentage.length; i++){
+            yEntrysGir.add(new Entry(i, girPercentage[i]));
         }
 
         for(int i=0; i<dates.length; i++){
             xEntrysGir.add(dates[i]);
         }
 
-        LineDataSet lineDataSetGir = new LineDataSet(yEntrysGir, "Greens in Regulation");
+        LineDataSet lineDataSetGir = new LineDataSet(yEntrysGir, "Greens in Regulation (%)");
+        int color = ContextCompat.getColor(mContext, R.color.orange);
+        lineDataSetGir.setValueTextSize(12);
+        lineDataSetGir.setColor(color);
+        lineDataSetGir.setLineWidth(2);
 
         XAxis xAxis = lineChartGir.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
         xAxis.setGranularity(1f);
+        xAxis.setLabelRotationAngle(90);
         xAxis.setGranularityEnabled(true);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
         YAxis rightAxis = lineChartGir.getAxisRight();
+        YAxis leftAxis = lineChartGir.getAxisLeft();
         rightAxis.setEnabled(false);
+        leftAxis.setDrawLabels(false);
 
 
-        lineChartGir.getAxisLeft().setAxisMaxValue(18f);
+        Legend legend = lineChartGir.getLegend();
+        legend.setTextSize(15);
+
+        lineChartGir.getDescription().setEnabled(false);
+        lineChartGir.getAxisLeft().setAxisMaxValue(100f);
         lineChartGir.getAxisLeft().setAxisMinValue(0f);
 
         LineData data = new LineData(lineDataSetGir);
@@ -311,23 +324,59 @@ public class StatisticsFragment extends Fragment {
         }
 
         LineDataSet lineDataSet2 = new LineDataSet(yEntrys2, "Average Putts per Round");
+        int color = ContextCompat.getColor(mContext, R.color.green);
+        lineDataSet2.setValueTextSize(12);
+        lineDataSet2.setColor(color);
+        lineDataSet2.setLineWidth(2);
 
         XAxis xAxis2 = lineChartPutts.getXAxis();
         xAxis2.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis2.setDrawGridLines(true);
         xAxis2.setGranularity(1f);
+        xAxis2.setLabelRotationAngle(90);
         xAxis2.setGranularityEnabled(true);
         xAxis2.setValueFormatter(new IndexAxisValueFormatter(dates));
         YAxis rightAxis2 = lineChartPutts.getAxisRight();
+        YAxis leftAxis = lineChartPutts.getAxisLeft();
         rightAxis2.setEnabled(false);
+        leftAxis.setDrawLabels(false);
 
 
+        Legend legend = lineChartPutts.getLegend();
+        legend.setTextSize(15);
+
+        lineChartPutts.getDescription().setEnabled(false);
         lineChartPutts.getAxisLeft().setAxisMaxValue(5f);
         lineChartPutts.getAxisLeft().setAxisMinValue(0f);
 
         LineData data = new LineData(lineDataSet2);
         lineChartPutts.setData(data);
         lineChartPutts.invalidate();
+
+        //setting club names arrayList
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String[] arrayString = getResources().getStringArray(R.array.clubs);
+        Set<String> sets = new HashSet<>(Arrays.asList(arrayString));
+        Set<String> setNew = sharedPrefs.getStringSet("club_List",sets);
+        for (String str : setNew)
+            club_namesALTemp.add(str);
+
+
+        Collections.sort(club_namesALTemp);
+        club_namesAL = club_namesALTemp;
+
+        for (int i = 0; i < club_namesAL.size(); i++) {
+            String[] str = club_namesAL.get(i).split(" ");
+            if (str.length > 1) {
+                club_namesAL.set(i, str[1]);
+            }
+            Log.d("Order:", club_namesAL.get(i));
+        }
+
+        //setting club usage Array List
+        for(int i=0; i< setNew.size(); i++){
+            club_usageAL.add(0);
+        }
 
         //calling the next query
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -339,40 +388,30 @@ public class StatisticsFragment extends Fragment {
                     for (DataSnapshot shots : dataSnapshot.getChildren()) {
                         Shots shot = shots.getValue(Shots.class);
                         shotTempList.add(shot);
-
                         String club = shot.getClub();
-                        int x =0;
-
-
 
                         //incrementing the amount of times each club is used
-                        for(String str: club_namesAL){
-                            if(club.equals(str)){
-                                club_usageAL.set(x,club_usageAL.get(x) + 1);
+                        for(int i =0; i<club_namesAL.size(); i++){
+                            if(club_namesAL.get(i).equals(club)){
+                                club_usageAL.set(i,club_usageAL.get(i) + 1);
                             }
-                            x++;
+
                         }
 
                     }
                 }
-
-
                 int y=0;
                 for(String str: club_namesAL){
                     Log.d("USAGE", str + ": " + club_usageAL.get(y));
                     y++;
                 }
-
                 makeClubUsageChart();
             }
-
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
 
     }
 
@@ -391,6 +430,7 @@ public class StatisticsFragment extends Fragment {
 
 
         BarDataSet barDataSet = new BarDataSet(yEntrys3, "Number of times each club was used");
+
 
         XAxis xAxis = clubUsageChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

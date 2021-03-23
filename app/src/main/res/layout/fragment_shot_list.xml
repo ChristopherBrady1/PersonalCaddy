@@ -8,41 +8,68 @@ android:layout_height="match_parent"
 android:background="@color/background">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayoutTitles"
+    <TextView
+        android:id="@+id/holeNumHeading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:gravity="center"
+        android:text="Hole: "
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/Listheader"
+        app:layout_constraintTop_toBottomOf="@+id/holeNumHeading">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:text="Shot: "
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textAllCaps="true"/>
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="2dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:background="@color/black"/>
 
-            <TextView
-                android:id="@+id/holeNumTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Hole: " />
-
-            <TextView
-                android:id="@+id/parHoleTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Par: " />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".75"
+            android:text="Shot Details: "
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textAllCaps="true"/>
     </LinearLayout>
-        <ListView
-            android:id="@+id/shotList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayoutTitles"
-            />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/Listheader"/>
+
+    <ListView
+        android:id="@+id/shotList"
+        android:layout_width="match_parent"
+        android:layout_height="686dp"
+        app:layout_constraintTop_toBottomOf="@id/divider5"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
