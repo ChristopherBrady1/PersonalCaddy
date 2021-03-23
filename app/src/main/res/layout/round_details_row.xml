@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/parLabel"
-                android:text="Par: "
+                android:text="Hole Par: "
                 android:paddingStart="20dp"
                 android:textColor="@color/main_text"
                 android:layout_margin="5dp"

@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="302dp"
         android:layout_marginBottom="683dp"
-        android:text="Test Map" />
+        android:text="Test Map"
+        android:visibility="invisible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createRound"
