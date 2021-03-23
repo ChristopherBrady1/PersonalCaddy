@@ -9,18 +9,19 @@
     >
 
     <Button
-        android:id="@+id/testMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test Map"
-        android:visibility="invisible" />
-
-    <Button
         android:id="@+id/buttonARNOW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
         android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/testMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="302dp"
+        android:layout_marginBottom="683dp"
+        android:text="Test Map" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createRound"

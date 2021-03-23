@@ -41,9 +41,6 @@ public class homeRoundDetailsAdapter extends ArrayAdapter<homeRoundDetails> {
         View home_layout = (View) convertView.findViewById(R.id.layout_home_row);
         home_layout.setContentDescription(homeRoundDetailsvar.hiddenID);
 
-        //TextView hidden_label = (TextView) convertView.findViewById(R.id.hiddenID);
-        //hidden_label.setText(homeRoundDetailsvar.hiddenID);
-
         return convertView;
     }
 }

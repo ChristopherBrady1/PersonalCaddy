@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
     private homeRoundDetailsAdapter homeRoundDetailsAdapter;
     private List<Round> roundTempList1;
 
-    int x=0;
+    int x = 0;
 
     //com.cbrady.personalcaddy.homeRoundDetails[] homeRoundDetails;
     /*com.cbrady.personalcaddy.homeRoundDetails[] homeRoundDetails = {
@@ -73,7 +73,6 @@ public class HomeFragment extends Fragment {
     ArrayList<homeRoundDetails> homeRoundDetailsArrayList = new ArrayList<>();
 
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,14 +84,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View bnv = getActivity().findViewById(R.id.nav_view);
         bnv.setVisibility(View.VISIBLE);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         createRound = root.findViewById(R.id.createRound);
         roundTempList1 = new ArrayList<>();
 
@@ -137,8 +136,7 @@ public class HomeFragment extends Fragment {
         String uid = user.getUid();
 
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo(uid);
-
+        Query query1 = FirebaseDatabase.getInstance().getReference("rounds").orderByChild("uid").equalTo(uid);
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,32 +154,22 @@ public class HomeFragment extends Fragment {
                         String roundID = rounds.getKey();
 
                         homeRoundDetailsArrayList.add(new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0], roundID));
-                        //homeRoundDetails[x] = new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0]);
-
-                        //x++;
-
-
-
-
                     }
                 }
-
-
-
-                homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(),homeRoundDetailsArrayList);
+                homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(), homeRoundDetailsArrayList);
 
                 ListView listView = (ListView) root.findViewById(R.id.homeList);
                 listView.setEmptyView(listView);
 
                 listView.setAdapter(homeRoundDetailsAdapter);
-                x=0;
+                x = 0;
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         //TextView hiddenID = view.findViewById(R.id.hiddenID);
                         View hiddenID = view.findViewById(R.id.layout_home_row);
-                        ((MainActivity)getActivity()).setHiddenKey(hiddenID.getContentDescription().toString());
+                        ((MainActivity) getActivity()).setHiddenKey(hiddenID.getContentDescription().toString());
 
                         Fragment roundListDetailsFragment = new RoundListDetailsFragment();
                         getActivity().getSupportFragmentManager().beginTransaction()
@@ -190,7 +178,6 @@ public class HomeFragment extends Fragment {
                                 .commit();
                     }
                 });
-
 
 
             }
@@ -202,34 +189,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-
         return root;
-    }
-    public class CustomAdapter extends ArrayAdapter<String> {
-        public CustomAdapter(Context context, int rowLayoutId, String[] myArrayData)
-        {
-            super(context, rowLayoutId, myArrayData);
-        }
-
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-
-            LayoutInflater inflater = getLayoutInflater();
-            View row=inflater.inflate(R.layout.home_list_row, parent, false);
-
-
-            TextView score_label = (TextView)row.findViewById(R.id.score);
-            //label.setText(holeNum[position]);
-
-            TextView courseName_label = (TextView) row.findViewById(R.id.CourseName);
-            //label2.setText(holeScores[position]);
-
-            TextView date_label = (TextView) row.findViewById(R.id.datePlayed);
-
-
-
-            return row;
-        }
     }
 }

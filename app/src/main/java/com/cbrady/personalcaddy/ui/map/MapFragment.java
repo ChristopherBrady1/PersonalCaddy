@@ -294,7 +294,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
         //button listeners
         ImageButton addMarker = getView().findViewById(R.id.addMarker);
-        Button removeMarker = getView().findViewById(R.id.removeMarker);
         Button confirmShot = getView().findViewById(R.id.confirmShot);
         TextView distance = getView().findViewById(R.id.distance);
         Button nextHoleButton = getView().findViewById(R.id.nextHoleButton);
@@ -543,17 +542,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             }
         });
 
-        removeMarker.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                destMarker.remove();
-                distance.setText("");
-                distance.setVisibility(View.INVISIBLE);
-                polyline1.remove();
-                destMarker = null;
-                confirmShot.setVisibility(View.INVISIBLE);
-            }
-        });
 
 
 
@@ -648,7 +636,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
                 //hide other buttons
                 addMarker.setVisibility(View.INVISIBLE);
-                removeMarker.setVisibility(View.INVISIBLE);
 
                 //show shot button
                 addShotPutter.setVisibility(View.VISIBLE);
@@ -744,11 +731,11 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
                 //show other buttons
                 addMarker.setVisibility(View.VISIBLE);
-                removeMarker.setVisibility(View.VISIBLE);
 
 
                 //hide shot button
                 addShotPutter.setVisibility(View.INVISIBLE);
+                shotMode.setVisibility(View.INVISIBLE);
 
             }
         });

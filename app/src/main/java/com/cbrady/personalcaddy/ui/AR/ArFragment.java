@@ -40,7 +40,7 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
     Context mContext;
     private com.google.ar.sceneform.ux.ArFragment arFragment;
     private AnchorNode currentAnchorNode;
-    private TextView tvDistance;
+    private TextView distance;
     ModelRenderable cubeRenderable;
     private Anchor currentAnchor = null;
 
@@ -71,7 +71,7 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
 
 
         arFragment = (com.google.ar.sceneform.ux.ArFragment) getChildFragmentManager().findFragmentById(R.id.ux_fragment);
-        tvDistance = root.findViewById(R.id.tvDistance);
+        distance = root.findViewById(R.id.tvDistance);
 
 
         initModel();
@@ -80,12 +80,10 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
             if (cubeRenderable == null)
                 return;
 
-            // Creating Anchor.
-
+            // Creating Anchor
             Anchor anchor = hitResult.createAnchor();
             AnchorNode anchorNode = new AnchorNode(anchor);
             anchorNode.setParent(arFragment.getArSceneView().getScene());
-
             clearAnchor();
 
             currentAnchor = anchor;
@@ -98,7 +96,6 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
             arFragment.getArSceneView().getScene().addOnUpdateListener(this);
             arFragment.getArSceneView().getScene().addChild(anchorNode);
             node.select();
-
 
         });
 
@@ -132,8 +129,6 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
 
     private void clearAnchor() {
         currentAnchor = null;
-
-
         if (currentAnchorNode != null) {
             arFragment.getArSceneView().getScene().removeChild(currentAnchorNode);
             currentAnchorNode.getAnchor().detach();
@@ -176,16 +171,8 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
                 adjustment= adjustment * 3;
             }
 
+            distance.setText(String.format("%.1f", distanceMeters * adjustment) + " " + mes_unit);
 
-
-            tvDistance.setText(String.format("%.1f", distanceMeters * adjustment) + " " + mes_unit);
-
-
-            /*float[] distance_vector = currentAnchor.getPose().inverse()
-                    .compose(cameraPose).getTranslation();
-            float totalDistanceSquared = 0;
-            for (int i = 0; i < 3; ++i)
-                totalDistanceSquared += distance_vector[i] * distance_vector[i];*/
         }
     }
 }
