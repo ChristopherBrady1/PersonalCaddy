@@ -283,12 +283,12 @@ public class clubChoice extends Fragment {
         lie_ball = ((MainActivity)getActivity()).getCurrentLie();
         wind = ((MainActivity)getActivity()).getCurrentWind();
         hill = ((MainActivity)getActivity()).getCurrentHill();
-        Log.d("LieBall",lie_ball);
-        Log.d("Retrievals"," Lie: " + lie_ball + " Wind: " + wind + " Hill: " + hill);
+       // Log.d("LieBall",lie_ball);
+        //Log.d("Retrievals"," Lie: " + lie_ball + " Wind: " + wind + " Hill: " + hill);
         int adjustment = 0;
 
         //switch statement to apply based on lie of ball
-        Log.d("AdjustDistance",String.valueOf(desired_distance));
+        //Log.d("AdjustDistance",String.valueOf(desired_distance));
         switch(lie_ball){
             case "Rough":
                 adjustment = adjustment - 1;

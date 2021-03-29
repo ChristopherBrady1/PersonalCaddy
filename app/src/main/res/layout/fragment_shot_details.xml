@@ -74,7 +74,8 @@
             android:layout_gravity="center"
             android:buttonTint="@color/black"
             android:text="@string/fairway"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:checked="true"/>
 
         <RadioButton
             android:id="@+id/radio_rough"
@@ -148,7 +149,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uphillTitle">
+        app:layout_constraintTop_toBottomOf="@+id/uphillTitle"
+        >
 
 
         <RadioButton
@@ -182,7 +184,8 @@
             android:layout_marginRight="5dp"
             android:buttonTint="@color/black"
             android:text="@string/flat"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:checked="true"/>
     </RadioGroup>
 
     <View
@@ -254,7 +257,8 @@
             android:layout_marginRight="5dp"
             android:buttonTint="@color/black"
             android:text="@string/no_wind"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:checked="true"/>
     </RadioGroup>
 
 
