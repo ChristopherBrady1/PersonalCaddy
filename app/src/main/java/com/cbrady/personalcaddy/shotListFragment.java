@@ -94,6 +94,8 @@ public class shotListFragment extends Fragment {
                                 String shotNum = shot.getShotNum();
                                 String lieBall = shot.getLieBall();
 
+                                Log.d("LIE_GOT", lieBall);
+
 
                                 shotDetailsDisplayArrayList.add(new ShotDetailsDisplay(desiredDistance, actualDistance, club,  shotNum, lieBall));
 

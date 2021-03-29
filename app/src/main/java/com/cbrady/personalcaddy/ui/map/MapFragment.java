@@ -555,6 +555,31 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     public void onClick(DialogInterface dialog, int id) {
                         present_hole = holeNumText.getText().toString();
                         String currentShotNum = shotNumText.getText().toString();
+
+                        Log.d("CHECK_SCORE", "currentShotNum: "+ currentShotNum + "shotNumVar: " + String.valueOf(shotNum));
+
+                        //writing last shot as a putt if in putt mode as this takes into account the possibility of chipping in or a hole in 1
+                        if(addShotPutter.getVisibility() == View.VISIBLE) {
+                            writeNewShot(holeKey, uid, currentRoundID, "0", "0", "putter", String.valueOf(shotNum), "green");
+                        }
+                        else{
+                            start_point2 = marker.getPosition();
+
+                            Location.distanceBetween(start_point.latitude, start_point.longitude,
+                                    desired_end_point.latitude, desired_end_point.longitude,
+                                    desired_shot_distance);
+
+                            //calculate actual distance
+                            Location.distanceBetween(start_point.latitude, start_point.longitude,
+                                    start_point2.latitude, start_point2.longitude,
+                                    actual_distance);
+
+                            String club = ((MainActivity)getActivity()).getCurrentClub1();
+                            String lie = ((MainActivity)getActivity()).getCurrentLie();
+                            holeKey = ((MainActivity)getActivity()).getHoleKey();
+                            writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
+                        }
+
                         //add score to scorecard
                         String parHole = ((MainActivity)getActivity()).getHolePar();
                         ((MainActivity)getActivity()).scorecardScores.set(scorecardIndex,currentShotNum);
@@ -699,7 +724,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     holeKey = ((MainActivity)getActivity()).getHoleKey();
                     writeNewShot(holeKey,uid,currentRoundID,String.format("%.2f", desired_shot_distance[0]),String.format("%.2f", actual_distance[0]),club,String.valueOf(shotNum),lie);
 
-                    //TODO add putt counter
 
                     //increment shot num
                     shotNum++;
@@ -721,7 +745,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                 //call write new shot
                 holeKey = ((MainActivity)getActivity()).getHoleKey();
-                writeNewShot(holeKey, uid, currentRoundID, "0","0","putter", present_shot, "green");
+                writeNewShot(holeKey, uid, currentRoundID, "0","0","putter", String.valueOf(shotNum), "green");
+                shotNum++;
 
             }
         });

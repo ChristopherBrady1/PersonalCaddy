@@ -48,7 +48,7 @@ public class Shots {
         result.put("actualDistance", actualDistance);
         result.put("club", club);
         result.put("shotNum", shotNum);
-        result.put("lie of ball", lieBall);
+        result.put("lieBall", lieBall);
 
         return result;
     }
