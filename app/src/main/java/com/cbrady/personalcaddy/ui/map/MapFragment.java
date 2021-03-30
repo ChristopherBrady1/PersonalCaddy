@@ -1047,6 +1047,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         bnv.setVisibility(View.VISIBLE);
 
 
+        //resetting counter for next round
+        ((MainActivity)getActivity()).setCounter(1);
+
         //TODO
         //delete data from scorecard arrayList
 
