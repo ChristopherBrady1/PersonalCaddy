@@ -39,6 +39,7 @@ public class ShotDetailsFragment extends Fragment {
     private MaterialRadioButton radio_fairway,radio_rough,radio_green,radio_teebox,radio_sand;
     private Button btnDisplay;
     String currentLieBall, currentWind, currentHill;
+    RadioButton lastRadioBtnLie, lastRadioBtnWind, lastRadioBtnHill ;
 
     @Override
     public void onAttach(Context context) {
@@ -65,6 +66,9 @@ public class ShotDetailsFragment extends Fragment {
         radioGroupWind=(RadioGroup)getView().findViewById(R.id.radioGroupWind);
         radioGroupHill=(RadioGroup)getView().findViewById(R.id.radioGroupHill);
 
+        lastRadioBtnLie = (RadioButton) getView().findViewById(R.id.radio_teebox);
+        lastRadioBtnHill = (RadioButton) getView().findViewById(R.id.radio_flat);
+        lastRadioBtnWind = (RadioButton) getView().findViewById(R.id.radio_no_wind);
 
         int currentShot = ((MainActivity)getActivity()).getCurrentShot();
 
@@ -144,6 +148,22 @@ public class ShotDetailsFragment extends Fragment {
         ((MainActivity)getActivity()).setCurrentLie(currentLieBall);
         ((MainActivity)getActivity()).setCurrentHill(currentHill);
         ((MainActivity)getActivity()).setCurrentWind(currentWind);
+
+        if (radioGroupLie.getCheckedRadioButtonId() == -1)
+        {
+            lastRadioBtnLie.setError("Select Lie");
+            return;
+        }
+        if (radioGroupHill.getCheckedRadioButtonId() == -1)
+        {
+            lastRadioBtnHill.setError("Select Gradient");
+            return;
+        }
+        if (radioGroupWind.getCheckedRadioButtonId() == -1)
+        {
+            lastRadioBtnWind.setError("Select Wind");
+            return;
+        }
 
         //calling club choice
         Fragment clubChoice = new clubChoice();
