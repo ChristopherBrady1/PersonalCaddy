@@ -73,6 +73,11 @@ public class StatisticsFragment extends Fragment {
     ArrayList<String> club_namesALTemp = new ArrayList<>();
     //usage arrayList
     ArrayList<Integer> club_usageAL = new ArrayList<>();
+    //total arrayList
+    ArrayList<Float> club_totalAL = new ArrayList<>();
+    //average arrayList
+    ArrayList<Float> club_avgAL = new ArrayList<>();
+
 
 
     String actualDistance = "";
@@ -373,9 +378,12 @@ public class StatisticsFragment extends Fragment {
             Log.d("Order:", club_namesAL.get(i));
         }
 
-        //setting club usage Array List
+        float zero =0;
+        //setting club usage and total Array List
         for(int i=0; i< setNew.size(); i++){
             club_usageAL.add(0);
+            club_totalAL.add(zero);
+            club_avgAL.add(zero);
         }
 
         //calling the next query
@@ -393,19 +401,26 @@ public class StatisticsFragment extends Fragment {
                         //incrementing the amount of times each club is used
                         for(int i =0; i<club_namesAL.size(); i++){
                             if(club_namesAL.get(i).equals(club)){
+                                actualDistance = shot.getActualDistance();
                                 club_usageAL.set(i,club_usageAL.get(i) + 1);
+                                club_totalAL.set(i,club_totalAL.get(i) + Integer.parseInt(actualDistance));
                             }
 
                         }
 
                     }
                 }
+                for(int i =0; i<club_avgAL.size(); i++){
+                    club_avgAL.set(i,(club_totalAL.get(i)/club_usageAL.get(i)));
+                    Log.d("Calc", club_namesAL.get(i) + ": "+ club_avgAL.get(i));
+
+                }
                 int y=0;
                 for(String str: club_namesAL){
                     Log.d("USAGE", str + ": " + club_usageAL.get(y));
                     y++;
                 }
-                makeClubUsageChart();
+                makeClubAvgChart();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -415,13 +430,13 @@ public class StatisticsFragment extends Fragment {
 
     }
 
-    public void makeClubUsageChart(){
+    public void makeClubAvgChart(){
         ArrayList<BarEntry> usages = new ArrayList<>();
         ArrayList<BarEntry> yEntrys3 = new ArrayList<>();
         ArrayList<String> xEntrys3 = new ArrayList<>();
 
-        for(int i=0; i<club_usageAL.size(); i++){
-            yEntrys3.add(new BarEntry(i, club_usageAL.get(i)));
+        for(int i=0; i<club_avgAL.size(); i++){
+            yEntrys3.add(new BarEntry(i, club_avgAL.get(i)));
         }
 
         for(String str: club_namesAL){
@@ -429,7 +444,8 @@ public class StatisticsFragment extends Fragment {
         }
 
 
-        BarDataSet barDataSet = new BarDataSet(yEntrys3, "Number of times each club was used");
+        BarDataSet barDataSet = new BarDataSet(yEntrys3, "Average Distance for each club");
+        barDataSet.setValueTextSize(12);
 
 
         XAxis xAxis = clubUsageChart.getXAxis();
@@ -452,7 +468,6 @@ public class StatisticsFragment extends Fragment {
 
         clubUsageChart.setFitBars(true);
         clubUsageChart.setData(barData);
-        clubUsageChart.getDescription().setText("Bar Chart Example");
         clubUsageChart.animateY(2000);
 
     }

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestDataEntryFragment"
+    android:background="@color/background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/courseNameEntry"
+                    android:hint="Course Name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numPar3sEntry"
+                    android:hint="Number of Par 3s"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/parCourseEntry"
+                    android:hint="Par Course"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scoreEntry"
+                    android:hint="Score" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/totalFIREntry"
+                    android:hint="FIR Total"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/totalGIREntry"
+                    android:hint="GIR Total"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/totalPuttsEntry"
+                    android:hint="Putts Total" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/subRoundButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Round" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/distanceEntry"
+                    android:hint="Distance Hole"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/parEntry"
+                    android:hint="Par Hole" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/holeNumEntry"
+                    android:hint="Hole Number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scoreHoleEntry"
+                    android:hint="Hole Score" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/PuttsEntry"
+                    android:hint="Putts Hole" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/subHoleButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Hole" />
+
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shotDistanceEntry"
+                    android:hint="Shot Distance"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/clubEntry"
+                    android:hint="Club"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shotNumEntry"
+                    android:hint="Shot Num"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lieBallEntry"
+                    android:hint="Lie Ball"  />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/subShotButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Shot" />
+
+            <Button
+                android:id="@+id/driverB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Driver" />
+            <Button
+                android:id="@+id/Wood3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 Wood" />
+            <Button
+                android:id="@+id/Wood5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5 Wood" />
+            <Button
+                android:id="@+id/Wood7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7 Wood" />
+            <Button
+                android:id="@+id/iron3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3iron" />
+            <Button
+                android:id="@+id/iron4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4iron" />
+            <Button
+                android:id="@+id/iron5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5iron" />
+            <Button
+                android:id="@+id/iron6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6iron" />
+            <Button
+                android:id="@+id/iron7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7iron" />
+            <Button
+                android:id="@+id/iron8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8iron" />
+            <Button
+                android:id="@+id/iron9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9iron" />
+            <Button
+                android:id="@+id/PWedge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PWedge" />
+            <Button
+                android:id="@+id/SWedge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SWedge" />
+            <Button
+                android:id="@+id/LWedge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LWedge" />
+            <Button
+                android:id="@+id/GWedge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GWedge" />
+            <Button
+                android:id="@+id/Putter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Putter" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cbrady.personalcaddy.MainActivity;
 import com.cbrady.personalcaddy.R;
+import com.cbrady.personalcaddy.TestDataEntryFragment;
 import com.cbrady.personalcaddy.homeRoundDetails;
 import com.cbrady.personalcaddy.homeRoundDetailsAdapter;
 import com.cbrady.personalcaddy.models.Round;
@@ -97,6 +98,18 @@ public class HomeFragment extends Fragment {
 
         Button buttonARNOW = root.findViewById(R.id.buttonARNOW);
         Button testMap = root.findViewById(R.id.testMap);
+        Button dataEntry = root.findViewById(R.id.dataEntry);
+
+        dataEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment testDataEntry = new TestDataEntryFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, testDataEntry, "mapFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         testMap.setOnClickListener(new View.OnClickListener() {
             @Override

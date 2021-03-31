@@ -13,6 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/dataEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Data"
         android:visibility="visible" />
 
     <Button
