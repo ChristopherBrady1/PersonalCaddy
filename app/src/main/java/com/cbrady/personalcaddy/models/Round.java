@@ -9,7 +9,7 @@ import java.util.Map;
 
 // [START post_class]
 @IgnoreExtraProperties
-public class Round {
+public class Round implements Comparable<Round>{
 
 
 
@@ -154,6 +154,11 @@ public class Round {
 
     public void setNumPar3s(int numPar3s) {
         this.numPar3s = numPar3s;
+    }
+
+    @Override
+    public int compareTo(Round o) {
+        return this.getCurrentDate().compareTo(o.getCurrentDate());
     }
 }
 // [END post_class]

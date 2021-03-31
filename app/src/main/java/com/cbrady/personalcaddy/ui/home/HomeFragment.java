@@ -43,6 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -169,6 +170,10 @@ public class HomeFragment extends Fragment {
                         homeRoundDetailsArrayList.add(new homeRoundDetails(String.valueOf(score), courseName, dateOwn[0], roundID));
                     }
                 }
+
+                //sorting the rounds by date
+                Collections.sort(homeRoundDetailsArrayList, Collections.reverseOrder());
+
                 homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(), homeRoundDetailsArrayList);
 
                 ListView listView = (ListView) root.findViewById(R.id.homeList);
