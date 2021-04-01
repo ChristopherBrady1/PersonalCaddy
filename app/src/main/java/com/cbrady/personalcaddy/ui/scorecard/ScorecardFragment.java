@@ -55,7 +55,7 @@ public class ScorecardFragment extends Fragment {
         holePars = ((MainActivity)getActivity()).scorecardPars.toArray(holePars);
 
         for(int i=0; i<holeScores.length; i++){
-            scorecardDetailsArrayList.add(new scorecardDetails(String.valueOf(i + 1), holePars[i], holeScores[i]));
+            scorecardDetailsArrayList.add(new scorecardDetails(String.valueOf(i + 1), holeScores[i], holePars[i]));
         }
 
         scorecarddetailsadapter = new scorecardDetailsAdapter(getActivity(),scorecardDetailsArrayList);
