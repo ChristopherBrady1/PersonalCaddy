@@ -48,6 +48,6 @@ public class homeRoundDetails implements Comparable<homeRoundDetails>{
 
     @Override
     public int compareTo(homeRoundDetails o) {
-        return this.getDate().compareTo(o.getDate());
+        return this.getScore().compareTo(o.getScore());
     }
 }

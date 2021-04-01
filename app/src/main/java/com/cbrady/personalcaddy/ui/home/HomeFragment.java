@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 //sorting the rounds by date
-                Collections.sort(homeRoundDetailsArrayList, Collections.reverseOrder());
+                Collections.sort(homeRoundDetailsArrayList);
 
                 homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(), homeRoundDetailsArrayList);
 
