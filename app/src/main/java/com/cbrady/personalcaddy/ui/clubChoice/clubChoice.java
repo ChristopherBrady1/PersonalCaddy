@@ -67,6 +67,8 @@ public class clubChoice extends Fragment {
     //average arrayList
     ArrayList<Float> club_avgAL = new ArrayList<>();
 
+    Spinner spinner;
+
     String actualDistance = "";
     float desired_distance, adjusted_desired_distance;
     String lie_ball = "";
@@ -187,7 +189,7 @@ public class clubChoice extends Fragment {
 
         adapter = new clubChoice.SpinnerAdapter(mContext);
 
-        final Spinner spinner = (Spinner)getView().findViewById(R.id.clubSpinner);
+        spinner = (Spinner)getView().findViewById(R.id.clubSpinner);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -354,14 +356,21 @@ public class clubChoice extends Fragment {
         index = index + adjustment;
         if(index <= 0){
             clubSuggestion.setText(club_namesAL.get(0));
+
+            spinner.setSelection(0);
         }
         else if(index >= club_namesAL.size()){
             //setting it to the lowest possible club
-            clubSuggestion.setText(club_namesAL.get((club_namesAL.size())-1));
+            int pos = (club_namesAL.size())-1;
+            clubSuggestion.setText(club_namesAL.get(pos));
+
+            spinner.setSelection(pos);
         }
         else{
 
             clubSuggestion.setText(club_namesAL.get(index));
+            spinner.setSelection(index);
+
         }
 
     }
