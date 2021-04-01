@@ -112,7 +112,6 @@ public class clubChoice extends Fragment {
 
         //only sort once
 
-
         Collections.sort(club_namesALTemp);
         club_namesAL = club_namesALTemp;
 
@@ -123,8 +122,6 @@ public class clubChoice extends Fragment {
             }
             Log.d("Order:", club_namesAL.get(i));
         }
-
-
 
         float zero =0;
         //setting club usage and total Array List
@@ -137,7 +134,7 @@ public class clubChoice extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
-        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("UserId").equalTo(uid);
+        Query query1 =  FirebaseDatabase.getInstance().getReference("shots").orderByChild("userId").equalTo(uid);
 
         query1.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -154,8 +151,9 @@ public class clubChoice extends Fragment {
                         for(int i =0; i<club_namesAL.size(); i++){
                             if(club_namesAL.get(i).equals(club)){
                                 actualDistance = shot.getActualDistance();
+                                float dist = Float.parseFloat(actualDistance);
                                 club_usageAL.set(i,club_usageAL.get(i) + 1);
-                                club_totalAL.set(i,club_totalAL.get(i) + Integer.parseInt(actualDistance));
+                                club_totalAL.set(i,club_totalAL.get(i) + dist);
                             }
 
                         }

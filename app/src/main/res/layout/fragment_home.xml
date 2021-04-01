@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Data"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/testMap"
@@ -29,7 +29,7 @@
         android:layout_marginEnd="302dp"
         android:layout_marginBottom="683dp"
         android:text="Test Map"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/createRound"

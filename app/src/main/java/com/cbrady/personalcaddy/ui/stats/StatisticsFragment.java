@@ -402,8 +402,9 @@ public class StatisticsFragment extends Fragment {
                         for(int i =0; i<club_namesAL.size(); i++){
                             if(club_namesAL.get(i).equals(club)){
                                 actualDistance = shot.getActualDistance();
+                                float dist = Float.parseFloat(actualDistance);
                                 club_usageAL.set(i,club_usageAL.get(i) + 1);
-                                club_totalAL.set(i,club_totalAL.get(i) + Integer.parseInt(actualDistance));
+                                club_totalAL.set(i,club_totalAL.get(i) + dist);
                             }
 
                         }
