@@ -38,6 +38,16 @@ public class MainActivity extends BaseActivity {
     private String holeKey;
     private int holeDetailsComplete;
     private int currentShot;
+
+    public int getShotCounter() {
+        return shotCounter;
+    }
+
+    public void setShotCounter(int shotCounter) {
+        this.shotCounter = shotCounter;
+    }
+
+    private int shotCounter=1;
     private int fir =0;
     private String hiddenKey;
 

@@ -311,6 +311,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         bnv.setVisibility(View.GONE);
 
 
+
+        shotNumText.setText(String.valueOf(((MainActivity)getActivity()).getShotCounter()));
+
+
         present_shot = shotNumText.getText().toString();
 
         //setting current hole
@@ -461,7 +465,9 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                 confirmShot.setVisibility(View.INVISIBLE);
                 ((MainActivity)getActivity()).setCurrentShot(shotNum);
 
-
+                int temp = ((MainActivity)getActivity()).getShotCounter();
+                temp++;
+                ((MainActivity)getActivity()).setShotCounter(temp);
 
 
                 //Calling Shot details fragment

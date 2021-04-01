@@ -41,7 +41,7 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
     private com.google.ar.sceneform.ux.ArFragment arFragment;
     private AnchorNode currentAnchorNode;
     private TextView distance;
-    ModelRenderable cubeRenderable;
+    ModelRenderable shapeRenderable;
     private Anchor currentAnchor = null;
 
 
@@ -77,7 +77,7 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
         initModel();
 
         arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
-            if (cubeRenderable == null)
+            if (shapeRenderable == null)
                 return;
 
             // Creating Anchor
@@ -91,7 +91,7 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
 
 
             TransformableNode node = new TransformableNode(arFragment.getTransformationSystem());
-            node.setRenderable(cubeRenderable);
+            node.setRenderable(shapeRenderable);
             node.setParent(anchorNode);
             arFragment.getArSceneView().getScene().addOnUpdateListener(this);
             arFragment.getArSceneView().getScene().addChild(anchorNode);
@@ -117,13 +117,13 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
     }
 
     private void initModel() {
-        MaterialFactory.makeTransparentWithColor(mContext, new Color(android.graphics.Color.RED))
+        MaterialFactory.makeTransparentWithColor(mContext, new Color(android.graphics.Color.WHITE))
                 .thenAccept(
                         material -> {
-                            Vector3 vector3 = new Vector3(0.05f, 0.01f, 0.01f);
-                            cubeRenderable = ShapeFactory.makeCube(vector3, Vector3.zero(), material);
-                            cubeRenderable.setShadowCaster(false);
-                            cubeRenderable.setShadowReceiver(false);
+                            Vector3 vector3 = new Vector3(0.0f, 0.01f, 0.0f);
+                            shapeRenderable = ShapeFactory.makeCylinder(0.1f, 0.1f,vector3,  material);
+                            shapeRenderable.setShadowCaster(false);
+                            shapeRenderable.setShadowReceiver(false);
                         });
     }
 
