@@ -467,6 +467,9 @@ public class StatisticsFragment extends Fragment {
 
         BarData barData = new BarData(barDataSet);
 
+        Legend legend = clubUsageChart.getLegend();
+        legend.setTextSize(15);
+
         clubUsageChart.setFitBars(true);
         clubUsageChart.setData(barData);
         clubUsageChart.animateY(2000);

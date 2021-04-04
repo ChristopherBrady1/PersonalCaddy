@@ -1,7 +1,12 @@
 package com.cbrady.personalcaddy.ui.settings;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -15,6 +20,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onCreate(_savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
         addPreferencesFromResource(R.xml.preferences);
+
 
     }
 

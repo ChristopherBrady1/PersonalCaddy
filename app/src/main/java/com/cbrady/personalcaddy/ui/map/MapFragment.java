@@ -667,6 +667,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
                 //hide other buttons
                 addMarker.setVisibility(View.INVISIBLE);
+                TextView aMTxt = (TextView) getView().findViewById(R.id.addMarkerTxt);
+                aMTxt.setVisibility(View.INVISIBLE);
 
                 //show shot button
                 addShotPutter.setVisibility(View.VISIBLE);
@@ -762,6 +764,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             public void onClick(View v) {
                 //show other buttons
                 addMarker.setVisibility(View.VISIBLE);
+                TextView aMTxt = (TextView) getView().findViewById(R.id.addMarkerTxt);
+                aMTxt.setVisibility(View.INVISIBLE);
 
 
                 //hide shot button
@@ -774,6 +778,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         arMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                client.removeLocationUpdates(mLocationCallback);
                 Fragment arFragment = new ArFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment, arFragment, "findThisFragment")

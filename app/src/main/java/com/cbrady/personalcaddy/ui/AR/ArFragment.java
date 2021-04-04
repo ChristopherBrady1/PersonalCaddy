@@ -141,9 +141,6 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
     public void onUpdate(FrameTime frameTime) {
         Frame frame = arFragment.getArSceneView().getArFrame();
 
-        Log.d("API123", "onUpdateframe... current anchor node " + (currentAnchorNode == null));
-
-
         if (currentAnchorNode != null) {
             Pose objectPose = currentAnchor.getPose();
             Pose cameraPose = frame.getCamera().getPose();

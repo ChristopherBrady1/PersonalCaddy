@@ -51,7 +51,8 @@ public class ShotDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_shot_details, container, false);
 
-
+        //hide actionbar
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         return rootView;
     }
 
