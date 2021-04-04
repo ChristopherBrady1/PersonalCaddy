@@ -214,8 +214,6 @@ public class StatisticsFragment extends Fragment {
         legend.setTextSize(15);
 
         lineChartScores.getDescription().setEnabled(false);
-        lineChartScores.getAxisLeft().setAxisMaxValue(150f);
-        lineChartScores.getAxisLeft().setAxisMinValue(50f);
 
         LineData data = new LineData(lineDataSet);
         lineChartScores.setExtraBottomOffset(5);

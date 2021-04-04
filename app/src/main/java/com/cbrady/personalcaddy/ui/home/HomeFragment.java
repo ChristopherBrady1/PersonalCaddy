@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
     SimpleAdapter adapter;
     private homeRoundDetailsAdapter homeRoundDetailsAdapter;
     private List<Round> roundTempList1;
+    ListView listView;
 
     int x = 0;
 
@@ -176,8 +177,7 @@ public class HomeFragment extends Fragment {
 
                 homeRoundDetailsAdapter = new homeRoundDetailsAdapter(getActivity(), homeRoundDetailsArrayList);
 
-                ListView listView = (ListView) root.findViewById(R.id.homeList);
-                listView.setEmptyView(listView);
+                listView = (ListView) root.findViewById(R.id.homeList);
 
                 listView.setAdapter(homeRoundDetailsAdapter);
                 x = 0;
