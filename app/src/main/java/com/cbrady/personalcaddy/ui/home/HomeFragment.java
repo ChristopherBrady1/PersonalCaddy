@@ -95,7 +95,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-        //((AppCompatActivity) getActivity()).getSupportActionBar().show();
         createRound = root.findViewById(R.id.createRound);
         roundTempList1 = new ArrayList<>();
 

@@ -1045,7 +1045,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         super.onDetach();
         View bnv = getActivity().findViewById(R.id.nav_view);
         bnv.setVisibility(View.VISIBLE);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        //((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
     }
 
@@ -1072,14 +1072,14 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         bnv.setVisibility(View.VISIBLE);
 
         ((MainActivity)getActivity()).setShotTotal(0);
+        ((MainActivity)getActivity()).setHoleNum(1);
 
         //resetting counter for next round
         ((MainActivity)getActivity()).setCounter(1);
 
-        //TODO
-        //delete data from scorecard arrayList
+        //((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
-        //TODO closing the fragment
+
         Fragment homeFrag = new HomeFragment();
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.nav_host_fragment, homeFrag, "homeFrag")
