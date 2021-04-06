@@ -5,34 +5,48 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/head">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="top"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:background="@color/teal_200"
+        android:padding="8dp"
+        android:text="Return to Map" />
+
+    <LinearLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hole:"
-            android:textSize="20sp"
             android:gravity="center"
+            android:text="Hole:"
+            android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textAllCaps="true"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Par:"
-            android:textSize="20sp"
             android:gravity="center"
+            android:text="Par:"
+            android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textAllCaps="true"/>
+            android:textSize="20sp" />
 
 
         <TextView
@@ -40,11 +54,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Score:"
-            android:textSize="20sp"
             android:gravity="center"
+            android:text="Score:"
+            android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textAllCaps="true"/>
+            android:textSize="20sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

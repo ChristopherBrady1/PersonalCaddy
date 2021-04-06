@@ -165,6 +165,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
     BottomNavigationView bnv;
 
 
+    int totalShots = 0;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -319,7 +321,11 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
         //setting current hole
         present_hole = holeNumText.getText().toString();
-        current_hole = Integer.parseInt(present_hole);
+        String check_hole = ((MainActivity)getActivity()).getCurrentHoleNum();
+        totalShots = ((MainActivity)getActivity()).getShotTotal();
+
+        holeNumText.setText(check_hole);
+        shotNumText.setText(String.valueOf(totalShots));
 
         currentRoundID = ((MainActivity)getActivity()).getCurrentRoundKey();
 
@@ -329,6 +335,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             pushHolecounter++;
         }*/
 
+        holeNumText.setText(String.valueOf(current_hole));
 
         /*TODO *************************************************
         Button pushHole = getView().findViewById(R.id.submitHole);
@@ -487,8 +494,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     desired_shot_distance[0] = 0;
 
                     //calculate desired distance
-                    Location.distanceBetween(start_point.latitude, start_point.longitude,
-                            desired_end_point.latitude, desired_end_point.longitude,
+                    Location.distanceBetween(start_point2.latitude, start_point2.longitude,
+                            desired_end_point2.latitude, desired_end_point2.longitude,
                             desired_shot_distance);
 
                     //setting desired distance globally
@@ -511,7 +518,6 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
                     //increment shot num
                     shotNum++;
-                    shotNumText.setText(String.valueOf(shotNum));
 
                     Log.d("SHOT_DETAILS", "Lie: " + ((MainActivity)getActivity()).getCurrentLie());
                     Log.d("SHOT_DETAILS", "Actual Distance: " + String.format("%.2f", actual_distance[0]));
@@ -536,6 +542,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                     //setting desired distance globally
                     ((MainActivity)getActivity()).setDesired_distance(desired_shot_distance[0]);
                 }
+
+                totalShots++;
+                shotNumText.setText(String.valueOf(totalShots));
+                ((MainActivity)getActivity()).setShotTotal(totalShots);
 
                 //removing marker
                 //TODO MAKE a function called remove marker and add marker that these can call
@@ -610,6 +620,8 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
                         current_hole++;
                         holeNumText.setText(String.valueOf(current_hole));
 
+                        ((MainActivity)getActivity()).setCurrentShot(1);
+                        ((MainActivity)getActivity()).setShotTotal(0);
                         //setting counter
                         ((MainActivity)getActivity()).setCounter(2);
 
@@ -779,9 +791,10 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
             @Override
             public void onClick(View v) {
                 client.removeLocationUpdates(mLocationCallback);
+
                 Fragment arFragment = new ArFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, arFragment, "findThisFragment")
+                        .replace(R.id.nav_host_fragment, arFragment, "arFrag")
                         .addToBackStack(null)
                         .commit();
             }
@@ -1026,6 +1039,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
 
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -1057,6 +1071,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         bnv = getActivity().findViewById(R.id.nav_view);
         bnv.setVisibility(View.VISIBLE);
 
+        ((MainActivity)getActivity()).setShotTotal(0);
 
         //resetting counter for next round
         ((MainActivity)getActivity()).setCounter(1);
@@ -1067,7 +1082,7 @@ public class MapFragment extends Fragment implements SensorEventListener, Locati
         //TODO closing the fragment
         Fragment homeFrag = new HomeFragment();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.nav_host_fragment, homeFrag, "findThisFragment")
+                .replace(R.id.nav_host_fragment, homeFrag, "homeFrag")
                 .addToBackStack(null)
                 .commit();
 

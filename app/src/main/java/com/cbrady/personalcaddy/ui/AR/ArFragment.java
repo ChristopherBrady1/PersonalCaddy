@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,14 +57,12 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_ar, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
 
         if (!checkIsSupportedDeviceOrFinish(mContext)) {
             Toast.makeText(mContext, "Device not supported", Toast.LENGTH_LONG).show();
@@ -73,6 +72,17 @@ public class ArFragment extends Fragment implements Scene.OnUpdateListener{
         arFragment = (com.google.ar.sceneform.ux.ArFragment) getChildFragmentManager().findFragmentById(R.id.ux_fragment);
         distance = root.findViewById(R.id.tvDistance);
 
+        Button back = root.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getFragmentManager().findFragmentByTag("mapFragment");
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, "mapFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         initModel();
 

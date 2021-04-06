@@ -279,6 +279,8 @@ public class clubChoice extends Fragment {
         //get desired distance
         desired_distance = ((MainActivity)getActivity()).getDesired_distance();
 
+        Log.d("CHECK_DISTD", String.valueOf(desired_distance));
+
         //get lie of ball
         lie_ball = ((MainActivity)getActivity()).getCurrentLie();
         wind = ((MainActivity)getActivity()).getCurrentWind();

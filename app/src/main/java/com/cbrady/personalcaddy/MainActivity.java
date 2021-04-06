@@ -37,7 +37,17 @@ public class MainActivity extends BaseActivity {
     private String holeDistance;
     private String holeKey;
     private int holeDetailsComplete;
-    private int currentShot;
+    private int currentShot =1;
+
+    public int getShotTotal() {
+        return shotTotal;
+    }
+
+    public void setShotTotal(int shotTotal) {
+        this.shotTotal = shotTotal;
+    }
+
+    private int shotTotal=0;
 
     public int getShotCounter() {
         return shotCounter;

@@ -80,27 +80,29 @@ public class HomeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        View bnv = getActivity().findViewById(R.id.nav_view);
-        bnv.setVisibility(View.VISIBLE);
+        //View bnv = getActivity().findViewById(R.id.nav_view);
+        //bnv.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        View bnv = getActivity().findViewById(R.id.nav_view);
-        bnv.setVisibility(View.VISIBLE);
+        //((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        //View bnv = getActivity().findViewById(R.id.nav_view);
+        //bnv.setVisibility(View.VISIBLE);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        //((AppCompatActivity) getActivity()).getSupportActionBar().show();
         createRound = root.findViewById(R.id.createRound);
         roundTempList1 = new ArrayList<>();
 
         Button buttonARNOW = root.findViewById(R.id.buttonARNOW);
         Button testMap = root.findViewById(R.id.testMap);
         Button dataEntry = root.findViewById(R.id.dataEntry);
+        //((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
         dataEntry.setOnClickListener(new View.OnClickListener() {
             @Override

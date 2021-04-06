@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -48,11 +49,22 @@ public class ScorecardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_scorecard_new, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
 
         //getting details for scorecard
         holeScores = ((MainActivity)getActivity()).scorecardScores.toArray(holeScores);
         holePars = ((MainActivity)getActivity()).scorecardPars.toArray(holePars);
+
+        Button back = root.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getFragmentManager().findFragmentByTag("mapFragment");
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, fragment, "mapFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         for(int i=0; i<holeScores.length; i++){
             scorecardDetailsArrayList.add(new scorecardDetails(String.valueOf(i + 1), holeScores[i], holePars[i]));

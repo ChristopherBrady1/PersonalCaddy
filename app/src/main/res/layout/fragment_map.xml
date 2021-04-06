@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Shot"
+                android:text="Shots"
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="14dp" />
